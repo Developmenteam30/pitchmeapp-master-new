@@ -1,14 +1,11 @@
 import 'package:get/get.dart';
 import 'package:pitch_me_app/core/apis/authApis.dart';
-import 'package:pitch_me_app/core/extras.dart';
 import 'package:pitch_me_app/screens/businessIdeas/BottomNavigation.dart';
-
-import 'package:pitch_me_app/utils/strings/keys.dart';
 import 'package:pitch_me_app/utils/widgets/extras/loading.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SelectionController extends GetxController {
   bool selectedIndexPage = false;
-  //TODO: Implement DashboardController
   AuthApis authApis = AuthApis();
   final count = 0.obs;
   @override
@@ -28,13 +25,21 @@ class SelectionController extends GetxController {
 
   void increment() => count.value++;
 
-  submit(int type) async {
+  submit(context, int type) async {
+    SharedPreferences preferencesData = await SharedPreferences.getInstance();
     Get.dialog(Loading());
-    bool? result = await authApis.setUserType(type: type);
-    Get.back();
-    if (result != null) {
-      pref.write(Keys.USER_TYPE, type);
-      Get.offAll(() => Floatbar(type));
+    try {
+      bool? result = await authApis.setUserType(context, type: type);
+      Get.back();
+      if (result != null) {
+        preferencesData.setString('log_type', type.toString());
+        preferencesData.setString("guest", 'Guest');
+        preferencesData.setString('count_swipe', '0');
+        preferencesData.setString('new_user', 'New User');
+        Get.offAll(() => Floatbar(0));
+      }
+    } catch (e) {
+      Get.back();
     }
   }
 }

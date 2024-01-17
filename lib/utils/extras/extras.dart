@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -92,16 +91,37 @@ String removeDecimal(double? value) {
 //   Fluttertoast.showToast(msg: msg);
 // }
 closeKeyboard(BuildContext context) {
-  FocusScope.of(context).requestFocus(new FocusNode());
+  FocusScope.of(context).requestFocus(FocusNode());
 }
 
 String pleaseEnter(String text) => 'Please enter $text';
-myToast({required String msg}) {
-  Fluttertoast.showToast(msg: msg);
+
+late FToast fToast;
+
+myToast(BuildContext context, {required String msg}) {
+  fToast = FToast();
+  fToast.init(context);
+
+  fToast.showToast(
+    gravity: ToastGravity.TOP,
+    fadeDuration: Duration(milliseconds: 50),
+    child: Container(
+      padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(25.0),
+        color: DynamicColor.black,
+      ),
+      child: Text(
+        msg,
+        style: TextStyle(color: DynamicColor.white, fontSize: 16),
+        textAlign: TextAlign.center,
+      ),
+    ),
+  );
 }
 
 //dev
 OutlineInputBorder outlineInputBorderBlue = OutlineInputBorder(
-  borderSide: const BorderSide(color: DynamicColor.blue),
+  borderSide: const BorderSide(color: DynamicColor.gredient1),
   borderRadius: BorderRadius.circular(10),
 );

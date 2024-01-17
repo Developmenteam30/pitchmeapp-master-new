@@ -1,8 +1,18 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:pitch_me_app/utils/strings/images.dart';
-import 'package:smooth_star_rating_null_safety/smooth_star_rating_null_safety.dart';
+import 'package:get/get.dart';
+import 'package:pitch_me_app/controller/auth/loginController.dart';
+import 'package:pitch_me_app/screens/auth/loginScreen.dart';
+import 'package:pitch_me_app/utils/widgets/extras/backgroundWidget.dart';
+
+import '../../utils/colors/colors.dart';
+import '../../utils/extras/extras.dart';
+import '../../utils/sizeConfig/sizeConfig.dart';
+import '../../utils/strings/images.dart';
+import '../../utils/strings/strings.dart';
+import '../../utils/styles/styles.dart';
+import '../../utils/widgets/containers/containers.dart';
+import '../../utils/widgets/extras/banner.dart';
+import '../../utils/widgets/text/text.dart';
 
 class Email_screen extends StatefulWidget {
   const Email_screen({super.key});
@@ -12,81 +22,124 @@ class Email_screen extends StatefulWidget {
 }
 
 class _Email_screenState extends State<Email_screen> {
-  var rating = 0.0;
-  var rating_Two = 0.0;
-  bool selectbutton = false;
-  bool selectbutton_Two = false;
-
+  int isSelect = 0;
   @override
   Widget build(BuildContext context) {
     final sizeH = MediaQuery.of(context).size.height;
     final sizeW = MediaQuery.of(context).size.width;
 
     return Scaffold(
-        body: SingleChildScrollView(
-      child: Column(children: [
-        SafeArea(
-          child: Container(
-              child: Padding(
-            padding: EdgeInsets.only(left: sizeW * 0.02, right: sizeW * 0.02),
-            child: Center(
-              child: Image.asset(
-                "assets/image/Group 12262.png",
-                height: sizeH * 0.13,
+        bottomNavigationBar: BannerWidget(onPressad: () {}),
+        body: BackGroundWidget(
+          backgroundImage: Assets.backgroundImage,
+          bannerRequired: false,
+          fit: BoxFit.fill,
+          child: SingleChildScrollView(
+            child: Column(children: [
+              Stack(
+                alignment: Alignment.bottomCenter,
+                children: [
+                  ClipPath(
+                    clipper: CurveClipper(),
+                    child: Container(
+                      decoration: BoxDecoration(
+                          gradient: DynamicColor.gradientColorChange),
+                      height: MediaQuery.of(context).size.height * 0.27,
+                    ),
+                  ),
+                  Column(
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.only(bottom: 0),
+                        child: Text(
+                          EMAIL.toUpperCase(),
+                          style: white21wBold,
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(bottom: 10),
+                        child: Text(
+                          CONFIRMATION,
+                          style: white21wBold,
+                        ),
+                      ),
+                      whiteBorderContainer(
+                          child: Image.asset(Assets.handshakeImage),
+                          color: Colors.transparent,
+                          height: SizeConfig.getSizeHeightBy(
+                              context: context, by: 0.12),
+                          width: SizeConfig.getSizeHeightBy(
+                              context: context, by: 0.12),
+                          cornerRadius: 25),
+                    ],
+                  )
+                ],
               ),
-            ),
-          )),
-        ),
-        SizedBox(
-          height: sizeH * 0.06,
-        ),
-        Container(
-            child: Padding(
-          padding: EdgeInsets.only(left: sizeW * 0.02, right: sizeW * 0.02),
-          child: Image.asset(
-            "assets/image/Group 12261.png",
-            height: sizeH * 0.13,
+              spaceHeight(SizeConfig.getSize60(context: context)),
+              Padding(
+                padding: EdgeInsets.only(
+                    left: SizeConfig.getSize15(context: context)),
+                child: Image.asset(
+                  'assets/imagess/YOU HAVE.png',
+                  height:
+                      SizeConfig.getSizeHeightBy(context: context, by: 0.18),
+                ),
+              ),
+              spaceHeight(SizeConfig.getSize50(context: context)),
+              Text(
+                "Please Confirm your email by",
+                style: TextStyle(
+                    fontSize: sizeH * 0.027,
+                    fontWeight: FontWeight.w500,
+                    letterSpacing: 0.5,
+                    color: DynamicColor.black),
+              ),
+              Text(
+                "Clicking the link sent from us",
+                style: TextStyle(
+                    fontSize: sizeH * 0.027,
+                    fontWeight: FontWeight.w500,
+                    letterSpacing: 0.5,
+                    color: DynamicColor.black),
+              ),
+              SizedBox(
+                height: sizeH * 0.05,
+              ),
+              Text(
+                "*Might be in Junk or Spam Box",
+                style: TextStyle(
+                    fontSize: sizeH * 0.017,
+                    fontWeight: FontWeight.bold,
+                    letterSpacing: 0.5,
+                    color: DynamicColor.black),
+              ),
+              spaceHeight(SizeConfig.getSize50(context: context)),
+              buttonContainer(
+                  height: 48,
+                  width: MediaQuery.of(context).size.width * 0.7,
+                  fromAppBar: true,
+                  //controller.txtEmail.text.isNotEmpty,
+                  singleSelectColor: isSelect,
+                  isSingleSelect: 1,
+                  onTap: () {
+                    setState(() {
+                      isSelect = 1;
+                    });
+                    Get.offAll(() => LoginScreen(), binding: LoginBinding());
+                  },
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      roboto(
+                          size: SizeConfig.getFontSize20(context: context),
+                          text: 'Log In',
+                          color: isSelect == 1
+                              ? DynamicColor.gredient1
+                              : DynamicColor.white)
+                    ],
+                  )),
+            ]),
           ),
-        )),
-        SizedBox(
-          height: sizeH * 0.05,
-        ),
-        Text(
-          "A confirmation link has been",
-          style: TextStyle(
-              fontSize: sizeH * 0.027,
-              fontWeight: FontWeight.bold,
-              letterSpacing: 0.5,
-              color: Color(0xff377EB4)),
-        ),
-        Text(
-          "sent to your Email.",
-          style: TextStyle(
-              fontSize: sizeH * 0.027,
-              fontWeight: FontWeight.bold,
-              letterSpacing: 0.5,
-              color: Color(0xff377EB4)),
-        ),
-        SizedBox(
-          height: sizeH * 0.05,
-        ),
-        Text(
-          "If you can't find it Check ",
-          style: TextStyle(
-              fontSize: sizeH * 0.027,
-              fontWeight: FontWeight.bold,
-              letterSpacing: 0.5,
-              color: Color(0xff377EB4)),
-        ),
-        Text(
-          "Junk/Spam Box",
-          style: TextStyle(
-              fontSize: sizeH * 0.027,
-              fontWeight: FontWeight.bold,
-              letterSpacing: 0.5,
-              color: Color(0xff377EB4)),
-        ),
-      ]),
-    ));
+        ));
   }
 }

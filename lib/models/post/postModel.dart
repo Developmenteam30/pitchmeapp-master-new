@@ -1,7 +1,3 @@
-// To parse this JSON data, do
-//
-//     final postModel = postModelFromJson(jsonString);
-
 import 'dart:convert';
 
 PostModel postModelFromJson(String str) => PostModel.fromJson(json.decode(str));
@@ -15,12 +11,12 @@ class PostModel {
   });
 
   String? message;
-  List<Result>? result;
+  List<Results>? result;
 
   factory PostModel.fromJson(Map<String, dynamic> json) => PostModel(
         message: json["message"],
         result:
-            List<Result>.from(json["result"].map((x) => Result.fromJson(x))),
+            List<Results>.from(json["result"].map((x) => Results.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
@@ -29,8 +25,8 @@ class PostModel {
       };
 }
 
-class Result {
-  Result({
+class Results {
+  Results({
     required this.id,
     required this.type,
     required this.file,
@@ -38,6 +34,7 @@ class Result {
     required this.flag,
     required this.createdAt,
     this.title,
+    this.tags,
   });
 
   String id;
@@ -46,16 +43,19 @@ class Result {
   String text;
   int flag;
   DateTime createdAt;
-  dynamic? title;
+  dynamic title;
+  dynamic tags;
 
-  factory Result.fromJson(Map<String, dynamic> json) => Result(
+  factory Results.fromJson(Map<String, dynamic> json) => Results(
         id: json["_id"],
         type: json["type"],
         file: json["file"],
         text: json["text"],
         flag: json["flag"],
         createdAt: DateTime.parse(json["createdAt"]),
-        title: "title", //json["title"] != null
+        title: "title",
+        tags: json['tags'],
+        //json["title"] != null
         //     ? titleValues.map[json["title"]]
         //     : titleValues.map[""],
       );
@@ -67,7 +67,8 @@ class Result {
         "text": text,
         "flag": flag,
         "createdAt": createdAt.toIso8601String(),
-        "title": "title"
+        "title": "title",
+        "tags": tags,
         // "title": (title != null)
         //     ? titleValues.reverse![title]
         //     : titleValues.reverse?[""],

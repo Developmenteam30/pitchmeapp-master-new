@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:pitch_me_app/View/Profile/Likes/controller.dart';
+import 'package:pitch_me_app/View/Profile/Pitches/controller.dart';
 import 'package:pitch_me_app/View/posts/post_conttroller.dart';
 import 'package:pitch_me_app/utils/colors/colors.dart';
 import 'package:pitch_me_app/utils/strings/strings.dart';
@@ -7,11 +9,9 @@ import 'package:pitch_me_app/utils/styles/styles.dart';
 
 class DeleteSalesPostPopUp extends StatefulWidget {
   final id;
-
-  const DeleteSalesPostPopUp({
-    Key? key,
-    required this.id,
-  }) : super(key: key);
+  String type;
+  DeleteSalesPostPopUp({Key? key, required this.id, required this.type})
+      : super(key: key);
 
   @override
   _DeleteSalesPostPopUpState createState() => _DeleteSalesPostPopUpState();
@@ -19,6 +19,8 @@ class DeleteSalesPostPopUp extends StatefulWidget {
 
 class _DeleteSalesPostPopUpState extends State<DeleteSalesPostPopUp> {
   final PostController postController = Get.put(PostController());
+  final LikesController likesController = Get.put(LikesController());
+  final PitcheController pitcheController = Get.put(PitcheController());
 
   @override
   Widget build(BuildContext context) {
@@ -26,13 +28,25 @@ class _DeleteSalesPostPopUpState extends State<DeleteSalesPostPopUp> {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
       title: Center(
         child: Text(
-          TextStrings.textKey['delete_sales']!,
+          widget.type == 'Posts'
+              ? TextStrings.textKey['delete_sales']!
+              : widget.type == 'Pitches'
+                  ? TextStrings.textKey['delete_pitchs']!
+                  : widget.type == 'Likes'
+                      ? TextStrings.textKey['delete_likes']!
+                      : TextStrings.textKey['delete_sales']!,
           style: const TextStyle(
-              color: DynamicColor.blue, fontWeight: FontWeight.bold),
+              color: DynamicColor.gredient1, fontWeight: FontWeight.bold),
         ),
       ),
       content: Text(
-        TextStrings.textKey['delete_sales_sub']!,
+        widget.type == 'Posts'
+            ? TextStrings.textKey['delete_sales_sub']!
+            : widget.type == 'Pitches'
+                ? TextStrings.textKey['delete_pitchs_sub']!
+                : widget.type == 'Likes'
+                    ? TextStrings.textKey['delete_likes_sub']!
+                    : TextStrings.textKey['delete_sales_sub']!,
         textAlign: TextAlign.center,
       ),
       actions: [
@@ -47,11 +61,17 @@ class _DeleteSalesPostPopUpState extends State<DeleteSalesPostPopUp> {
                         },
                         child: Text(
                           TextStrings.textKey['no']!,
-                          style: blue15,
+                          style: gredient115,
                         )),
                     TextButton(
                         onPressed: () {
-                          postController.deleteApiCall(widget.id, context);
+                          if (widget.type == 'Posts') {
+                            postController.deleteApiCall(widget.id, context);
+                          } else if (widget.type == 'Pitches') {
+                            pitcheController.deleteData(widget.id, context);
+                          } else if (widget.type == 'Likes') {
+                            likesController.deleteApiCall(widget.id, context);
+                          }
                         },
                         child: Text(
                           TextStrings.textKey['yes']!,
@@ -62,7 +82,7 @@ class _DeleteSalesPostPopUpState extends State<DeleteSalesPostPopUp> {
               )
             : const Center(
                 child: CircularProgressIndicator(
-                  color: DynamicColor.blue,
+                  color: DynamicColor.gredient1,
                 ),
               )
       ],

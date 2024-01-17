@@ -1,17 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:pitch_me_app/Phase%206/Guest%20UI/Guest%20limitation%20pages/no_more_pitch.dart';
+import 'package:pitch_me_app/View/posts/model.dart';
 import 'package:pitch_me_app/controller/businessIdeas/dashBoardController.dart';
+import 'package:pitch_me_app/controller/businessIdeas/postPageController.dart';
 import 'package:pitch_me_app/screens/businessIdeas/StatisticsPage_Two.dart';
 import 'package:pitch_me_app/screens/businessIdeas/postPage.dart';
-import 'package:pitch_me_app/utils/sizeConfig/sizeConfig.dart';
-import 'package:pitch_me_app/utils/widgets/text/text.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class DashBoardScreen_Two extends StatefulWidget {
   final Function(int index) currentPage;
   final Function(int index, String title, bool isFinish) onSwipe;
-
-  const DashBoardScreen_Two(
-      {Key? key, required this.currentPage, required this.onSwipe})
+  String userType;
+  DashBoardScreen_Two(
+      {Key? key,
+      required this.currentPage,
+      required this.onSwipe,
+      required this.userType})
       : super(key: key);
 
   @override
@@ -21,92 +26,116 @@ class DashBoardScreen_Two extends StatefulWidget {
 class _DashBoardScreen_TwoState extends State<DashBoardScreen_Two> {
   final _controller = PageController();
   DashboardController controller = Get.put(DashboardController());
+  PostPageController postPageController = Get.put(PostPageController());
 
-  bool ChangeButton = false;
+  bool checkData = false;
 
+  String businesstype = '';
+  String newUser = '';
+
+  int newIndex = 0;
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-    controller.getPost(widget.onSwipe);
+    getUserType();
+
     controller.getStatic();
+
     _controller.addListener(() {
       widget.currentPage(_controller.page!.toInt());
+      setState(() {});
+    });
+  }
+
+  getUserType() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      businesstype = prefs.getString('log_type').toString();
+      newUser = prefs.getString('new_user').toString();
     });
   }
 
   @override
   Widget build(BuildContext context) {
+    controller.getPost2(widget.onSwipe);
     return Scaffold(body: Obx(() {
       return PageView(
         controller: _controller,
-        physics: /*controller.isFinish.value? NeverScrollableScrollPhysics():*/
-            ClampingScrollPhysics(),
+        physics: ((businesstype == '1' || businesstype == '2') ||
+                    newUser == 'New User') ||
+                controller.isFinish2.value ||
+                controller.salespitch == null ||
+                controller.salespitch.value.result == null ||
+                controller.salespitch.value.result!.docs.isEmpty
+            ? NeverScrollableScrollPhysics()
+            : ClampingScrollPhysics(),
         scrollDirection: Axis.vertical,
         children: [
-          controller.isLoadingPost.value == true
-              ? Center(child: CircularProgressIndicator())
-              : controller.hasError.value
-                  ? Center(
-                      child: roboto(size: 20, text: 'Something went wrong'))
-                  : controller.isFinish.value
-                      ? Stack(
-                          children: [
-                            Center(
-                                child: roboto(
-                                    size: 20, text: 'No more post available')),
-                            Align(
-                              alignment: Alignment.bottomCenter,
-                              child: Padding(
-                                padding: EdgeInsets.only(
-                                    bottom:
-                                        SizeConfig.getSize10(context: context)),
-                                child: GestureDetector(
-                                  onTap: () {
-                                    _controller.nextPage(
-                                        duration: Duration(milliseconds: 200),
-                                        curve: Curves.linear);
-                                  },
-                                  child: Container(
-                                      height: SizeConfig.getSize35(
-                                          context: context),
-                                      width: SizeConfig.getSize35(
-                                          context: context),
-                                      decoration: BoxDecoration(
-                                          boxShadow: [
-                                            BoxShadow(
-                                                color:
-                                                    Color.fromARGB(156, 0, 0, 0)
-                                                        .withOpacity(0.5),
-                                                blurRadius: 20,
-                                                offset: Offset(
-                                                  0,
-                                                  0,
-                                                ))
-                                          ],
-                                          image: DecorationImage(
-                                              image: AssetImage(
-                                                  "assets/Phase 2 icons/ic_keyboard_arrow_down_24px.png")))),
-                                ),
-                              ),
-                            ),
-                          ],
-                        )
-                      : PostPageWidget(
+          FutureBuilder<SalesPitchListModel?>(
+              future: controller.businessIdeasApi.getPost2(),
+              builder: (context, snapshot) {
+                // if (snapshot.connectionState == ConnectionState.waiting) {
+                //   return Center(
+                //     child: CircularProgressIndicator(),
+                //   );
+                // }
+
+                if (snapshot.hasError) {
+                  return NoMorePitchPage();
+                } else if (snapshot.data == null) {
+                  return Center(
+                      // child: roboto(size: 20, text: 'No post available')
+                      );
+                } else if (snapshot.data!.result!.docs.isEmpty) {
+                  return NoMorePitchPage();
+                } else if (controller.isFinish2.value) {
+                  return NoMorePitchPage();
+                } else {
+                  return controller.salespitch.value != null &&
+                          controller.salespitch.value.result != null &&
+                          controller.salespitch.value.result!.docs.isNotEmpty &&
+                          controller.salespitch.value.result!.docs.length >
+                              postPageController
+                                  .swipableStackController.currentIndex
+                      ? PostPageWidget(
                           controller: _controller,
                           onSwipe: (int index, String title, bool isFinish) {
-                            print("Is finish is $isFinish");
-                            controller.isFinish.value = isFinish;
-                            widget.onSwipe(index, title, isFinish);
+                            setState(() {
+                              newIndex = index;
+                            });
+                            // log("Is finish is $newIndex");
+                            // log('check index = ' +
+                            //     postPageController
+                            //         .swipableStackController.currentIndex
+                            //         .toString());
+                            setState(() {
+                              controller.isFinish2.value = isFinish;
+                              widget.onSwipe(index, title, isFinish);
+                            });
                           },
-                          postModel: controller.postModel.value,
-                        ),
+                          postModel: controller.salespitch.value,
+                        )
+                      : Container();
+                }
+              }),
           controller.isLoadingStats.value == true
               ? Center(child: CircularProgressIndicator())
-              : StatisticsPage_Two(
-                  pagecont: _controller,
-                  statisticsModel: controller.staticModel.value,
-                )
+              : controller.salespitch != null &&
+                      controller.salespitch.value.result != null
+                  ? controller.salespitch.value.result!.docs.isNotEmpty &&
+                          controller.salespitch.value.result!.docs.length >
+                              postPageController
+                                  .swipableStackController.currentIndex
+                      ? StatisticsPage_Two(
+                          pagecont: _controller,
+                          salesDoc: controller.salespitch.value.result!.docs[
+                              postPageController
+                                  .swipableStackController.currentIndex],
+                          newIndex: newIndex,
+                          postModel: controller.salespitch.value,
+                        )
+                      : Container()
+                  : Container()
         ],
       );
     }));

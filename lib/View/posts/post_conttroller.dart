@@ -1,10 +1,11 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:pitch_me_app/View/posts/model.dart';
 import 'package:pitch_me_app/devApi%20Service/get_api.dart';
+
+import '../../utils/extras/extras.dart';
 
 class PostController extends GetxController {
   RxBool isLoading = false.obs;
@@ -18,7 +19,7 @@ class PostController extends GetxController {
         isLoading.value = false;
       });
     } catch (e) {
-      salesPitchListModel.result.docs = [];
+      salesPitchListModel.result!.docs = [];
       isLoading.value = false;
     }
     return salesPitchListModel;
@@ -30,9 +31,7 @@ class PostController extends GetxController {
     try {
       await GetApiService().deleteSalesPittchApi(id).then((value) {
         if (value != null) {
-          Fluttertoast.showToast(
-              msg: 'Salespitch has been deleted successfully',
-              gravity: ToastGravity.CENTER);
+          myToast(context, msg: 'Salespitch has been deleted successfully');
 
           Navigator.of(context).pop();
         }

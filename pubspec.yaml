@@ -37,8 +37,8 @@ dependencies:
   get: ^4.6.5
   swipeable_card_stack: ^0.0.5
   swipable_stack: ^2.0.0
-  google_fonts: ^3.0.1
-  responsive_framework: ^0.2.0
+  google_fonts: ^4.0.4
+  responsive_framework: ^1.0.0
   never_behind_keyboard: ^1.0.1
   flutter_widget_from_html: ^0.8.5
   #video_viewer: ^1.2.0
@@ -58,6 +58,7 @@ dependencies:
   provider: ^6.0.5
   shimmer: ^2.0.0
   #dev
+  url_launcher: ^6.1.7
   sizer: ^2.0.15
   clickable_list_wheel_view: ^0.2.0
   percent_indicator: ^4.2.2
@@ -65,13 +66,29 @@ dependencies:
   google_maps_flutter: ^2.2.3
   location: ^4.4.0
   image_pickers: ^2.0.1
-  file_picker: ^5.2.5
+  image_picker: ^0.8.7+4
+  file_picker: ^5.2.10
   camera: ^0.10.1
   path_provider: ^2.0.11
   media_info: ^0.12.0+1
-  video_thumbnail: ^0.5.3
   intl: ^0.17.0
   chips_choice: ^3.0.0
+  permission_handler: ^10.2.0
+  record: ^4.4.4
+  voice_message_package: ^1.0.41
+  syncfusion_flutter_signaturepad: ^20.4.54
+  socket_io_client: ^2.0.2
+  firebase_storage: ^11.2.3
+  flutter_beep: ^1.0.0
+  share_plus: ^6.3.4
+  flutter_inappwebview: ^5.7.2+3
+  flutter_downloader: ^1.10.5
+  image_gallery_saver: ^2.0.3
+  dio: ^4.0.6
+  flutter_document_picker: ^5.2.3
+  # flutter_accept:
+  #   path: flutter_accept
+  helpers: ^1.2.3
 
 dependency_overrides:
   video_player: ^2.3.9
@@ -101,6 +118,7 @@ flutter:
     - assets/images/
     - assets/icons/
     - assets/Phase 2 icons/
+    - assets/imagess/
   fonts:
     - family: Proxima Nova
       fonts:

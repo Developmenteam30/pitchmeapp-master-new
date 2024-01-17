@@ -8,12 +8,12 @@ String salesPitchListModelToJson(SalesPitchListModel data) =>
 
 class SalesPitchListModel {
   SalesPitchListModel({
-    required this.message,
-    required this.result,
+    this.message,
+    this.result,
   });
 
-  String message;
-  SalesResult result;
+  String? message;
+  SalesResult? result;
 
   factory SalesPitchListModel.fromJson(Map<String, dynamic> json) =>
       SalesPitchListModel(
@@ -23,7 +23,7 @@ class SalesPitchListModel {
 
   Map<String, dynamic> toJson() => {
         "message": message,
-        "result": result.toJson(),
+        "result": result!.toJson(),
       };
 }
 
@@ -99,6 +99,11 @@ class SalesDoc {
     required this.description,
     required this.comment,
     required this.status,
+    this.userid,
+    this.whocanwatch,
+    this.valueamountint,
+    this.fundingPhase,
+    required this.user,
   });
 
   String id;
@@ -118,6 +123,11 @@ class SalesDoc {
   String description;
   String comment;
   int status;
+  dynamic userid;
+  dynamic whocanwatch;
+  dynamic valueamountint;
+  dynamic fundingPhase;
+  UserData user;
 
   factory SalesDoc.fromJson(Map<String, dynamic> json) => SalesDoc(
         id: json["_id"],
@@ -137,6 +147,11 @@ class SalesDoc {
         description: json["description"],
         comment: json["comment"],
         status: json["status"],
+        userid: json['userid'],
+        whocanwatch: json['whocanwatch'],
+        valueamountint: json['valueamountint'],
+        fundingPhase: json['fundingPhase'],
+        user: UserData.fromJson(json["user"]),
       );
 
   Map<String, dynamic> toJson() => {
@@ -157,5 +172,40 @@ class SalesDoc {
         "description": description,
         "comment": comment,
         "status": status,
+        "userid": userid,
+        "whocanwatch": whocanwatch,
+        "valueamountint": valueamountint,
+        "fundingPhase": fundingPhase,
+        "user": user.toJson(),
+      };
+}
+
+class UserData {
+  String id;
+  String username;
+
+  int logType;
+
+  String? uid;
+
+  UserData({
+    required this.id,
+    required this.username,
+    required this.logType,
+    this.uid,
+  });
+
+  factory UserData.fromJson(Map<String, dynamic> json) => UserData(
+        id: json["_id"],
+        username: json["username"],
+        logType: json["log_type"],
+        uid: json["uid"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "_id": id,
+        "username": username,
+        "log_type": logType,
+        "uid": uid,
       };
 }

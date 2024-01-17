@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pitch_me_app/controller/businessIdeas/dashBoardController.dart';
+import 'package:pitch_me_app/controller/businessIdeas/home_filter_controller.dart';
 import 'package:pitch_me_app/screens/businessIdeas/HomepageCard.dart';
 import 'package:pitch_me_app/screens/businessIdeas/statisticsPage.dart';
+import 'package:pitch_me_app/utils/colors/colors.dart';
 import 'package:pitch_me_app/utils/sizeConfig/sizeConfig.dart';
 import 'package:pitch_me_app/utils/widgets/text/text.dart';
 
@@ -21,14 +23,13 @@ class DashBoardScreen extends StatefulWidget {
 class _DashBoardScreenState extends State<DashBoardScreen> {
   final _controller = PageController();
   DashboardController controller = Get.put(DashboardController());
-
+  HomeFilterController homeFilterController = Get.put(HomeFilterController());
   bool ChangeButton = false;
-
+  int swipeCount = 0;
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-    controller.getPost(widget.onSwipe);
+    controller.getPost(widget.onSwipe, homeFilterController.selectedData.value);
     controller.getStatic();
     _controller.addListener(() {
       widget.currentPage(_controller.page!.toInt());
@@ -40,16 +41,16 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
     return Scaffold(body: Obx(() {
       return PageView(
         controller: _controller,
-        physics:
-            /*controller.isFinish.value? NeverScrollableScrollPhysics():*/
-            ClampingScrollPhysics(),
+        physics: ClampingScrollPhysics(),
         scrollDirection: Axis.vertical,
         children: [
           controller.isLoadingPost.value == true
-              ? Center(child: CircularProgressIndicator())
+              ? Center(
+                  child: CircularProgressIndicator(
+                  color: DynamicColor.gredient1,
+                ))
               : controller.hasError.value
-                  ? Center(
-                      child: roboto(size: 20, text: 'Something went wrong'))
+                  ? Center(child: roboto(size: 20, text: 'No post available'))
                   : controller.isFinish.value
                       ? Stack(
                           children: [
@@ -97,14 +98,19 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                       : HomePageWidget(
                           controller: _controller,
                           onSwipe: (int index, String title, bool isFinish) {
-                            print("Is finish is $isFinish");
-                            controller.isFinish.value = isFinish;
-                            widget.onSwipe(index, title, isFinish);
+                            setState(() {
+                              // /log("Is finish is $isFinish");
+                              controller.isFinish.value = isFinish;
+                              widget.onSwipe(index, title, isFinish);
+                            });
                           },
                           postModel: controller.postModel.value,
                         ),
           controller.isLoadingStats.value == true
-              ? Center(child: CircularProgressIndicator())
+              ? Center(
+                  child: CircularProgressIndicator(
+                  color: DynamicColor.gredient1,
+                ))
               : StatisticsPage(
                   pagecont: _controller,
                   statisticsModel: controller.staticModel.value,

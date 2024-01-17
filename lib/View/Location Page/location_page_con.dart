@@ -22,6 +22,7 @@ class LocationPageController extends GetxController
 
   RxString placeAddress = ''.obs;
   RxString selectedType = ''.obs;
+  RxString customText = ''.obs;
 
   // getCurentPosign() async {
   //   try {

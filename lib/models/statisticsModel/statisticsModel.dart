@@ -6,12 +6,11 @@ class StatisticsModel {
 
   StatisticsModel.fromJson(Map<String, dynamic> json) {
     message = json['message'];
-    result =
-    json['result'] != null ? new Result.fromJson(json['result']) : null;
+    result = json['result'] != null ? Result.fromJson(json['result']) : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = Map<String, dynamic>();
     data['message'] = this.message;
     if (this.result != null) {
       data['result'] = this.result!.toJson();
@@ -28,47 +27,55 @@ class Result {
   Investors? cities;
   Investors? countries;
   Continents? continents;
+  Investors? businessIdea;
+  Investors? facilitator;
   String? sId;
   int? iV;
 
   Result(
       {this.investors,
-        this.business,
-        this.raisedFunds,
-        this.verifiedFunds,
-        this.cities,
-        this.countries,
-        this.continents,
-        this.sId,
-        this.iV});
+      this.business,
+      this.raisedFunds,
+      this.verifiedFunds,
+      this.cities,
+      this.countries,
+      this.continents,
+      this.businessIdea,
+      this.facilitator,
+      this.sId,
+      this.iV});
 
   Result.fromJson(Map<String, dynamic> json) {
     investors = json['investors'] != null
-        ? new Investors.fromJson(json['investors'])
+        ? Investors.fromJson(json['investors'])
         : null;
-    business = json['business'] != null
-        ? new Investors.fromJson(json['business'])
-        : null;
+    business =
+        json['business'] != null ? Investors.fromJson(json['business']) : null;
     raisedFunds = json['raised_funds'] != null
-        ? new Investors.fromJson(json['raised_funds'])
+        ? Investors.fromJson(json['raised_funds'])
         : null;
     verifiedFunds = json['verified_funds'] != null
-        ? new Investors.fromJson(json['verified_funds'])
+        ? Investors.fromJson(json['verified_funds'])
         : null;
-    cities =
-    json['cities'] != null ? new Investors.fromJson(json['cities']) : null;
+    cities = json['cities'] != null ? Investors.fromJson(json['cities']) : null;
     countries = json['countries'] != null
-        ? new Investors.fromJson(json['countries'])
+        ? Investors.fromJson(json['countries'])
         : null;
     continents = json['continents'] != null
-        ? new Continents.fromJson(json['continents'])
+        ? Continents.fromJson(json['continents'])
+        : null;
+    businessIdea = json['businessideas'] != null
+        ? Investors.fromJson(json['businessideas'])
+        : null;
+    facilitator = json['facilitator'] != null
+        ? Investors.fromJson(json['facilitator'])
         : null;
     sId = json['_id'];
     iV = json['__v'];
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = Map<String, dynamic>();
     if (this.investors != null) {
       data['investors'] = this.investors!.toJson();
     }
@@ -90,6 +97,12 @@ class Result {
     if (this.continents != null) {
       data['continents'] = this.continents!.toJson();
     }
+    if (this.businessIdea != null) {
+      data['businessideas'] = this.businessIdea!.toJson();
+    }
+    if (this.facilitator != null) {
+      data['facilitator'] = this.facilitator!.toJson();
+    }
     data['_id'] = this.sId;
     data['__v'] = this.iV;
     return data;
@@ -108,7 +121,7 @@ class Investors {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = Map<String, dynamic>();
     data['number'] = this.number;
     data['daily_increase'] = this.dailyIncrease;
     return data;
@@ -125,7 +138,7 @@ class Continents {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = Map<String, dynamic>();
     data['number'] = this.number;
     return data;
   }

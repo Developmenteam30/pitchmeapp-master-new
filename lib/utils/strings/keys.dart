@@ -3,5 +3,5 @@ class Keys {
   static String USER_TYPE = "USER_TYPE";
 
   //dev
-  static const googleApiKey = 'AIzaSyBRCimsPWWDfUqRgW8Y29_iVdJ4ogrtpvk';
+  static const googleApiKey = 'AIzaSyArVg2eeb6UbZtIgSHLEqUpHD1Itj5nYsw';
 }

@@ -1,7 +1,7 @@
 class Assets {
-  static const String backgroundImage = 'assets/image/background_image.png';
-  static const String backgroundImage2 = 'assets/image/background_image2.png';
-  static const String handshakeImage = 'assets/image/handshake.png';
+  static const String backgroundImage = 'assets/imagess/bg Image.png';
+  static const String backgroundImage2 = 'assets/imagess/Backrgound.png';
+  static const String handshakeImage = 'assets/imagess/bulb.png';
   static const String downImage = 'assets/image/down.png';
   static const String upImage = 'assets/image/up.png';
   static const String appleIco = 'assets/image/apple_icon.svg';
@@ -19,8 +19,9 @@ class Assets {
   static const String plusIco = 'assets/image/plus_icon.svg';
   static const String settingIco = 'assets/image/setting_icon.svg';
   static const String tiktokNextIco = 'assets/image/tiktok_next_icon.svg';
-  static const String appLogoPng = 'assets/image/app_logo.png';
-  static const String appLogoDarkBluePng = 'assets/image/app_logo_dark_blue.png';
+  static const String appLogoPng = 'assets/imagess/Pitch me Logo.png';
+  static const String appLogoDarkBluePng =
+      'assets/image/app_logo_dark_blue.png';
   static const String tiktokPreviousIco =
       'assets/image/tiktok_previous_icon.svg';
   static const String userIco = 'assets/image/user_icon.svg';

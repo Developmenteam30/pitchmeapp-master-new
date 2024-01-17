@@ -1,51 +1,101 @@
-import 'package:file_picker/file_picker.dart';
+import 'dart:io';
+
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_document_picker/flutter_document_picker.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:image_pickers/image_pickers.dart';
-import 'package:pitch_me_app/utils/colors/colors.dart';
+
+import '../../utils/colors/colors.dart';
+import '../../utils/extras/extras.dart';
 
 class AddImageController extends GetxController {
-  List<Media> listImagePaths = [];
+  List listImagePaths = [];
+  List ischackIndex = [
+    {'check': false},
+    {'check': false},
+    {'check': false},
+    {'check': false},
+  ];
   GalleryMode _galleryMode = GalleryMode.image;
 
   int count = 4;
   String filePath = "";
-  String fileFullPath = "";
+  File fileFullPath = File('');
 
   Future<void> selectImages() async {
+    listImagePaths.clear();
     try {
       _galleryMode = GalleryMode.image;
-      listImagePaths = await ImagePickers.pickerPaths(
+      await ImagePickers.pickerPaths(
         galleryMode: _galleryMode,
         showGif: true,
-        selectCount: 4,
+        selectCount: 3,
         showCamera: true,
         cropConfig: CropConfig(enableCrop: true, height: 1, width: 1),
         compressSize: 500,
         uiConfig: UIConfig(
-          uiThemeColor: DynamicColor.blue,
+          uiThemeColor: DynamicColor.gredient1,
         ),
-      );
+      ).then((value) {
+        value.forEach((element) {
+          listImagePaths.add(element.path);
+        });
+      });
 
-      // if (_listImagePaths.length > 0) {
-      //   _listImagePaths.forEach((media) {
-      //     print(media.path.toString());
-      //   });
-      // }
       update();
     } on PlatformException {}
   }
 
-  Future<void> getDocumnetFile() async {
+  Future<void> selectImage(int index) async {
     try {
-      FilePickerResult? result = await FilePicker.platform
-          .pickFiles(allowedExtensions: ['pdf', 'doc'], type: FileType.custom);
+      final image = await ImagePicker().pickImage(source: ImageSource.gallery);
+      if (image == null) return;
+      final imageTemporary = File(image.path);
+      for (var i = 0; i < ischackIndex.length; i++) {
+        if (index == i) {
+          if (ischackIndex[i]['check'] != true) {
+            ischackIndex[i]['check'] = true;
+            listImagePaths.add(imageTemporary.path);
+          } else {
+            listImagePaths.remove(listImagePaths[i]);
+            listImagePaths.add(imageTemporary.path);
+          }
+        }
+      }
 
-      if (result != null) {
-        PlatformFile file = result.files.first;
-        filePath = result.files.first.name.toString();
-        fileFullPath = result.files.first.path.toString();
-      } else {}
+      update();
+    } on PlatformException catch (e) {}
+  }
+
+  Future<void> getDocumnetFile(BuildContext context) async {
+    try {
+      FlutterDocumentPickerParams params = FlutterDocumentPickerParams(
+        allowedFileExtensions: ['pdf', 'doc'],
+        invalidFileNameSymbols: ['/'],
+      );
+
+      final path = await FlutterDocumentPicker.openDocument(params: params);
+      filePath = path.toString();
+      fileFullPath = File(path!);
+      int sizeInBytes = File(filePath).lengthSync();
+      double sizeInMb = sizeInBytes / (1024 * 1024);
+      if (sizeInMb > 15) {
+        filePath = '';
+        fileFullPath = File('');
+        myToast(context, msg: 'Note: Maximum 15MB file size allowed');
+        update();
+        return;
+      }
+      // FilePickerResult? result = await FilePicker.platform
+      //     .pickFiles(allowedExtensions: ['pdf', 'doc'], type: FileType.custom);
+
+      // if (result != null) {
+      //   PlatformFile file = result.files.first;
+      //   filePath = path.toString();
+      //   fileFullPath = File(path!);
+      // } else {}
     } on PlatformException {}
 
     update();

@@ -1,10 +1,4 @@
-import 'package:get/route_manager.dart';
 import 'package:flutter/material.dart' hide BoxDecoration, BoxShadow;
-import 'package:flutter_inset_box_shadow/flutter_inset_box_shadow.dart';
-import 'package:pitch_me_app/utils/extras/extras.dart';
-import 'package:pitch_me_app/utils/sizeConfig/sizeConfig.dart';
-import 'package:pitch_me_app/utils/strings/images.dart';
-import 'package:pitch_me_app/utils/colors/colors.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pitch_me_app/utils/colors/colors.dart';
@@ -28,7 +22,8 @@ class CustomTextField extends StatefulWidget {
       this.enabled = true,
       this.focusNode,
       this.maxLines = 1,
-      this.validator,this.onFieldSubmit,
+      this.validator,
+      this.onFieldSubmit,
       this.inputFormatters = const [],
       this.nextFocusNode,
       required this.context})
@@ -80,42 +75,19 @@ class _CustomTextFieldState extends State<CustomTextField> {
         print("Focus on done is ${a} and $focus");
       },
       child: Container(
-        height:48,
+        height: 55,
         padding: EdgeInsets.zero,
-        decoration: focus
-            ? BoxDecoration(
-                borderRadius: BorderRadius.circular(15),
-                color: const Color(0xff377eb4),
-                boxShadow: [
-                    BoxShadow(
-                      blurRadius: 15,
-                      color: Colors.black.withOpacity(0.4),
-                      offset: Offset(2, 2),
-                      inset: true,
-                    ),
-                    BoxShadow(
-                      blurRadius: 15,
-                      color: Colors.black.withOpacity(0.4),
-                      offset: -Offset(2, 2),
-                      inset: true,
-                    ),
-                    // BoxShadow(
-                    //   blurRadius: 5,
-                    //   spreadRadius: 1,
-                    //   color: Colors.black.withOpacity(0.3),
-                    //   offset: -Offset(10, 10),
-                    //   inset: true,
-                    // ),
-                  ])
-            : BoxDecoration(),
-        child: Center(
+        child: Card(
+          elevation: 4,
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
           child: TextFormField(
             onChanged: widget.onChange,
             enabled: widget.enabled,
             style: GoogleFonts.inter(
                 textStyle: TextStyle(
               fontSize: widget.fontSize,
-              color: colors.white,
+              color: DynamicColor.gredient1,
               fontWeight: FontWeight.normal,
             )),
             textInputAction: widget.inputAction,
@@ -129,6 +101,8 @@ class _CustomTextFieldState extends State<CustomTextField> {
             // validator: validator,
             decoration: InputDecoration(
               contentPadding: EdgeInsets.only(top: 2, left: 10, bottom: 0),
+              fillColor: DynamicColor.white,
+              filled: true,
               suffixIcon: widget.obscure
                   ? IconButton(
                       onPressed: () {
@@ -138,7 +112,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
                       },
                       icon: Icon(
                         hide ? Icons.visibility_off : Icons.visibility,
-                        color: colors.white,
+                        color: DynamicColor.lightGrey,
                       ))
                   : null,
               counterText: '',
@@ -149,47 +123,33 @@ class _CustomTextFieldState extends State<CustomTextField> {
               labelStyle: GoogleFonts.inter(
                   textStyle: TextStyle(
                 fontSize: widget.fontSize,
-                color: colors.white,
+                color: DynamicColor.lightGrey,
                 fontWeight: FontWeight.normal,
               )),
               hintText: widget.lableText,
               hintStyle: GoogleFonts.inter(
                   textStyle: TextStyle(
                 fontSize: widget.fontSize,
-                color: colors.white,
+                color: DynamicColor.lightGrey,
                 fontWeight: FontWeight.normal,
               )),
-              // label: RichText(
-              //   text: TextSpan(
-              //       text: widget.lableText,
-              //       style: GoogleFonts.inter(
-              //           textStyle: TextStyle(
-              //         fontSize: widget.fontSize,
-              //         color: colors.white,
-              //         fontWeight: FontWeight.normal,
-              //       )),
-              //       children: [
-              //         if (widget.required)
-              //           const TextSpan(
-              //               text: ' *', style: TextStyle(color: colors.white))
-              //       ]),
-              // ),
+
               enabledBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.all(Radius.circular(10)),
-                borderSide: const BorderSide(color: Colors.white),
+                borderSide: const BorderSide(color: DynamicColor.gredient2),
               ),
               focusedBorder: widget.border ??
                   OutlineInputBorder(
                     borderRadius: BorderRadius.all(Radius.circular(10)),
-                    borderSide: const BorderSide(color: Colors.white),
+                    borderSide: const BorderSide(color: DynamicColor.gredient2),
                   ),
               border: widget.border ??
                   OutlineInputBorder(
                     borderRadius: BorderRadius.all(Radius.circular(10)),
-                    borderSide: const BorderSide(color: Colors.white),
+                    borderSide: const BorderSide(color: DynamicColor.gredient2),
                   ),
             ),
-            cursorColor: Colors.white,
+            cursorColor: DynamicColor.gredient2,
             controller: widget.controller,
             maxLines: widget.maxLines,
             minLines: 1,

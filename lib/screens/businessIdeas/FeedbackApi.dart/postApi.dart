@@ -1,28 +1,30 @@
 import 'dart:convert';
 
-import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:pitch_me_app/models/FeedbackModel.dart';
-import 'package:swipable_stack/swipable_stack.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../controller/businessIdeas/postPageController.dart';
 import '../../../core/urls.dart';
+import '../../../utils/extras/extras.dart';
 
 PostPageController _pageController = Get.put(PostPageController());
 
-Future<FeedbackModel?> postfeedback() async {
+Future<FeedbackModel?> postfeedback(
+    receiverid, postid, star, videoStar, description, context) async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
   try {
     var response = await http.post(
-      Uri.parse(BASE_URL + "feedback/add"),
+      Uri.parse("${BASE_URL}feedback/add"),
       body: jsonEncode({
-        "senderid": "636cc28ec626aa5278f266e7",
-        "receiverid": "636cc8bac626aa5278f26728",
-        "postid": "638243f3eb71b5ea4d377840",
-        "star": 4,
-        "videoStar": 5,
-        "description": "nice video"
+        "senderid": prefs.get('user_id').toString(),
+        "receiverid":
+            (receiverid == null) ? prefs.get('user_id').toString() : receiverid,
+        "postid": postid,
+        "star": star,
+        "videoStar": videoStar,
+        "description": description
       }),
       headers: {'Content-Type': "application/json"},
     );
@@ -33,19 +35,18 @@ Future<FeedbackModel?> postfeedback() async {
     if (response.statusCode == 200 || response.statusCode == 202) {
       print('successfully logged');
 
-      Fluttertoast.showToast(
-          msg: "Feedback given Successfully",
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.CENTER,
-          timeInSecForIosWeb: 1,
-          backgroundColor: Colors.blue,
-          textColor: Colors.white,
-          fontSize: 16.0);
-      _pageController.swipableStackController
-          .next(swipeDirection: SwipeDirection.left);
-      // _pageController.left = false;
+      myToast(
+        context,
+        msg: "Feedback given Successfully",
+      );
+
+      // _pageController.swipableStackController
+      //     .next(swipeDirection: SwipeDirection.left);
+      _pageController.left.value = false;
+      //  Navigator.pop(context);
+      //Get.offAll(Floatbar(1));
+      Get.back();
       return feedbackModelFromJson(data);
-      // Navigator.pop(context);
     } else {
       print('login failed');
       return null;

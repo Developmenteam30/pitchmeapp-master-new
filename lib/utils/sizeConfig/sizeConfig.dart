@@ -34,7 +34,8 @@ class SizeConfig {
 
   static double getSize35({required BuildContext context}) =>
       height(context) * 0.040;
-
+  static double getSize38({required BuildContext context}) =>
+      height(context) * 0.050;
   static double getSize25({required BuildContext context}) =>
       height(context) * 0.028;
 
@@ -42,6 +43,10 @@ class SizeConfig {
       height(context) * 0.055;
 
   static getSize50({required BuildContext context}) => height(context) * 0.06;
+
+  static getSize55({required BuildContext context}) => height(context) * 0.073;
+
+  static getSize58({required BuildContext context}) => height(context) * 0.08;
 
   static getSize60({required BuildContext context}) => height(context) * 0.09;
 

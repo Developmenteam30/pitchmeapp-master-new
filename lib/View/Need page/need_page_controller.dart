@@ -1,8 +1,9 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pitch_me_app/devApi%20Service/get_api.dart';
+
+import '../../devApi Service/post_api.dart';
+import '../../utils/extras/extras.dart';
 
 class NeedPageController extends GetxController {
   TextEditingController textController = TextEditingController();
@@ -107,10 +108,23 @@ class NeedPageController extends GetxController {
         isLoading.value = false;
       });
     } catch (e) {
-      log('check = ' + e.toString());
+      //log('check = ' + e.toString());
       searchingItems.value = [];
       isLoading.value = false;
     }
     return searchingItems;
+  }
+
+  Future postServiceApiCall(BuildContext context, type, body) async {
+    try {
+      await PostApiServer().postServiceApi(body).then((value) {
+        if (value != null) {
+          if (value['message'] != null) {
+            myToast(context, msg: value['message']);
+          }
+        }
+        getServiceApiCall(type, true);
+      });
+    } catch (e) {}
   }
 }

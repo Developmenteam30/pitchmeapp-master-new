@@ -1,33 +1,34 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_neumorphic/flutter_neumorphic.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:pitch_me_app/controller/selectionController.dart';
-import 'package:pitch_me_app/core/extras.dart';
-import 'package:pitch_me_app/screens/businessIdeas/mainHome.dart';
 import 'package:pitch_me_app/utils/colors/colors.dart';
 import 'package:pitch_me_app/utils/extras/extras.dart';
 import 'package:pitch_me_app/utils/sizeConfig/sizeConfig.dart';
 import 'package:pitch_me_app/utils/strings/images.dart';
 import 'package:pitch_me_app/utils/strings/strings.dart';
+import 'package:pitch_me_app/utils/styles/styles.dart';
 import 'package:pitch_me_app/utils/widgets/containers/containers.dart';
 import 'package:pitch_me_app/utils/widgets/extras/backgroundWidget.dart';
-import 'package:pitch_me_app/utils/widgets/text/text.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:pitch_me_app/utils/widgets/extras/banner.dart';
 
-class SelectionScreen extends GetView<SelectionController> {
-  const SelectionScreen({Key? key}) : super(key: key);
+class SelectionScreen extends StatefulWidget {
+  const SelectionScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    bool SectionData = false;
+  State<SelectionScreen> createState() => _SelectionScreenState();
+}
 
-    print("DataFully Loaded");
+class _SelectionScreenState extends State<SelectionScreen> {
+  SelectionController controller = Get.put(SelectionController());
+  int isSelect = 0;
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
+      bottomNavigationBar: BannerWidget(onPressad: () {}),
       body: BackGroundWidget(
           imagebottom: true,
-          fit: BoxFit.fitHeight,
-          backgroundImage: Assets.backgroundImage2,
+          fit: BoxFit.cover,
+          backgroundImage: Assets.backgroundImage,
           child: Container(
             width: width(context),
             padding: EdgeInsets.zero,
@@ -36,142 +37,115 @@ class SelectionScreen extends GetView<SelectionController> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
+                  Stack(
+                    alignment: Alignment.bottomCenter,
+                    children: [
+                      ClipPath(
+                        clipper: CurveClipper(),
+                        child: Container(
+                          decoration: BoxDecoration(
+                              gradient: DynamicColor.gradientColorChange),
+                          height: MediaQuery.of(context).size.height * 0.27,
+                        ),
+                      ),
+                      Column(
+                        children: [
+                          Padding(
+                            padding: EdgeInsets.only(bottom: 0),
+                            child: Text(
+                              EMAIL.toUpperCase(),
+                              style: white21wBold,
+                            ),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.only(bottom: 10),
+                            child: Text(
+                              CONFIRMATION,
+                              style: white21wBold,
+                            ),
+                          ),
+                          whiteBorderContainer(
+                              child: Image.asset(Assets.handshakeImage),
+                              color: Colors.transparent,
+                              height: SizeConfig.getSizeHeightBy(
+                                  context: context, by: 0.12),
+                              width: SizeConfig.getSizeHeightBy(
+                                  context: context, by: 0.12),
+                              cornerRadius: 25),
+                        ],
+                      )
+                    ],
+                  ),
                   spaceHeight(
                       SizeConfig.getSizeHeightBy(context: context, by: 0.02)),
-                  Padding(
-                    padding: SizeConfig.leftRightPadding(context),
-                    child: appLogoImage(
-                        width: width(context) * 0.5,
-                        isDark: false,
-                        height: SizeConfig.getSizeHeightBy(
-                            context: context, by: 0.13)),
-                  ),
-                  spaceHeight(SizeConfig.getSize15(context: context)),
-                  buttonContainer(
-                      height:
-                          SizeConfig.getSizeWidthBy(context: context, by: 0.25),
-                      width:
-                          SizeConfig.getSizeWidthBy(context: context, by: 0.25),
-                      cornerRadius: 25,
+                  Center(
+                      child: Text(
+                    'What type better describes you?',
+                    style: black15w5,
+                  )),
+                  spaceHeight(
+                      SizeConfig.getSizeHeightBy(context: context, by: 0.02)),
+                  NewButtonContainer(
+                      heroTage: 1,
+                      singleSelectColor: isSelect,
+                      isSingleSelect: 1,
                       onTap: () async {
-                        SharedPreferences preferences =
-                            await SharedPreferences.getInstance();
+                        setState(() {
+                          isSelect = 1;
+                        });
+                        controller.submit(context, 1);
+                      },
+                      title: BUSINESSIDEA,
+                      subTitle: 'Amazing Idea needs help to become a Reality'),
+                  spaceHeight(
+                      SizeConfig.getSizeHeightBy(context: context, by: 0.01)),
+                  NewButtonContainer(
+                      heroTage: 2,
+                      singleSelectColor: isSelect,
+                      isSingleSelect: 2,
+                      onTap: () async {
+                        setState(() {
+                          isSelect = 2;
+                        });
+                        controller.submit(context, 2);
+                      },
+                      title: BUSINESSOWNER,
+                      subTitle:
+                          'Active Business for Sale or seeking Expansion'),
+                  spaceHeight(
+                      SizeConfig.getSizeHeightBy(context: context, by: 0.01)),
+                  NewButtonContainer(
+                      heroTage: 3,
+                      singleSelectColor: isSelect,
+                      isSingleSelect: 3,
+                      onTap: () async {
+                        setState(() {
+                          isSelect = 3;
+                        });
 
-                        SectionData = true;
-                        preferences.setBool('sectionbool', SectionData);
-                        print(
-                            " ABCD bool ${preferences.setBool('sectionbool', SectionData)}");
-                        controller.submit(1);
+                        controller.submit(context, 3);
                       },
-                      child: Padding(
-                        padding: EdgeInsets.all(
-                            SizeConfig.getSize25(context: context)),
-                        child: loadSvg(
-                            image: Assets.businessIdeaIco, color: Colors.white),
-                      )),
-                  spaceHeight(SizeConfig.getSize15(context: context)),
-                  roboto(
-                      size: SizeConfig.getFontSize16(context: context),
-                      text: BUSINESSIDEA,
-                      fontWeight: FontWeight.w800,
-                      color: colors.white),
-                  spaceHeight(SizeConfig.getSize25(context: context)),
-                  buttonContainer(
-                      height:
-                          SizeConfig.getSizeWidthBy(context: context, by: 0.25),
-                      width:
-                          SizeConfig.getSizeWidthBy(context: context, by: 0.25),
-                      cornerRadius: 25,
-                      onTap: () {
-                        controller.submit(2);
-                        SectionData = true;
+                      title: INVESTOR,
+                      subTitle: 'Looking for Good Opportunity to Invest'),
+                  spaceHeight(
+                      SizeConfig.getSizeHeightBy(context: context, by: 0.01)),
+                  NewButtonContainer(
+                      heroTage: 4,
+                      singleSelectColor: isSelect,
+                      isSingleSelect: 4,
+                      onTap: () async {
+                        setState(() {
+                          isSelect = 4;
+                        });
+
+                        controller.submit(context, 4);
                       },
-                      child: Padding(
-                        padding: EdgeInsets.all(
-                            SizeConfig.getSize25(context: context)),
-                        child: loadSvg(
-                            image: Assets.businessOwnerIco,
-                            color: colors.white),
-                      )),
-                  spaceHeight(SizeConfig.getSize15(context: context)),
-                  roboto(
-                      size: SizeConfig.getFontSize16(context: context),
-                      text: BUSINESSOWNER,
-                      fontWeight: FontWeight.w800,
-                      color: colors.white),
-                  spaceHeight(SizeConfig.getSize25(context: context)),
-                  buttonContainer(
-                      height:
-                          SizeConfig.getSizeWidthBy(context: context, by: 0.25),
-                      width:
-                          SizeConfig.getSizeWidthBy(context: context, by: 0.25),
-                      cornerRadius: 25,
-                      onTap: () {
-                        controller.submit(3);
-                        SectionData = false;
-                      },
-                      child: Padding(
-                        padding: EdgeInsets.all(
-                            SizeConfig.getSize25(context: context)),
-                        child: loadSvg(
-                            image: Assets.investorIco, color: colors.white),
-                      )),
-                  spaceHeight(SizeConfig.getSize15(context: context)),
-                  roboto(
-                      size: SizeConfig.getFontSize16(context: context),
-                      text: INVESTOR,
-                      fontWeight: FontWeight.w800,
-                      color: colors.white),
-                  spaceHeight(SizeConfig.getSize25(context: context)),
-                  buttonContainer(
-                      height:
-                          SizeConfig.getSizeWidthBy(context: context, by: 0.25),
-                      width:
-                          SizeConfig.getSizeWidthBy(context: context, by: 0.25),
-                      cornerRadius: 25,
-                      onTap: () {
-                        controller.submit(4);
-                        SectionData = false;
-                      },
-                      child: Padding(
-                          padding: EdgeInsets.all(
-                              SizeConfig.getSize25(context: context)),
-                          child: SvgPicture.asset(
-                              "assets/Phase 2 icons/ic_vpn_key_24px.svg"))),
-                  spaceHeight(SizeConfig.getSize15(context: context)),
-                  roboto(
-                      size: SizeConfig.getFontSize16(context: context),
-                      text: "Facilitator",
-                      fontWeight: FontWeight.w800,
-                      color: colors.white),
-                  // buttons(AppString.businessIdea, AppAssets.businessIdeaIco,
-                  //     () {
-                  //   AppRoutes.navigateOffDashboard();
-                  // }),
-                  // SizedBox(
-                  //   height: Get.height * 0.03,
-                  // ),
-                  // buttons(AppString.businessOwner, AppAssets.businessOwnerIco,
-                  //     () {
-                  //   // AppRoutes.navigateOffHomePage();
-                  // }),
-                  // SizedBox(
-                  //   height: Get.height * 0.03,
-                  // ),
-                  // buttons(AppString.investor, AppAssets.investorIco, () {}),
-                  // SizedBox(
-                  //   height: Get.height * 0.03,
-                  // ),
-                  // buttons(AppString.partner, AppAssets.partnerIco, () {}),
+                      title: "Service Provider",
+                      subTitle: 'Offer your Skills, Connections or Services'),
                 ],
               ),
             ),
           )),
     );
   }
-//
-// Widget buttons(String name, String icon, Function() onPressed) {
-//   return ModuleSelectionPushButton(
-//       icon: icon, name: name, onPressed: onPressed);
-// }
 }

@@ -1,13 +1,9 @@
-import 'package:chewie/chewie.dart';
 import 'package:flutter/material.dart';
-import 'package:pitch_me_app/controller/businessIdeas/postPageController.dart';
+import 'package:pitch_me_app/utils/colors/colors.dart';
 import 'package:pitch_me_app/utils/extras/extras.dart';
-import 'package:video_player/video_player.dart';
 import 'package:video_viewer/video_viewer.dart';
-import 'package:visibility_detector/visibility_detector.dart';
 
 List<VideoViewerController> videoViewerControllerList = [];
-List<VideoPlayerController> videoPlayerControllerList = [];
 
 class DirectVideoViewer extends StatefulWidget {
   final String url;
@@ -34,9 +30,8 @@ class _DirectVideoViewerState extends State<DirectVideoViewer> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-    debugPrint("Playing url is ${widget.url}");
+
     // videoViewerControllerList[widget.itemIndex].addListener(() {
     // });
     setState(() {});
@@ -78,20 +73,43 @@ class _DirectVideoViewerState extends State<DirectVideoViewer> {
         looping: true,
         enableShowReplayIconAtVideoEnd: false,
         style: VideoViewerStyle(
+            playAndPauseStyle: PlayAndPauseWidgetStyle(
+              background: Colors.transparent,
+              circleRadius: 80.0,
+              play: Center(
+                child: Icon(
+                  Icons.play_arrow,
+                  size: 80,
+                  color: DynamicColor.white,
+                ),
+              ),
+              pause: Center(
+                child: Icon(
+                  Icons.pause,
+                  size: 80,
+                  color: DynamicColor.white,
+                ),
+              ),
+            ),
             thumbnail: Image.network(''),
             loading: CircularProgressIndicator(
-              color: Colors.blue,
+              color: DynamicColor.gredient1,
             )),
         source: {
           "Source": VideoSource(
-            video: VideoPlayerController.network(widget.url.replaceAll(
-                'https://api.salespitchapp.com',
-                'http://191.101.229.245:9070')),
-            // video: VideoPlayerController.network(
-            //     'http://191.101.229.245:9070/uploads/posts/mp4.mp4'),
+            video: VideoPlayerController.network(Uri.encodeFull(widget.url
+                .replaceAll('https://api.salespitchapp.com',
+                    'http://191.101.229.245:9070'))),
           )
         },
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    videoViewerControllerList[widget.itemIndex].pause();
+
+    super.dispose();
   }
 }

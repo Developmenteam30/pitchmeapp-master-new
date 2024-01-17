@@ -1,11 +1,29 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
-import 'package:pitch_me_app/screens/businessIdeas/Apicall.dart/noti.dart';
+import 'package:get/get.dart';
+import 'package:pitch_me_app/Phase%206/Guest%20UI/Guest%20limitation%20pages/login_limitation.dart';
+import 'package:pitch_me_app/Phase%206/Guest%20UI/Profile/manu.dart';
+import 'package:pitch_me_app/controller/businessIdeas/homepagecontroller.dart';
 import 'package:pitch_me_app/screens/businessIdeas/dashBoardScreen.dart';
+import 'package:pitch_me_app/screens/businessIdeas/home%20tutorial/home_tutorial.dart';
+import 'package:pitch_me_app/screens/businessIdeas/home_filter.dart';
+import 'package:pitch_me_app/screens/businessIdeas/home_manu.dart';
+import 'package:pitch_me_app/utils/colors/colors.dart';
 import 'package:pitch_me_app/utils/extras/extras.dart';
 import 'package:pitch_me_app/utils/sizeConfig/sizeConfig.dart';
+import 'package:pitch_me_app/utils/widgets/Navigation/custom_navigation.dart';
 import 'package:pitch_me_app/utils/widgets/containers/containers.dart';
 import 'package:pitch_me_app/utils/widgets/text/text.dart';
-import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import '../../Phase 6/Guest UI/Guest limitation pages/amateur_user_limitation.dart';
+import '../../Phase 6/Guest UI/Guest limitation pages/pro_user_limitation.dart';
+import '../../View/Demo Video/title_tutorial.dart';
+import '../../View/Notification/notification_list.dart';
+import '../../devApi Service/get_api.dart';
+import '../../devApi Service/post_api.dart';
+import '../../utils/styles/styles.dart';
 
 class MainHomeScreen extends StatefulWidget {
   MainHomeScreen({Key? key}) : super(key: key);
@@ -15,38 +33,34 @@ class MainHomeScreen extends StatefulWidget {
 }
 
 class _MainHomeScreenState extends State<MainHomeScreen> {
-  double boxHeight = 100;
-  double boxWidth = 100;
+  HomePageController homePageController = Get.put(HomePageController());
 
-  bool ChangeBotton = false;
-
-  Color _ContainerColor = Color(0xff599CD0);
-  Color _CoColor = Color(0xff599CD0);
-
-  final _controller = PageController();
-  String title = '';
   int currentIndexOfDashboard = 0;
+  int selectIndex = 0;
+  int swipeCount = 0;
+  int countPost = 0;
+
   late Widget currentScreen;
 
-  int selectIndex = 0;
+  String title = '';
+  String newUser = '';
+  String businesstype = '';
+  String adminUser = '';
+  String checkGuestType = '';
+  dynamic proUser;
 
-  bool colorChnage = false;
-
-  void _expandBox() {
-    boxHeight = 300;
-    boxWidth = 300;
-  }
+  bool isCheckProUser = false;
+  bool isCheck = false;
+  bool isCheckTutorial = false;
+  bool playTutorial = false;
+  bool isLoading = false;
+  bool _isInitialValue = false;
+  bool isFilter = false;
+  bool isManu = false;
 
   @override
   void initState() {
-    Future.delayed(Duration(seconds: 4), () {
-      setState(() {
-        selectIndex;
-        _ContainerColor = Color.fromARGB(255, 225, 225, 225).withOpacity(0.3);
-      });
-      final postModel = Provider.of<DataClass>(context, listen: false);
-      postModel.getPostData();
-    });
+    getUserType();
 
     super.initState();
     currentScreen = DashBoardScreen(
@@ -57,261 +71,298 @@ class _MainHomeScreenState extends State<MainHomeScreen> {
       onSwipe: (int index, String _title, bool isFinish) {
         print("index is $index and title is $title");
         title = _title;
-        setState(() {});
+        //setState(() {});
       },
     );
-    setState(() {});
+    //setState(() {});
   }
 
-  bool _isInitialValue = false;
+  getUserType() async {
+    setState(() {
+      isLoading = true;
+    });
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    //Return bool
+    setState(() {
+      checkGuestType = prefs.getString('guest').toString();
 
-  @override
-  void dispose() {
-    super.dispose();
+      if (checkGuestType != 'null') {
+        businesstype = prefs.getString('log_type').toString();
+        adminUser = prefs.getString('bot').toString();
+        proUser = jsonDecode(prefs.getString('pro_user').toString());
+        checkUser();
+        checkLimite();
+      }
+      if (prefs.getBool('hometutorial') != null) {
+        playTutorial = prefs.getBool('hometutorial')!;
+        isCheckTutorial = prefs.getBool('hometutorial')!;
+      }
+
+      isLoading = false;
+    });
+  }
+
+  void checkDontShow(bool check) async {
+    SharedPreferences preferencesData = await SharedPreferences.getInstance();
+    setState(() {
+      preferencesData.setBool('hometutorial', check).toString();
+    });
+    if (checkGuestType != 'null') {
+      dynamic d = {
+        "hometutorial": check,
+      };
+      try {
+        PostApiServer().savedTutorialApi(d).then((value) {
+          // log(value.toString());
+        });
+      } catch (e) {}
+    }
+  }
+
+  void checkUser() {
+    if (adminUser == 'null' && businesstype != '5') {
+      if (proUser != null) {
+        setState(() {
+          isCheckProUser = true;
+        });
+      }
+    } else {
+      setState(() {
+        isCheckProUser = true;
+      });
+    }
+  }
+
+  void checkLimite() async {
+    try {
+      await GetApiService().countApi().then((value) {
+        setState(() {
+          if (isCheckProUser == false) {
+            countPost = int.parse('${value['data']['postsave']}');
+          }
+        });
+      });
+    } catch (e) {}
   }
 
   @override
   Widget build(BuildContext context) {
-    final sizeH = MediaQuery.of(context).size.height;
-    final sizeW = MediaQuery.of(context).size.width;
-    return Material(
+    return SafeArea(
+      top: false,
+      left: false,
+      right: false,
+      bottom: isManu ? false : true,
       child: InkWell(
         onTap: () {
           FocusScope.of(context).requestFocus(FocusNode());
         },
         child: Scaffold(
-          body: Stack(
-            children: [
-              InkWell(
-                  onTap: () {
-                    setState(() {
-                      _isInitialValue == true;
-                      _isInitialValue = false;
-                    });
-                  },
-                  child: currentScreen),
-              Padding(
-                padding: EdgeInsets.only(
-                    top: SizeConfig.getSize20(context: context) +
-                        SizeConfig.getSize20(context: context),
-                    bottom: SizeConfig.getSize20(context: context),
-                    left: SizeConfig.getSize20(context: context),
-                    right: SizeConfig.getSize20(context: context)),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    currentIndexOfDashboard == 0
-                        ? AnimatedContainer(
-                            height:
-                                _isInitialValue ? sizeH * 0.5 : sizeH * 0.065,
-                            width:
-                                _isInitialValue ? sizeW * 0.65 : sizeW * 0.140,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(
-                                  _isInitialValue ? 20 : 10),
-                              color: _isInitialValue
-                                  ? Color(0xff377eb4).withOpacity(0.8)
-                                  : Color(0xff377eb4),
-                            ),
-                            duration: Duration(milliseconds: 300),
-                            child: InkWell(
-                              onTap: () {
-                                setState(() {
-                                  _isInitialValue = !_isInitialValue;
-                                });
-                              },
-                              child: Padding(
-                                padding: EdgeInsets.all(12),
-                                child: _isInitialValue
-                                    ? Consumer<DataClass>(builder:
-                                        (BuildContext context, value,
-                                            Widget? child) {
-                                        return ListView.separated(
-                                          shrinkWrap: true,
-                                          padding: EdgeInsets.zero,
-                                          itemCount: value.post!.result!.length,
-                                          itemBuilder: (BuildContext context,
-                                              int index) {
-                                            return value.loading
-                                                ? Center(
-                                                    child:
-                                                        CircularProgressIndicator(),
-                                                  )
-                                                : InkWell(
-                                                    onTap: () {
-                                                      print(
-                                                          "Click in notification");
-                                                      setState(() {
-                                                        _isInitialValue == true;
-                                                        _isInitialValue = false;
-                                                      });
-                                                    },
-                                                    child: Container(
-                                                      height: sizeH * 0.06,
-                                                      width: sizeW * 0.65,
-                                                      // color: Colors.red,
-                                                      child:
-                                                          SingleChildScrollView(
-                                                        scrollDirection:
-                                                            Axis.horizontal,
-                                                        child: Row(children: [
-                                                          Icon(
-                                                              Icons
-                                                                  .notifications_active_outlined,
-                                                              color: Color(
-                                                                  0xff000a5e)),
-                                                          Padding(
-                                                            padding:
-                                                                EdgeInsets.only(
-                                                                    left:
-                                                                        sizeW *
-                                                                            0.03,
-                                                                    top: sizeH *
-                                                                        0.01),
-                                                            child: Column(
-                                                              crossAxisAlignment:
-                                                                  CrossAxisAlignment
-                                                                      .start,
-                                                              children: [
-                                                                Container(
-                                                                  height:
-                                                                      sizeH *
-                                                                          0.02,
-                                                                  width: sizeW *
-                                                                      0.45,
-                                                                  // color: Color
-                                                                  //     .fromARGB(
-                                                                  //         255,
-                                                                  //         39,
-                                                                  //         221,
-                                                                  //         23),
-                                                                  child: Text(
-                                                                    value
-                                                                            .post
-                                                                            ?.result?[index]
-                                                                            .title
-                                                                            .toString() ??
-                                                                        "",
-                                                                    overflow:
-                                                                        TextOverflow
-                                                                            .ellipsis,
-                                                                    style: TextStyle(
-                                                                        color: Colors
-                                                                            .white,
-                                                                        fontWeight:
-                                                                            FontWeight.bold),
-                                                                  ),
-                                                                ),
-                                                                Text(
-                                                                  value
-                                                                          .post
-                                                                          ?.result?[
-                                                                              index]
-                                                                          .title!
-                                                                          .toString() ??
-                                                                      "",
-                                                                  overflow:
-                                                                      TextOverflow
-                                                                          .ellipsis,
-                                                                  style: TextStyle(
-                                                                      color: Colors
-                                                                          .white,
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .bold,
-                                                                      fontSize:
-                                                                          10),
-                                                                ),
-                                                              ],
-                                                            ),
-                                                          ),
-                                                        ]),
-                                                      ),
-                                                    ),
-                                                  );
-                                          },
-                                          separatorBuilder:
-                                              (BuildContext context,
-                                                  int index) {
-                                            return Padding(
-                                              padding: EdgeInsets.only(
-                                                  left: sizeW * 0.02,
-                                                  right: sizeW * 0.02),
-                                              child: Divider(
-                                                color: Color(0xff000a5e),
-                                              ),
-                                            );
-                                          },
-                                        );
-                                      })
-                                    : loadSvg(
-                                        image:
-                                            'assets/image/notifications.svg'),
+          body: isLoading
+              ? CircularProgressIndicator(
+                  color: DynamicColor.gredient1,
+                )
+              : playTutorial == false
+                  ? TitleTutorialPage(
+                      title: 'Home',
+                      pageIndex: 0,
+                      checkPage: true,
+                      isCheck: isCheckTutorial,
+                      onPlay: () {
+                        PageNavigateScreen()
+                            .push(context, HomeTutorialPage())
+                            .then((value) {
+                          setState(() {
+                            playTutorial = true;
+                          });
+                        });
+                      },
+                      onNext: () {
+                        setState(() {
+                          playTutorial = true;
+                        });
+                      },
+                      onCheck: (value) {
+                        setState(() {
+                          isCheckTutorial = value!;
+                          checkDontShow(isCheckTutorial);
+                        });
+                      },
+                    )
+                  : countPost > 29
+                      ? AmateurUserLimitationPage(
+                          showBottomBar: true,
+                          pageIndex: 0,
+                          onBack: 1,
+                        )
+                      : Stack(
+                          children: [
+                            InkWell(
+                                onTap: () {
+                                  setState(() {
+                                    _isInitialValue == true;
+                                    _isInitialValue = false;
+                                  });
+                                },
+                                child: isManu
+                                    ? checkGuestType.isNotEmpty &&
+                                            checkGuestType != 'null'
+                                        ? HomeManuPage(
+                                            pageIndex: 0,
+                                          )
+                                        : GuestManuPage(title: '', pageIndex: 0)
+                                    : isFilter
+                                        ? HomePageFilter()
+                                        : currentScreen),
+                            Padding(
+                              padding: EdgeInsets.only(
+                                  top: SizeConfig.getSize50(context: context)),
+                              child: Align(
+                                alignment: Alignment.topCenter,
+                                child: Padding(
+                                  padding: EdgeInsets.symmetric(horizontal: 3),
+                                  child: isManu
+                                      ? Text(
+                                          'MENU',
+                                          style: white17wBold,
+                                        )
+                                      : isFilter
+                                          ? Padding(
+                                              padding:
+                                                  const EdgeInsets.only(top: 0),
+                                              child: Text(
+                                                'FILTER',
+                                                style: white17wBold,
+                                              ))
+                                          : roboto(
+                                              size: SizeConfig.getFontSize25(
+                                                  context: context),
+                                              text: currentIndexOfDashboard == 0
+                                                  ? ''
+                                                  : "App Statistics",
+                                              fontWeight: FontWeight.w700,
+                                              color: Color.fromARGB(
+                                                  255, 255, 255, 255)),
+                                ),
                               ),
                             ),
-                          )
-                        : buttonContainer(
-                            height: SizeConfig.getSize50(context: context),
-                            width: SizeConfig.getSize50(context: context),
-                            fromAppBar: true,
-                            onTap: () {},
-                            child: Padding(
-                              padding: const EdgeInsets.all(12.0),
-                              child: loadSvg(
-                                  image: 'assets/image/notifications.svg'),
-                            )),
-                    Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 3),
-                      child: roboto(
-                          size: SizeConfig.getFontSize28(context: context),
-                          text:
-                              '${currentIndexOfDashboard == 0 ? '' : "App Statistics"}',
-                          fontWeight: FontWeight.w700,
-                          color: Color.fromARGB(255, 255, 255, 255)),
-                    ),
-                    Column(
-                      children: [
-                        currentIndexOfDashboard == 0
-                            ? AppBarIconContainer(
-                                height: SizeConfig.getSize50(context: context),
-                                width: SizeConfig.getSize50(context: context),
-                                child: Padding(
-                                  padding: const EdgeInsets.all(12.0),
-                                  child:
-                                      loadSvg(image: 'assets/image/menu.svg'),
-                                ))
-                            : buttonContainer(
-                                height: SizeConfig.getSize50(context: context),
-                                width: SizeConfig.getSize50(context: context),
-                                fromAppBar: true,
-                                onTap: () {},
-                                child: Padding(
-                                  padding: EdgeInsets.all(12.0),
-                                  child:
-                                      loadSvg(image: 'assets/image/menu.svg'),
-                                )),
-                        spaceHeight(10),
-                        if (currentIndexOfDashboard == 0)
-                          Align(
-                              alignment: Alignment.bottomRight,
-                              child: AppBarIconContainer(
-                                height: SizeConfig.getSize50(context: context),
-                                width: SizeConfig.getSize50(context: context),
-                                child: Padding(
-                                  padding: const EdgeInsets.all(12.0),
-                                  child: loadSvg(
-                                    image: 'assets/image/setting.svg',
+                            Stack(
+                              children: [
+                                Padding(
+                                  padding: EdgeInsets.only(
+                                      top: SizeConfig.getSize30(
+                                              context: context) +
+                                          MediaQuery.of(context).size.height *
+                                              0.021,
+                                      bottom: SizeConfig.getSize20(
+                                          context: context),
+                                      left: SizeConfig.getFontSize25(
+                                          context: context),
+                                      right: SizeConfig.getFontSize25(
+                                          context: context)),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment: CrossAxisAlignment.end,
+                                    children: [
+                                      currentIndexOfDashboard == 0
+                                          ? AppBarIconContainer(
+                                              height: SizeConfig.getSize38(
+                                                  context: context),
+                                              width: SizeConfig.getSize38(
+                                                  context: context),
+                                              color: isManu || isFilter
+                                                  ? DynamicColor.white
+                                                  : null,
+                                              child: Padding(
+                                                padding:
+                                                    const EdgeInsets.all(8.0),
+                                                child: loadSvg(
+                                                    image:
+                                                        'assets/image/menu.svg',
+                                                    color: isManu
+                                                        ? DynamicColor.darkBlue
+                                                        : isFilter
+                                                            ? DynamicColor
+                                                                .gredient2
+                                                            : null),
+                                              ),
+                                              onTap: () {
+                                                setState(() {
+                                                  isManu = !isManu;
+                                                  isFilter = false;
+                                                  if (isManu) {
+                                                    homePageController
+                                                        .hideNaveBar
+                                                        .value = 'hide';
+                                                  } else {
+                                                    homePageController
+                                                        .hideNaveBar.value = '';
+                                                  }
+                                                });
+                                              },
+                                            )
+                                          : Container(),
+                                      spaceHeight(5),
+                                      if (currentIndexOfDashboard == 0)
+                                        Align(
+                                            alignment: Alignment.bottomRight,
+                                            child: AppBarIconContainer(
+                                              height: SizeConfig.getSize38(
+                                                  context: context),
+                                              width: SizeConfig.getSize38(
+                                                  context: context),
+                                              color: isManu || isFilter
+                                                  ? DynamicColor.white
+                                                  : null,
+                                              child: Padding(
+                                                padding:
+                                                    const EdgeInsets.all(8.0),
+                                                child: loadSvg(
+                                                    image:
+                                                        'assets/image/setting.svg',
+                                                    color: isFilter == true
+                                                        ? DynamicColor.darkBlue
+                                                        : isManu
+                                                            ? DynamicColor
+                                                                .gredient2
+                                                            : null),
+                                              ),
+                                              onTap: () {
+                                                if (checkGuestType.isNotEmpty &&
+                                                    checkGuestType != 'null') {
+                                                  if (isCheckProUser) {
+                                                    setState(() {
+                                                      isFilter = !isFilter;
+                                                      isManu = false;
+                                                      homePageController
+                                                          .hideNaveBar
+                                                          .value = '';
+                                                    });
+                                                  } else {
+                                                    PageNavigateScreen().push(
+                                                        context,
+                                                        ProUserLimitationPage(
+                                                          pageIndex: 0,
+                                                        ));
+                                                  }
+                                                } else {
+                                                  Get.to(() =>
+                                                      LoginLimitationPage());
+                                                }
+                                              },
+                                            )),
+                                    ],
                                   ),
                                 ),
-                              )),
-                      ],
-                    )
-                  ],
-                ),
-              ),
-            ],
-          ),
+                                currentIndexOfDashboard == 0
+                                    ? NotificationManuList(
+                                        isManu: isManu,
+                                        isFilter: isFilter,
+                                      )
+                                    : Container(),
+                              ],
+                            ),
+                          ],
+                        ),
         ),
       ),
     );

@@ -32,17 +32,30 @@ class User {
   int? flag;
   String? createdAt;
   int? loginType;
+  dynamic bot;
+  dynamic hometutorial;
+  dynamic salespitchtutorial;
+  dynamic addsalespitchtutoria;
+  dynamic dealtutorial;
+  dynamic profiletutorial;
 
-  User(
-      {this.sId,
-        this.username,
-        this.email,
-        this.password,
-        this.profilePic,
-        this.emailVerify,
-        this.flag,
-        this.loginType,
-        this.createdAt});
+  User({
+    this.sId,
+    this.username,
+    this.email,
+    this.password,
+    this.profilePic,
+    this.emailVerify,
+    this.flag,
+    this.loginType,
+    this.bot,
+    this.createdAt,
+    this.addsalespitchtutoria,
+    this.dealtutorial,
+    this.hometutorial,
+    this.profiletutorial,
+    this.salespitchtutorial,
+  });
 
   User.fromJson(Map<String, dynamic> json) {
     sId = json['_id'];
@@ -54,6 +67,19 @@ class User {
     flag = json['flag'];
     createdAt = json['createdAt'];
     loginType = json['log_type'];
+    hometutorial =
+        (json['hometutorial'] == null) ? false : json['hometutorial'];
+    salespitchtutorial = (json['salespitchtutorial'] == null)
+        ? false
+        : json['salespitchtutorial'];
+    addsalespitchtutoria = (json['addsalespitchtutoria'] == null)
+        ? false
+        : json['addsalespitchtutoria'];
+    dealtutorial =
+        (json['dealtutorial'] == null) ? false : json['dealtutorial'];
+    profiletutorial =
+        (json['profiletutorial'] == null) ? false : json['profiletutorial'];
+    bot = (json['bot'] == null) ? null : json['bot'];
   }
 
   Map<String, dynamic> toJson() {
@@ -67,6 +93,12 @@ class User {
     data['flag'] = this.flag;
     data['createdAt'] = this.createdAt;
     data['log_type'] = this.loginType;
+    data['bot'] = this.bot;
+    data['hometutorial'] = this.hometutorial;
+    data['salespitchtutorial'] = this.salespitchtutorial;
+    data['addsalespitchtutoria'] = this.addsalespitchtutoria;
+    data['dealtutorial'] = this.dealtutorial;
+    data['profiletutorial'] = this.profiletutorial;
     return data;
   }
 }

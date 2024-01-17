@@ -75,8 +75,8 @@ class PageNavigateScreen {
     );
   }
 
-  void pushRemovUntil(BuildContext context, Widget page) async {
-    Navigator.of(context).pushAndRemoveUntil(
+  Future<dynamic> pushRemovUntil(BuildContext context, Widget page) async {
+    return Navigator.of(context).pushAndRemoveUntil(
         MaterialPageRoute(builder: (context) => page),
         (Route<dynamic> route) => false);
   }

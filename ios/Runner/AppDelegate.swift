@@ -2,6 +2,8 @@ import UIKit
 import Flutter
 import Firebase
 import GoogleMaps
+import flutter_downloader
+
 
 @UIApplicationMain
 @objc class AppDelegate: FlutterAppDelegate {
@@ -9,8 +11,14 @@ import GoogleMaps
     _ application: UIApplication,
     didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
   ) -> Bool {
-    GMSServices.provideAPIKey("AIzaSyDfPZLkGFSJVBQcLaRxy5GydvtIryBdSs8")
+    GMSServices.provideAPIKey("AIzaSyArVg2eeb6UbZtIgSHLEqUpHD1Itj5nYsw")
     GeneratedPluginRegistrant.register(with: self)
+    FlutterDownloaderPlugin.setPluginRegistrantCallback(registerPlugins)
     return super.application(application, didFinishLaunchingWithOptions: launchOptions)
   }
+}
+private func registerPlugins(registry: FlutterPluginRegistry) {
+    if (!registry.hasPlugin("FlutterDownloaderPlugin")) {
+       FlutterDownloaderPlugin.register(with: registry.registrar(forPlugin: "FlutterDownloaderPlugin")!)
+    }
 }

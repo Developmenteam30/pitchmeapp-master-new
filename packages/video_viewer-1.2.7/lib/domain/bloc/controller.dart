@@ -163,6 +163,8 @@ class VideoViewerController extends ChangeNotifier with WidgetsBindingObserver {
 
   Map<String, VideoSource>? get source => _source;
 
+  String isDispose = '';
+
   set source(Map<String, VideoSource>? value) {
     _source = value;
     notifyListeners();
@@ -189,12 +191,17 @@ class VideoViewerController extends ChangeNotifier with WidgetsBindingObserver {
       source: entry.value,
       autoPlay: autoPlay,
     );
-    log("VIDEO VIEWER INITIALIZED");
+    if (isDispose.isNotEmpty) {
+      log("VIDEO VIEWER INITIALIZED");
+    } else {
+      _video?.pause();
+    }
     Wakelock.enable();
   }
 
   @override
   Future<void> dispose() async {
+    isDispose = '';
     WidgetsBinding.instance.removeObserver(this);
     _mounted = false;
     _closeOverlayButtons?.cancel();

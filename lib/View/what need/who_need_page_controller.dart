@@ -9,7 +9,7 @@ class WhoNeedController extends GetxController {
 
   List data = [
     {'value': 'Investor', 'icon': Icons.local_atm, 'isSelected': false},
-    {'value': 'Facilitator', 'icon': Icons.groups, 'isSelected': false},
+    {'value': 'Service Provider', 'icon': Icons.groups, 'isSelected': false},
   ];
   RxList isSelectedItem = RxList([].obs);
   RxString checkType = ''.obs;
@@ -20,13 +20,13 @@ class WhoNeedController extends GetxController {
     for (var element in data) {
       if (value == element) {
         if (element['isSelected'] != true) {
-          isSelectedItem.value.add(element);
+          isSelectedItem.value.add(element['value']);
           if (value['value'] == 'Investor') {
             checkColor = 1;
             checkType.value = 'Investor';
-          } else if (value['value'] == 'Facilitator') {
+          } else if (value['value'] == 'Service Provider') {
             checkColor2 = 2;
-            checkType.value = 'Facilitator';
+            checkType.value = 'Service Provider';
           } else {
             checkColor = 1;
             checkType.value = 'Investor';
@@ -35,7 +35,7 @@ class WhoNeedController extends GetxController {
           update();
         } else {
           element['isSelected'] = false;
-          isSelectedItem.value.remove(element);
+          isSelectedItem.value.remove(element['value']);
           if (element['value'] == 'Investor') {
             checkColor = 0;
             checkType.value = '';
@@ -48,7 +48,7 @@ class WhoNeedController extends GetxController {
             _fundNacessaryController.data[4]['isSelected'] = false;
             _fundNacessaryController.data[5]['isSelected'] = false;
             update();
-          } else if (value['value'] == 'Facilitator') {
+          } else if (value['value'] == 'Service Provider') {
             checkColor2 = 0;
             checkType.value = '';
             _needPageController.searchingSelectedItems.value = [];

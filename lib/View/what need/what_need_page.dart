@@ -3,13 +3,16 @@ import 'package:get/get.dart';
 import 'package:pitch_me_app/View/Need%20page/need_page.dart';
 import 'package:pitch_me_app/View/navigation_controller.dart';
 import 'package:pitch_me_app/View/what%20need/who_need_page_controller.dart';
+import 'package:pitch_me_app/utils/extras/extras.dart';
+import 'package:pitch_me_app/utils/sizeConfig/sizeConfig.dart';
 import 'package:pitch_me_app/utils/widgets/Navigation/custom_navigation.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../utils/colors/colors.dart';
+import '../../utils/strings/images.dart';
 import '../../utils/strings/strings.dart';
 import '../../utils/styles/styles.dart';
-import '../../utils/widgets/Arrow Button/arrow_button.dart';
+import '../../utils/widgets/extras/backgroundWidget.dart';
 import '../Custom header view/custom_header_view.dart';
 import '../Custom header view/new_bottom_bar.dart';
 import '../Fund Page/funds_page.dart';
@@ -30,149 +33,166 @@ class _WhatNeedPageState extends State<WhatNeedPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      floatingActionButton: Column(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: [
-          _whoNeedController.isSelectedItem.value.isNotEmpty
-              ? ArrowButton(onPressed: () {
-                  try {
-                    if (_navigationController.navigationType.value == 'Post') {
-                      if (_whoNeedController.checkColor == 1) {
-                        PageNavigateScreen().push(
-                            context,
-                            FundsPage(
-                              key: abcKey,
-                            ));
-                      } else if (_whoNeedController.checkColor2 == 2) {
-                        PageNavigateScreen().push(
-                            context,
-                            NeedPage(
-                              key: abcKey,
-                            ));
-                      } else {
-                        PageNavigateScreen().push(
-                            context,
-                            FundsPage(
-                              key: abcKey,
-                            ));
-                      }
-                    } else {
-                      Navigator.of(context).pop();
-                    }
-                  } catch (e) {}
-                })
-              : Container(),
-          NewCustomBottomBar(),
-        ],
-      ),
-      body: SafeArea(
-          child: SingleChildScrollView(
-        child: Column(
+      body: BackGroundWidget(
+        backgroundImage: Assets.backgroundImage,
+        fit: BoxFit.fill,
+        child: Stack(
           children: [
-            CustomHeaderView(
-              title: TextStrings.textKey['what_need']!,
-              icon: 'assets/icons/people.png',
-              subTitle: TextStrings.textKey['sub_what_need']!,
-              subTitle2: TextStrings.textKey['sub_what_need2']!,
-              progressPersent: 0.3,
-              padding: 0,
-            ),
-            Padding(
-              padding: const EdgeInsets.only(
-                  left: 30, top: 10, bottom: 10, right: 30),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
+            SingleChildScrollView(
+              child: Column(
                 children: [
-                  Expanded(
-                      child: customBox(
-                    10.0,
-                    10.0,
-                    0.0,
-                    0.0,
-                    _whoNeedController.data[0]['icon'],
-                    _whoNeedController.data[0]['value'],
-                    _whoNeedController.data[0]['isSelected'],
-                    onPressad: () {
-                      setState(() {});
-                      _whoNeedController
-                          .onselectItem(_whoNeedController.data[0]);
-                    },
-                  )),
-                  Container(
-                    width: 2,
-                    height: 6.h,
-                    color: DynamicColor.white,
+                  SizedBox(
+                    height: SizeConfig.getSize100(context: context) +
+                        SizeConfig.getSize55(context: context),
                   ),
-                  Expanded(
-                      child: customBox(
-                    0.0,
-                    0.0,
-                    10.0,
-                    10.0,
-                    _whoNeedController.data[1]['icon'],
-                    _whoNeedController.data[1]['value'],
-                    _whoNeedController.data[1]['isSelected'],
-                    onPressad: () {
-                      setState(() {
-                        _whoNeedController
-                            .onselectItem(_whoNeedController.data[1]);
-                      });
-                    },
-                  )),
+                  const SizedBox(height: 30),
+                  Container(
+                    decoration: BoxDecoration(
+                        border: Border(
+                            bottom: BorderSide(color: DynamicColor.black))),
+                    child: Text(
+                      TextStrings.textKey['what_need']!,
+                      style: textColor22,
+                    ),
+                  ),
+                  spaceHeight(
+                      SizeConfig.getSizeHeightBy(context: context, by: 0.05)),
+                  Padding(
+                    padding: EdgeInsets.only(
+                      top: 10,
+                      bottom: 10,
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        customBox(
+                          _whoNeedController.data[0]['value'],
+                          _whoNeedController.data[0]['isSelected'],
+                          onPressad: () {
+                            setState(() {});
+                            _whoNeedController
+                                .onselectItem(_whoNeedController.data[0]);
+                          },
+                        ),
+                        Container(
+                          width: 2,
+                        ),
+                        customBox(
+                          _whoNeedController.data[1]['value'],
+                          _whoNeedController.data[1]['isSelected'],
+                          onPressad: () {
+                            setState(() {
+                              _whoNeedController
+                                  .onselectItem(_whoNeedController.data[1]);
+                            });
+                          },
+                        ),
+                      ],
+                    ),
+                  ),
+                  spaceHeight(
+                      SizeConfig.getSizeHeightBy(context: context, by: 0.04)),
+                  _footerHint()
                 ],
               ),
             ),
-            _whoNeedController.isSelectedItem.value.isNotEmpty
-                ? _footerHint()
-                : Container()
+            CustomHeaderView(
+              progressPersent: 0.3,
+              checkNext: _whoNeedController.isSelectedItem.value.isNotEmpty
+                  ? 'next'
+                  : null,
+              nextOnTap: () {
+                try {
+                  if (_navigationController.navigationType.value == 'Post') {
+                    if (_whoNeedController.checkColor == 1) {
+                      PageNavigateScreen().push(
+                          context,
+                          FundsPage(
+                            key: abcKey,
+                          ));
+                    } else if (_whoNeedController.checkColor2 == 2) {
+                      PageNavigateScreen().push(
+                          context,
+                          NeedPage(
+                            key: abcKey,
+                          ));
+                    } else {
+                      PageNavigateScreen().push(
+                          context,
+                          FundsPage(
+                            key: abcKey,
+                          ));
+                    }
+                  } else {
+                    Navigator.of(context).pop();
+                  }
+                } catch (e) {}
+              },
+            ),
+            NewCustomBottomBar(
+              index: 2,
+            ),
           ],
         ),
-      )),
+      ),
     );
   }
 
   Widget _footerHint() {
-    return Text(
-      TextStrings.textKey['what_need_sub_text']!,
-      style: blue12,
-      overflow: TextOverflow.ellipsis,
-      maxLines: 1,
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Container(
+          decoration: BoxDecoration(
+              border:
+                  Border(bottom: BorderSide(color: DynamicColor.textColor))),
+          child: Text(
+            TextStrings.textKey['sub_what_need']!,
+            style: textColor15,
+            overflow: TextOverflow.ellipsis,
+            maxLines: 1,
+          ),
+        ),
+        SizedBox(height: 5),
+        Container(
+          decoration: BoxDecoration(
+              border:
+                  Border(bottom: BorderSide(color: DynamicColor.textColor))),
+          child: Text(
+            TextStrings.textKey['sub_what_need2']!,
+            style: textColor15,
+            textAlign: TextAlign.center,
+          ),
+        ),
+      ],
     );
   }
 
-  Widget customBox(topLeft, bottomLeft, topRight, bottomRight,
-      IconData iconData, String string, isCheck,
-      {required VoidCallback onPressad}) {
+  Widget customBox(String string, isCheck, {required VoidCallback onPressad}) {
     return GestureDetector(
       onTap: onPressad,
-      child: Container(
-        height: 6.h,
-        alignment: Alignment.center,
-        decoration: BoxDecoration(
-            color: DynamicColor.blue,
-            borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(topLeft),
-              bottomLeft: Radius.circular(bottomLeft),
-              topRight: Radius.circular(topRight),
-              bottomRight: Radius.circular(bottomRight),
-            )),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Icon(
-              iconData,
-              color: isCheck ? DynamicColor.darkBlue : DynamicColor.white,
+      child: Card(
+        elevation: isCheck ? 0 : 10,
+        child: Container(
+          height: 5.h,
+          width: MediaQuery.of(context).size.width * 0.35,
+          alignment: Alignment.center,
+          decoration: BoxDecoration(
+            color: DynamicColor.white,
+            border: isCheck ? Border.all(color: DynamicColor.gredient2) : null,
+          ),
+          child: Text(
+            string,
+            style: TextStyle(
+              fontSize: 15.0,
+              color: isCheck ? DynamicColor.gredient2 : DynamicColor.black,
+              fontWeight: isCheck ? FontWeight.bold : FontWeight.normal,
             ),
-            Text(
-              string,
-              style: isCheck ? darkBlue15 : white15TextStyle,
-              overflow: TextOverflow.ellipsis,
-              maxLines: 1,
-            ),
-          ],
+            overflow: TextOverflow.ellipsis,
+            maxLines: 1,
+          ),
         ),
       ),
     );

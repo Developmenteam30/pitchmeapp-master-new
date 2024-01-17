@@ -19,7 +19,7 @@ class _ArrowButtonState extends State<ArrowButton> {
     return InkWell(
       onTap: widget.onPressed,
       child: Padding(
-        padding: const EdgeInsets.only(top: 20, right: 10),
+        padding: const EdgeInsets.only(top: 20, right: 0),
         child: Stack(alignment: Alignment.center, children: [
           Material(
             elevation: 10,
@@ -31,7 +31,7 @@ class _ArrowButtonState extends State<ArrowButton> {
               alignment: Alignment.center,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(50),
-                color: DynamicColor.blue,
+                color: DynamicColor.gredient1,
               ),
             ),
           ),

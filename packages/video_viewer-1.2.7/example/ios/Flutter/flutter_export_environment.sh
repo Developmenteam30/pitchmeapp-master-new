@@ -1,9 +1,9 @@
 #!/bin/sh
 # This is a generated file; do not edit or check into version control.
-export "FLUTTER_ROOT=C:\src\flutter\flutter_windows_3.0.1-stable\flutter"
-export "FLUTTER_APPLICATION_PATH=C:\Users\hp\Downloads\pitchmeapp-master\pitchmeapp-master\packages\video_viewer-1.2.7\example"
+export "FLUTTER_ROOT=/Users/apple/flutter"
+export "FLUTTER_APPLICATION_PATH=/Users/apple/Flutter Projects/pitchmeapp-master/packages/video_viewer-1.2.7/example"
 export "COCOAPODS_PARALLEL_CODE_SIGN=true"
-export "FLUTTER_TARGET=lib\main.dart"
+export "FLUTTER_TARGET=lib/main.dart"
 export "FLUTTER_BUILD_DIR=build"
 export "FLUTTER_BUILD_NAME=1.0.0"
 export "FLUTTER_BUILD_NUMBER=1"

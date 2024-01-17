@@ -1,10 +1,9 @@
-import 'dart:developer';
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:get/get.dart';
-import 'package:pitch_me_app/controller/businessIdeas/homepagecontroller.dart';
+import 'package:pitch_me_app/View/posts/model.dart';
+import 'package:pitch_me_app/devApi%20Service/post_api.dart';
 import 'package:pitch_me_app/models/post/postModel.dart';
 import 'package:pitch_me_app/utils/sizeConfig/sizeConfig.dart';
 import 'package:pitch_me_app/utils/strings/images.dart';
@@ -22,8 +21,12 @@ class PostPageController extends GetxController {
       refreshed = false.obs;
   final SwipableStackController swipableStackController =
       SwipableStackController();
+  // final SwipableStackController swipableStackController2 =
+  //     SwipableStackController();
   SwipeDirection? direction;
-  bool left = false, right = false;
+  RxBool left = false.obs, right = false.obs;
+
+  final postserver = PostApiServer();
 
   bool notVideo = false;
   var images = [
@@ -35,7 +38,8 @@ class PostPageController extends GetxController {
     Assets.postImage2,
   ];
   String label = "Seen";
-  HomePageController _homePageController = Get.put(HomePageController());
+
+  //RxList getIntroVideoApiList = [].obs;
 
   updateProgressOfCard(double value) {
     print("DATABCA ${value}");
@@ -49,6 +53,23 @@ class PostPageController extends GetxController {
   setVisibleSeen(bool value) {
     visibleSaveSeen.value = value;
   }
+
+  savedVideo(pitchID, receiverid, flag, context) {
+    postserver.savedVideoApi(context, pitchID, receiverid, flag);
+  }
+
+  // getsavedIntroVideo() {
+  //   postserver.getSavedIntroVideoApi().then((value) {
+  //     log('check = ' + value.toString());
+  //     getIntroVideoApiList.value = value['result'];
+  //     log('check 2 = ' + getIntroVideoApiList.value.toString());
+  //     update();
+  //   });
+  // }
+
+  // addsavedIntroVideo() {
+  //   postserver.addSavedIntroVideoApi();
+  // }
 
   List<String> videoUrls = [
     "https://saturncube.com/temp-video/video11.mov",
@@ -69,11 +90,11 @@ class PostPageController extends GetxController {
   ];
 
   Widget getSliderWidget(
-      {required Result post,
+      {required Results post,
       required BuildContext context,
       required int itemIndex}) {
     debugPrint("Post type is ${post.type}");
-    log(' Check 2 = ' + post.file.replaceAll(' ', '%20').toString());
+
     switch (post.type) {
       case 1:
         return Container(
@@ -87,7 +108,13 @@ class PostPageController extends GetxController {
               top: SizeConfig.getSize100(context: context)),
           child: Center(
               child: SingleChildScrollView(
-                  child: HtmlWidget('<center>${post.text}</center>'))),
+                  child: Center(
+            child: HtmlWidget('<center>${post.text}</center>'),
+            // Text(
+            //   post.text,
+            //   style: TextStyle(fontSize: 17),
+            // ),
+          ))),
         );
       case 2:
         return Container(
@@ -95,7 +122,7 @@ class PostPageController extends GetxController {
           width: MediaQuery.of(context).size.width,
           color: Colors.white,
           child: CachedNetworkImage(
-              imageUrl: '${post.file}',
+              imageUrl: post.file,
               height: MediaQuery.of(context).size.height,
               width: MediaQuery.of(context).size.width,
               fit: BoxFit.fill,
@@ -130,7 +157,7 @@ class PostPageController extends GetxController {
                 videoViewerControllerList[itemIndex].play();
               }
             } catch (e) {
-              print("Error is the ${e.toString()}");
+              print("Error is ${e.toString()}");
             }
           },
           child: DirectVideoViewer(
@@ -156,4 +183,107 @@ class PostPageController extends GetxController {
         );
     }
   }
+
+  Widget getSliderWidget2(
+      {required SalesDoc post,
+      required BuildContext context,
+      required int itemIndex}) {
+    switch (post.status) {
+      case 0:
+        return Container(
+          height: MediaQuery.of(context).size.height,
+          width: MediaQuery.of(context).size.width,
+          color: Colors.white,
+          padding: EdgeInsets.only(
+              left: SizeConfig.getSize20(context: context),
+              right: SizeConfig.getSize20(context: context),
+              bottom: SizeConfig.getSize40(context: context),
+              top: SizeConfig.getSize100(context: context)),
+          child: Center(
+              child: SingleChildScrollView(
+                  child:
+                      Center(child: HtmlWidget('<center>${post.title}</center>')
+                          // Text(
+                          //   post.title,
+                          //   style: TextStyle(fontSize: 17),
+                          // ),
+                          )
+                  //HtmlWidget('<center>${post.title}</center>')
+                  )),
+        );
+      // case 2:
+      //   return Container(
+      //     height: MediaQuery.of(context).size.height,
+      //     width: MediaQuery.of(context).size.width,
+      //     color: Colors.white,
+      //     child: CachedNetworkImage(
+      //         imageUrl: post.img1,
+      //         height: MediaQuery.of(context).size.height,
+      //         width: MediaQuery.of(context).size.width,
+      //         fit: BoxFit.fill,
+      //         progressIndicatorBuilder: (context, url, downloadProgress) => Row(
+      //               mainAxisAlignment: MainAxisAlignment.center,
+      //               children: [
+      //                 CircularProgressIndicator(
+      //                   value: downloadProgress.progress,
+      //                 ),
+      //               ],
+      //             )),
+      //   );
+      case 2:
+        notVideo = false;
+
+        return VisibilityDetector(
+          key: Key('my-widget-key'),
+          onVisibilityChanged: (visibilityInfo) {
+            var visiblePercentage = visibilityInfo.visibleFraction * 100;
+            debugPrint(
+                'Widget ${visibilityInfo.key.toString()} is ${visiblePercentage}% visible');
+
+            try {
+              videoVisibilityPercent.value = visiblePercentage;
+              if (visiblePercentage < 90 && post.title.isNotEmpty) {
+                videoViewerControllerList[itemIndex].pause();
+              }
+              if (visiblePercentage > 10 &&
+                  videoViewerControllerList[itemIndex].isPlaying == false &&
+                  swipableStackController.currentIndex == itemIndex &&
+                  post.title.isNotEmpty) {
+                videoViewerControllerList[itemIndex].play();
+              }
+            } catch (e) {
+              print("Error is video =  ${e.toString()}");
+            }
+          },
+          child: post.title.isNotEmpty
+              ? DirectVideoViewer(
+                  url: post.vid1,
+                  itemIndex: itemIndex,
+                  currentIndex: swipableStackController.currentIndex,
+                  isPlay: isPlay.value,
+                  visibility: videoVisibilityPercent.value,
+                )
+              : Container(),
+        );
+      default:
+        return Container(
+          height: MediaQuery.of(context).size.height,
+          width: MediaQuery.of(context).size.width,
+          decoration: BoxDecoration(
+              color: Colors.white,
+              image: DecorationImage(
+                image: AssetImage(
+                  images[0],
+                ),
+                fit: BoxFit.cover,
+              )),
+        );
+    }
+  }
+
+  // @override
+  // void onInit() {
+  //   super.onInit();
+  //   getsavedIntroVideo();
+  // }
 }
