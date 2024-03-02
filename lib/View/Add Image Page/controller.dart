@@ -6,9 +6,9 @@ import 'package:flutter_document_picker/flutter_document_picker.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:image_pickers/image_pickers.dart';
+import 'package:pitch_me_app/utils/extras/extras.dart';
 
 import '../../utils/colors/colors.dart';
-import '../../utils/extras/extras.dart';
 
 class AddImageController extends GetxController {
   List listImagePaths = [];

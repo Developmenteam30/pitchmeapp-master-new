@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pitch_me_app/utils/sizeConfig/sizeConfig.dart';
@@ -44,23 +45,30 @@ class _NoMorePitchPageState extends State<NoMorePitchPage> {
                   'No Pitches Available',
                   style: textColor22,
                 ),
-
                 SizedBox(height: SizeConfig.getSize20(context: context)),
                 Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('Check:', style: textColor18Normal),
+                    Text('Check:', style: textColor17Normal),
                     Text('1: Change the interest filters',
-                        style: textColor18Normal),
+                        style: textColor17Normal),
                     Text('2: Verify your Biography Information',
-                        style: textColor18Normal),
+                        style: textColor17Normal),
                   ],
                 ),
-                // Text('When user post a Sales', style: textColor18Normal),
-                // Text('Pitch, they can set', style: textColor18Normal),
-                // Text('limitation for who can ', style: textColor18Normal),
-                // Text('watch it.', style: textColor18Normal),
+                SizedBox(height: SizeConfig.getSize25(context: context)),
+                Padding(
+                  padding: EdgeInsets.only(
+                      left: SizeConfig.getSize15(context: context),
+                      right: SizeConfig.getSize15(context: context)),
+                  child: AutoSizeText(
+                    'Businesses when posting a pitch have a filter like this Buttons below, where they can select Who can watch their pitch',
+                    style: textColor17w500,
+                    textAlign: TextAlign.center,
+                    maxLines: 4,
+                  ),
+                ),
                 SizedBox(height: SizeConfig.getSize30(context: context)),
                 customBox(
                   controller.data[0]['value'],
@@ -82,11 +90,11 @@ class _NoMorePitchPageState extends State<NoMorePitchPage> {
                   controller.data[4]['value'],
                 ),
                 SizedBox(height: SizeConfig.getSize30(context: context)),
-                Text('If you don´t have the', style: textColor18Normal),
-                Text('necessary verification on', style: textColor18Normal),
-                Text('your Biography, you will', style: textColor18Normal),
-                Text('see only a very limited', style: textColor18Normal),
-                Text('amount of Pitches', style: textColor18Normal),
+                Text('If you don´t have the', style: textColor17w500),
+                Text('necessary verification on', style: textColor17w500),
+                Text('your Biography, you will', style: textColor17w500),
+                Text('see only a very limited', style: textColor17w500),
+                Text('amount of Pitches', style: textColor17w500),
               ],
             ),
           )),
@@ -99,12 +107,13 @@ class _NoMorePitchPageState extends State<NoMorePitchPage> {
           left: SizeConfig.getSize40(context: context),
           right: SizeConfig.getSize40(context: context)),
       child: Card(
+        color: DynamicColor.white,
         elevation: 10,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
         child: InkWell(
           // onTap: onPressad,
           child: Container(
-            height: 6.h,
+            height: 5.h,
             alignment: Alignment.center,
             decoration: BoxDecoration(
               gradient: DynamicColor.gradientColorChange,

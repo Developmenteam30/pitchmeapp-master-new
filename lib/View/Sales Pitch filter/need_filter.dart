@@ -261,7 +261,7 @@ class _NeedFilterPageState extends State<NeedFilterPage> {
                             ? serviceProviderWidget()
                             : Container(),
                         SizedBox(
-                            height: SizeConfig.getSize50(context: context)),
+                            height: SizeConfig.getSize80(context: context)),
                       ],
                     ),
                   ),
@@ -477,6 +477,7 @@ class _NeedFilterPageState extends State<NeedFilterPage> {
     return GestureDetector(
       onTap: onPressad,
       child: Card(
+        color: DynamicColor.white,
         elevation: isCheck ? 0 : 10,
         child: Container(
           height: 5.h,
@@ -506,6 +507,7 @@ class _NeedFilterPageState extends State<NeedFilterPage> {
     return InkWell(
       onTap: onPressad,
       child: Card(
+        color: DynamicColor.white,
         elevation: i ? 0 : 10,
         child: Container(
           height: 5.h,
@@ -651,6 +653,7 @@ class _NeedFilterPageState extends State<NeedFilterPage> {
                     child: Column(
                       children: [
                         Card(
+                          color: DynamicColor.white,
                           elevation: 10,
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10)),
@@ -660,6 +663,7 @@ class _NeedFilterPageState extends State<NeedFilterPage> {
                             child: TextFormField(
                               cursorHeight: 22,
                               controller: controller.spTextController,
+                              cursorColor: DynamicColor.gredient1,
                               style: gredient116bold,
                               onTap: () {
                                 setState(() {
@@ -715,6 +719,7 @@ class _NeedFilterPageState extends State<NeedFilterPage> {
                                   //  padding: EdgeInsets.only(left: 10, right: 10),
                                   margin: EdgeInsets.only(right: 5, left: 15),
                                   child: Card(
+                                    color: DynamicColor.white,
                                     elevation: 10,
                                     child: Container(
                                       padding:
@@ -775,6 +780,7 @@ class _NeedFilterPageState extends State<NeedFilterPage> {
             padding: EdgeInsets.only(
                 bottom: MediaQuery.of(context).size.width * 0.15),
             child: Card(
+              color: DynamicColor.white,
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10)),
               child:
@@ -795,6 +801,7 @@ class _NeedFilterPageState extends State<NeedFilterPage> {
                           child: Align(
                             alignment: Alignment.topLeft,
                             child: ChoiceChip(
+                              side: BorderSide(color: DynamicColor.white),
                               label: Padding(
                                 padding: EdgeInsets.all(10),
                                 child: Text(

@@ -105,13 +105,14 @@ class _DemoVideoPageState extends State<DemoVideoPage> {
               source: {
                 "Source": VideoSource(
                   video: VideoPlayerController.network(
-                      'https://d2vaqd2kfxjiiz.cloudfront.net/pitchme/addtutorial.mp4'),
+                      'https://soop1.s3.ap-south-1.amazonaws.com/pitchme/addtutorial.mp4'),
                 )
               },
             ),
           ),
           CustomAppbar(
             title: 'Add Sales Pitch',
+            notifyIconForTutorial: true,
             onPressad: () {
               videoViewerController.pause();
               if (checkGuestType.isNotEmpty && checkGuestType != 'null') {

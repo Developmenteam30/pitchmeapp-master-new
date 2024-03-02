@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:image_pickers/image_pickers.dart';
+import 'package:pitch_me_app/utils/extras/extras.dart';
 
 import '../../../utils/colors/colors.dart';
-import '../../../utils/extras/extras.dart';
 
 class VideoFirstPageController extends GetxController {
   final TextEditingController editingController = TextEditingController();

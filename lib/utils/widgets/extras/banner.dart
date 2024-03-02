@@ -21,8 +21,8 @@ class BannerWidget extends StatelessWidget {
           : MediaQuery.of(context).size.height * 0.10,
       child: InkWell(
         onTap: () {
-          launchUrl(
-              Uri.parse(
+          launchUrl(Uri.parse(
+                  //'https://www.budgiepr.com'
                   'https://www.equidam.com/?r=bZM7KxFuars8IR0feJdNiLR02YlfhgjbqlBoNhLz'),
               mode: LaunchMode.externalApplication);
         },

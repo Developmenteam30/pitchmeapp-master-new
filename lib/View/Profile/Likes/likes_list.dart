@@ -168,6 +168,7 @@ class _LikesListPageState extends State<LikesListPage> {
                                     'http://191.101.229.245:9070/' + data.file);
 
                                 return Card(
+                                  color: DynamicColor.white,
                                   shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(15)),
                                   child: Container(

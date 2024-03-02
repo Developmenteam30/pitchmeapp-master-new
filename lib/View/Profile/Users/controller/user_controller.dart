@@ -35,6 +35,10 @@ class UsersController extends GetxController {
       Get.put(NotificationController());
 
   void getAllUsersApiCall() async {
+    businessIdeaUsersList.clear();
+    businessOwnerUsersList.clear();
+    investorUsersList.clear();
+    facilitatorUsersList.clear();
     isLoading.value = true;
     try {
       await GetApiService().getAllUsersList().then((value) {

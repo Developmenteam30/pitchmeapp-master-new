@@ -66,9 +66,25 @@ class MyApp extends StatelessWidget {
                 useInheritedMediaQuery: true,
                 initialBinding: PostBindng(),
                 defaultTransition: Transition.rightToLeft,
+
                 theme: ThemeData(
-                  primarySwatch: Colors.blue,
-                ),
+                    textSelectionTheme: TextSelectionThemeData(
+                        cursorColor: Color.fromARGB(255, 96, 205, 232),
+                        selectionHandleColor: Color.fromARGB(255, 96, 205, 232),
+                        selectionColor: Color.fromARGB(255, 193, 239, 250)),
+                    useMaterial3: true,
+                    inputDecorationTheme: InputDecorationTheme(
+                        fillColor: Colors.white, filled: true),
+                    primaryColor: Color.fromARGB(255, 96, 205, 232),
+                    cardColor: Colors.white,
+                    colorScheme: ColorScheme.light(
+                      background: Colors.white,
+                      brightness: Brightness.light,
+                      primary: Color.fromARGB(255, 96, 205, 232),
+                      onPrimary: Colors.white,
+                      secondary: Colors.white,
+                      onSecondary: Colors.white,
+                    )),
                 builder: (context, widget) => ResponsiveBreakpoints.builder(
                   child: BouncingScrollWrapper.builder(context, widget!),
                   /* maxWidth: 1200,

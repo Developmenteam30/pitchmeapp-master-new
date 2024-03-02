@@ -117,7 +117,7 @@ class _LoginLimitationPageState extends State<LoginLimitationPage> {
                         color: DynamicColor.black,
                       )),
                   Text(
-                    'Logged in Users',
+                    'Logged In Users',
                     style: TextStyle(
                       fontSize: sizeH * 0.025,
                       fontWeight: FontWeight.w500,
@@ -136,6 +136,7 @@ class _LoginLimitationPageState extends State<LoginLimitationPage> {
                   children: [
                     Expanded(
                       child: Card(
+                        color: DynamicColor.white,
                         elevation: 10,
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10)),
@@ -177,6 +178,7 @@ class _LoginLimitationPageState extends State<LoginLimitationPage> {
                     ),
                     Expanded(
                       child: Card(
+                        color: DynamicColor.white,
                         elevation: 10,
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10)),

@@ -434,9 +434,10 @@ class _HomeBiographyPageState extends State<HomeBiographyPage> {
       children: [
         Obx(() {
           return Text(
-            controller.userName.value == 'Akash'
-                ? 'Name: Admin'
-                : 'Name: ' + controller.userName.value,
+            // controller.userName.value == 'Akash'
+            //     ? 'Name: Admin'
+            //     :
+            'Name: ${controller.userName.value}',
             style: TextStyle(
               color: DynamicColor.black,
               fontSize: 20,

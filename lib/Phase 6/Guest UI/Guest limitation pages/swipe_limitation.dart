@@ -113,6 +113,7 @@ class _SwipeLimitationPageState extends State<SwipeLimitationPage> {
                   children: [
                     Expanded(
                       child: Card(
+                        color: DynamicColor.white,
                         elevation: 10,
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10)),
@@ -154,6 +155,7 @@ class _SwipeLimitationPageState extends State<SwipeLimitationPage> {
                     ),
                     Expanded(
                       child: Card(
+                        color: DynamicColor.white,
                         elevation: 10,
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10)),

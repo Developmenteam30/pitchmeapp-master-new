@@ -10,6 +10,7 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:pitch_me_app/main.dart';
 import 'package:pitch_me_app/utils/colors/colors.dart';
 import 'package:record/record.dart';
@@ -37,7 +38,7 @@ class AdminUserChatController extends GetxController {
 
   RxInt recordDuration = 0.obs;
   Rx<Timer> timer = Timer(Duration(seconds: 0), () {}).obs;
-  final audioRecorder = Record().obs;
+  final audioRecorder = AudioRecorder().obs;
   StreamSubscription<RecordState>? recordSub;
   RecordState recordState = RecordState.stop;
   StreamSubscription<Amplitude>? amplitudeSub;
@@ -151,11 +152,17 @@ class AdminUserChatController extends GetxController {
 
         // final devs = await audioRecorder.listInputDevices();
         // final isRecording = await audioRecorder.isRecording();
+        final appDocDir = Platform.isAndroid
+            ? await getExternalStorageDirectory() //FOR ANDROID
+            : await getTemporaryDirectory();
+        if (appDocDir != null) {
+          var d = DateTime.now().toString();
+          String savePath = appDocDir.path + '/Sales-pitch-' + d + ".m4a";
+          await audioRecorder.value.start(const RecordConfig(), path: savePath);
+          recordDuration.value = 0;
 
-        await audioRecorder.value.start();
-        recordDuration.value = 0;
-
-        startTimer();
+          startTimer();
+        }
       }
     } catch (e) {
       if (kDebugMode) {

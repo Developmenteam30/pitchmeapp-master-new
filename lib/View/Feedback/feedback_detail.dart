@@ -181,6 +181,7 @@ class _FeedbackPageState extends State<FeedbackPage> {
                 }
               },
               child: Card(
+                color: DynamicColor.white,
                 elevation: isCheck == 1 ? 0 : 10,
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10)),

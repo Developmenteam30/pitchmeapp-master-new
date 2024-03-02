@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pitch_me_app/View/posts/posts.dart';
+import 'package:pitch_me_app/View/Profile/Pitches/pitches_list.dart';
 import 'package:pitch_me_app/utils/colors/colors.dart';
 import 'package:pitch_me_app/utils/widgets/Navigation/custom_navigation.dart';
 import 'package:pitch_me_app/utils/widgets/extras/banner.dart';
@@ -61,33 +61,55 @@ class _SuccessPageState extends State<SuccessPage> {
                   height: sizeH * 0.30,
                 ),
                 spaceHeight(SizeConfig.getSize20(context: context)),
-                Padding(
-                  padding: EdgeInsets.only(
-                      left: SizeConfig.getSize15(context: context)),
-                  child: Image.asset(
-                    'assets/imagess/YOU HAVE 2.png',
-                    height:
-                        SizeConfig.getSizeHeightBy(context: context, by: 0.14),
-                  ),
-                ),
+                // Padding(
+                //   padding: EdgeInsets.only(
+                //       left: SizeConfig.getSize15(context: context)),
+                //   child: Image.asset(
+                //     'assets/imagess/YOU HAVE 2.png',
+                //     height:
+                //         SizeConfig.getSizeHeightBy(context: context, by: 0.14),
+                //   ),
+                // ),
                 Text(
-                  "sent your Sales Pitch for",
-                  style: white21wBold,
+                  "Your Pitch",
+                  style: const TextStyle(
+                    fontSize: 25.0,
+                    color: DynamicColor.white,
+                    fontWeight: FontWeight.w500,
+                  ),
                   textAlign: TextAlign.center,
                 ),
                 Text(
-                  "Approval!!",
+                  "was successfully sent",
+                  style: white21wBold,
+                  textAlign: TextAlign.center,
+                ),
+                // Text(
+                //   "sent your Sales Pitch for",
+                //   style: white21wBold,
+                //   textAlign: TextAlign.center,
+                // ),
+                Text(
+                  "for Approval!!",
                   style: white21wBold,
                   textAlign: TextAlign.center,
                 ),
                 spaceHeight(SizeConfig.getSize40(context: context)),
                 Card(
+                  color: DynamicColor.white,
                   elevation: 10,
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10)),
                   child: InkWell(
                     onTap: () {
-                      PageNavigateScreen().pushRemovUntil(context, PostPage());
+                      PageNavigateScreen().pushRemovUntil(
+                          context,
+                          PitchesListPage(
+                            notifyID: '',
+                            isBack: 'back',
+                          )
+                          //PostPage()
+                          );
                     },
                     child: Container(
                         alignment: Alignment.center,

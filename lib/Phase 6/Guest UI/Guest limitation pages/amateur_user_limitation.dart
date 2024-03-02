@@ -129,6 +129,7 @@ class _AmateurUserLimitationPageState extends State<AmateurUserLimitationPage> {
                   ),
 
                   Card(
+                    color: DynamicColor.white,
                     elevation: 10,
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10)),

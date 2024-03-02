@@ -40,7 +40,7 @@ class SelectIndustryPage extends StatefulWidget {
 }
 
 class _SelectIndustryPageState extends State<SelectIndustryPage> {
-  final scrollController = FixedExtentScrollController(initialItem: 5);
+  final scrollController = FixedExtentScrollController(initialItem: 0);
 
   final InsdustryController insdustryController =
       Get.put(InsdustryController());
@@ -49,13 +49,14 @@ class _SelectIndustryPageState extends State<SelectIndustryPage> {
 
   GlobalKey<FormState> _abcKey = GlobalKey<FormState>();
 
-  int chengeIndexColor = 5;
+  int chengeIndexColor = 0;
   bool isKeyboardOpen = false;
   bool isCheck = false;
   bool isCheckTutorial = false;
   bool playTutorial = false;
   bool isLoading = false;
   bool isCheckProUser = false;
+  bool isCheckOneIndus = false;
 
   String checkGuestType = '';
   String businesstype = '';
@@ -276,7 +277,7 @@ class _SelectIndustryPageState extends State<SelectIndustryPage> {
                                                       controller:
                                                           scrollController,
                                                       diameterRatio: 1.5,
-                                                      itemExtent: 25,
+                                                      itemExtent: 28,
                                                       physics: isKeyboardOpen
                                                           ? NeverScrollableScrollPhysics()
                                                           : const FixedExtentScrollPhysics(),
@@ -289,6 +290,7 @@ class _SelectIndustryPageState extends State<SelectIndustryPage> {
                                                         setState(() {
                                                           chengeIndexColor =
                                                               index;
+
                                                           insdustryController
                                                                   .selectedIndustry
                                                                   .value =
@@ -309,15 +311,17 @@ class _SelectIndustryPageState extends State<SelectIndustryPage> {
                                                                 .length,
                                                         builder:
                                                             (context, index) {
+                                                          // log('index = ' +
+                                                          //     index.toString());
                                                           if (chengeIndexColor ==
-                                                              5) {
+                                                              0) {
                                                             insdustryController
                                                                     .selectedIndustry
                                                                     .value =
                                                                 insdustryController
                                                                     .industryList
                                                                     .result
-                                                                    .docs[5]
+                                                                    .docs[0]
                                                                     .name;
                                                           }
 
@@ -350,6 +354,9 @@ class _SelectIndustryPageState extends State<SelectIndustryPage> {
                                                                             index
                                                                         ? gredient122bold
                                                                         : textColor15,
+                                                                textAlign:
+                                                                    TextAlign
+                                                                        .center,
                                                               ),
                                                             ),
                                                           );
@@ -394,8 +401,8 @@ class _SelectIndustryPageState extends State<SelectIndustryPage> {
                                       if (_navigationController
                                               .navigationType.value ==
                                           'Post') {
-                                        // log(insdustryController
-                                        //     .selectedIndustry.value);
+                                        log(insdustryController
+                                            .selectedIndustry.value);
                                         PageNavigateScreen().push(
                                             context,
                                             LocationPage(
@@ -430,94 +437,122 @@ class _SelectIndustryPageState extends State<SelectIndustryPage> {
         child: Column(
           children: [
             Card(
+              color: DynamicColor.white,
               elevation: 10,
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10)),
               child: SizedBox(
                 height: 45,
                 width: MediaQuery.of(context).size.width - 95,
-                child: TextFormField(
-                  cursorHeight: 22,
-                  controller: insdustryController.textController,
-                  style: gredient116bold,
-                  onTap: () {
-                    setState(() {
-                      isKeyboardOpen = true;
-                    });
-                  },
-                  onEditingComplete: () {
-                    FocusScope.of(context).requestFocus(FocusNode());
-                    setState(() {
-                      isKeyboardOpen = false;
-                    });
-                  },
-                  onChanged: (value) {
-                    setState(() {
-                      insdustryController.hideList.value = false;
-                    });
-                  },
-                  decoration: InputDecoration(
-                      hintText: 'Type',
-                      hintStyle: TextStyle(
-                          fontSize: 15, color: DynamicColor.lightGrey),
-                      contentPadding: const EdgeInsets.only(
-                        left: 10,
-                      ),
-                      border: InputBorder.none,
-                      enabledBorder: outlineInputBorderBlue,
-                      focusedBorder: outlineInputBorderBlue,
-                      errorBorder: outlineInputBorderBlue,
-                      focusedErrorBorder: outlineInputBorderBlue,
-                      suffixIcon: insdustryController
-                              .textController.text.isEmpty
-                          ? null
-                          : InkWell(
-                              onTap: () {
-                                FocusScope.of(context)
-                                    .requestFocus(FocusNode());
+                child: insdustryController.searchingSelectedItems.value.isEmpty
+                    ? TextFormField(
+                        cursorHeight: 22,
+                        controller: insdustryController.textController,
+                        style: gredient116bold,
+                        onTap: () {
+                          setState(() {
+                            isKeyboardOpen = true;
+                          });
+                        },
+                        onEditingComplete: () {
+                          FocusScope.of(context).requestFocus(FocusNode());
+                          setState(() {
+                            isKeyboardOpen = false;
+                          });
+                        },
+                        onChanged: (value) {
+                          setState(() {
+                            insdustryController.hideList.value = false;
+                          });
+                        },
+                        decoration: InputDecoration(
+                            hintText: 'Type',
+                            hintStyle: TextStyle(
+                                fontSize: 15, color: DynamicColor.lightGrey),
+                            contentPadding: const EdgeInsets.only(
+                              left: 10,
+                            ),
+                            border: InputBorder.none,
+                            enabledBorder: outlineInputBorderBlue,
+                            focusedBorder: outlineInputBorderBlue,
+                            errorBorder: outlineInputBorderBlue,
+                            focusedErrorBorder: outlineInputBorderBlue,
+                            suffixIcon:
+                                insdustryController.textController.text.isEmpty
+                                    ? null
+                                    : InkWell(
+                                        onTap: () {
+                                          FocusScope.of(context)
+                                              .requestFocus(FocusNode());
 
-                                if (insdustryController
-                                    .textController.text.isNotEmpty) {
-                                  var check = '';
-                                  var s = insdustryController
-                                      .textController.text
-                                      .trim();
+                                          if (insdustryController
+                                              .textController.text.isNotEmpty) {
+                                            var check = '';
+                                            var s = insdustryController
+                                                .textController.text
+                                                .trim();
 
-                                  for (var item in insdustryController
-                                      .industryList.result.docs) {
-                                    if (item.name == s) {
-                                      check = 'yes';
-                                    }
-                                  }
+                                            for (var item in insdustryController
+                                                .industryList.result.docs) {
+                                              if (item.name == s) {
+                                                check = 'yes';
+                                              }
+                                            }
 
-                                  if (check.isEmpty) {
-                                    insdustryController
-                                        .postIndustryApiCall(
-                                            context,
+                                            if (check.isEmpty) {
+                                              insdustryController
+                                                  .postIndustryApiCall(
+                                                      context,
+                                                      insdustryController
+                                                          .textController.text)
+                                                  .then((value) {
+                                                setState(() {
+                                                  chengeIndexColor = 0;
+                                                  // insdustryController.selectedIndustry
+                                                  //     .value = value['result']['name'];
+                                                });
+                                              });
+                                            } else {
+                                              myToast(context,
+                                                  msg: 'Already available');
+                                            }
+                                          }
+                                          setState(() {
+                                            isKeyboardOpen = false;
                                             insdustryController
-                                                .textController.text)
-                                        .then((value) {
-                                      setState(() {
-                                        insdustryController
-                                            .selectedIndustry.value = s;
-                                      });
-                                    });
-                                  } else {
-                                    myToast(context, msg: 'Already available');
-                                  }
-                                }
-                                setState(() {
-                                  isKeyboardOpen = false;
-                                  insdustryController.textController.text = '';
-                                });
-                              },
-                              child: Icon(
-                                Icons.add,
-                                color: DynamicColor.green,
-                                size: 45,
-                              ),
-                            )),
-                ),
+                                                .textController.text = '';
+                                          });
+                                        },
+                                        child: Icon(
+                                          Icons.add,
+                                          color: DynamicColor.green,
+                                          size: 45,
+                                        ),
+                                      )),
+                      )
+                    : TextFormField(
+                        cursorHeight: 22,
+                        style: gredient116bold,
+                        onTap: () {
+                          FocusScope.of(context).requestFocus(FocusNode());
+                          myToast(context,
+                              msg: 'You can add only one industry');
+                        },
+                        readOnly: true,
+                        decoration: InputDecoration(
+                          hintText: 'Type',
+                          hintStyle: TextStyle(
+                              fontSize: 15, color: DynamicColor.lightGrey),
+                          contentPadding: const EdgeInsets.only(
+                            left: 10,
+                          ),
+                          border: InputBorder.none,
+                          enabledBorder: outlineInputBorderBlue,
+                          focusedBorder: outlineInputBorderBlue,
+                          errorBorder: outlineInputBorderBlue,
+                          focusedErrorBorder: outlineInputBorderBlue,
+                        ),
+                      ),
               ),
             ),
             const SizedBox(height: 8),
@@ -539,6 +574,7 @@ class _SelectIndustryPageState extends State<SelectIndustryPage> {
                       //  padding: EdgeInsets.only(left: 10, right: 10),
                       margin: EdgeInsets.only(right: 5, left: 15),
                       child: Card(
+                        color: DynamicColor.white,
                         elevation: 10,
                         child: Container(
                           padding: EdgeInsets.only(left: 10, right: 10),

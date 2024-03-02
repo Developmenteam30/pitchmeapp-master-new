@@ -109,6 +109,7 @@ class _ratingScreenState extends State<ratingScreen> {
                               right:
                                   SizeConfig.getFontSize25(context: context)),
                           child: Card(
+                            color: DynamicColor.white,
                             elevation: 5,
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(10)),
@@ -202,6 +203,7 @@ class _ratingScreenState extends State<ratingScreen> {
                           height: sizeH * 0.03,
                         ),
                         Card(
+                          color: DynamicColor.white,
                           elevation: 10,
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10)),
@@ -252,17 +254,19 @@ class _ratingScreenState extends State<ratingScreen> {
                         ),
                         SizedBox(height: 10),
                         Card(
+                          color: DynamicColor.white,
                           elevation: 10,
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10)),
                           child: InkWell(
                             onTap: () {
+                              _pageController.savedVideo(
+                                  widget.postid, widget.receiverid, 1, context);
                               setState(() {
                                 isCheck = 2;
                                 _pageController.left.value = false;
+                                Navigator.of(context).pop();
                               });
-                              _pageController.savedVideo(
-                                  widget.postid, widget.receiverid, 1, context);
                             },
                             child: Container(
                                 height: 48,

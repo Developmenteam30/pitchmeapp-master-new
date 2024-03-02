@@ -125,6 +125,7 @@ class _UserTypeLimitationPageState extends State<UserTypeLimitationPage> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Card(
+                color: DynamicColor.white,
                 elevation: 10,
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10)),
@@ -158,6 +159,7 @@ class _UserTypeLimitationPageState extends State<UserTypeLimitationPage> {
                 ),
               ),
               Card(
+                color: DynamicColor.white,
                 margin: EdgeInsets.zero,
                 elevation: 10,
                 shape: RoundedRectangleBorder(

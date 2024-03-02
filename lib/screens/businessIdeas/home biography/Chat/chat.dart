@@ -162,7 +162,10 @@ class _ChatPageState extends State<ChatPage>
                                       Navigator.of(context).pop();
                                     } else {
                                       PageNavigateScreen().normalpushReplesh(
-                                          context, ChatListPage());
+                                          context,
+                                          ChatListPage(
+                                            notifyID: '',
+                                          ));
                                     }
                                   },
                                   height:
@@ -578,23 +581,27 @@ class _ChatPageState extends State<ChatPage>
   }
 
   Widget showMsg(msg) {
-    return VoiceMessage(
-      // contactCircleColor: Colors.transparent,
-      audioSrc: msg
-          .toString()
-          .replaceAll('ciu.ody.mybluehostin.me', 'curveinfotech.com'),
-      meBgColor: DynamicColor.lightGrey,
-      contactBgColor: DynamicColor.gredient2,
-      contactCircleColor: DynamicColor.gredient2,
-      contactFgColor: DynamicColor.gredient2,
-      contactPlayIconColor: DynamicColor.white,
-      mePlayIconColor: DynamicColor.white,
-      contactPlayIconBgColor: DynamicColor.gredient2,
-      meFgColor: DynamicColor.gredient2,
+    return SizedBox(
+      height: SizeConfig.getSizeHeightBy(context: context, by: 0.1),
+      child: VoiceMessage(
+        // contactCircleColor: Colors.transparent,
+        audioSrc: Uri.parse(msg
+                .toString()
+                .replaceAll('ciu.ody.mybluehostin.me', 'curveinfotech.com'))
+            .toString(),
+        meBgColor: DynamicColor.lightGrey,
+        contactBgColor: DynamicColor.gredient2,
+        contactCircleColor: DynamicColor.gredient2,
+        contactFgColor: DynamicColor.gredient2,
+        contactPlayIconColor: DynamicColor.white,
+        mePlayIconColor: DynamicColor.white,
+        contactPlayIconBgColor: DynamicColor.gredient2,
+        meFgColor: DynamicColor.gredient2,
 
-      played: false,
-      me: true,
-      onPlay: () {},
+        played: false,
+        me: true,
+        onPlay: () {},
+      ),
     );
   }
 
@@ -627,6 +634,7 @@ class _ChatPageState extends State<ChatPage>
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
                         Card(
+                          color: DynamicColor.white,
                           elevation: 5,
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(30)),
@@ -651,7 +659,9 @@ class _ChatPageState extends State<ChatPage>
                                     ? CachedNetworkImage(
                                         // height: 12.h,
                                         // width: 12.w,
-                                        imageUrl: message.image,
+                                        imageUrl: message.image.replaceAll(
+                                            'ciu.ody.mybluehostin.me',
+                                            'curveinfotech.com'),
                                         imageBuilder:
                                             (context, imageProvider) => InkWell(
                                           onTap: () {
@@ -659,7 +669,10 @@ class _ChatPageState extends State<ChatPage>
                                                 context: context,
                                                 builder: (context) =>
                                                     ShowFullImagePopup(
-                                                      image_url: message.image,
+                                                      image_url: message.image
+                                                          .replaceAll(
+                                                              'ciu.ody.mybluehostin.me',
+                                                              'curveinfotech.com'),
                                                     ));
                                           },
                                           child: Container(
@@ -718,6 +731,7 @@ class _ChatPageState extends State<ChatPage>
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Card(
+                          color: DynamicColor.white,
                           elevation: 5,
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(30)),

@@ -163,6 +163,8 @@ class _FilterPageState extends State<FilterPage> {
                       builder: (context) => ClearFilterPopUp()).then((value) {
                     setState(() {
                       getFilterData();
+                      PageNavigateScreen()
+                          .normalpushReplesh(context, Floatbar(1));
                     });
                   });
                 }, showRightIcon: false),
@@ -172,7 +174,8 @@ class _FilterPageState extends State<FilterPage> {
               title: TextStrings.textKey['filter_pitch']!,
               backCheckBio: 'back',
               backOnTap: () {
-                Navigator.of(context).pop();
+                PageNavigateScreen().normalpushReplesh(context, Floatbar(1));
+                // Navigator.of(context).pop();
               },
               onPressad: () {
                 PageNavigateScreen().push(
@@ -233,6 +236,7 @@ class _FilterPageState extends State<FilterPage> {
           left: SizeConfig.getSize40(context: context),
           right: SizeConfig.getSize40(context: context)),
       child: Card(
+        color: DynamicColor.white,
         elevation: isSelected == isSelect ? 0 : 10,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
         child: InkWell(

@@ -78,6 +78,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
         height: 55,
         padding: EdgeInsets.zero,
         child: Card(
+          color: DynamicColor.white,
           elevation: 4,
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),

@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:developer';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -251,7 +252,9 @@ class _LocationFilterPageState extends State<LocationFilterPage> {
                                     SizeConfig.getSize40(context: context),
                               )
                             : SizedBox(
-                                height: SizeConfig.getSize60(context: context),
+                                height: Platform.isIOS
+                                    ? SizeConfig.getSize100(context: context)
+                                    : SizeConfig.getSize60(context: context),
                               ),
                       ],
                     ),
@@ -372,6 +375,7 @@ class _LocationFilterPageState extends State<LocationFilterPage> {
             child: SizedBox(
               height: 7.h,
               child: Card(
+                color: DynamicColor.white,
                 elevation: 5,
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10)),
@@ -435,6 +439,7 @@ class _LocationFilterPageState extends State<LocationFilterPage> {
 
   Widget googleMap() {
     return Card(
+      color: DynamicColor.white,
       elevation: 10,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
       child: ClipRRect(

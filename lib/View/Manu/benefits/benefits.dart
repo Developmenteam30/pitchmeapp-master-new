@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pitch_me_app/View/Manu/benefits/benefits_confirmation.dart';
+import 'package:pitch_me_app/devApi%20Service/get_api.dart';
 import 'package:pitch_me_app/utils/widgets/extras/backgroundWidget.dart';
 import 'package:pitch_me_app/utils/widgets/extras/banner.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -37,12 +38,15 @@ class _BenefitsPageState extends State<BenefitsPage> {
   void initState() {
     super.initState();
     prouser();
+    GetApiService().checkProOrbasicUserApi();
   }
 
   void prouser() async {
     SharedPreferences preferencesData = await SharedPreferences.getInstance();
     setState(() {
+      // preferencesData.remove('pro_user');
       proUser = jsonDecode(preferencesData.getString('pro_user').toString());
+      //   log('check = ' + proUser.toString());
     });
   }
 
@@ -84,12 +88,12 @@ class _BenefitsPageState extends State<BenefitsPage> {
                   const SizedBox(height: 20),
                   // newWidget(),
                   // const SizedBox(height: 10),
-                  proUser != null
-                      ? Text(
+                  proUser == null
+                      ? button()
+                      : Text(
                           'Already Purchased',
                           style: textColor22,
-                        )
-                      : button(),
+                        ),
                   Align(
                     alignment: Alignment.bottomCenter,
                     child: Padding(

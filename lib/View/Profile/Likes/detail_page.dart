@@ -24,6 +24,7 @@ class ShowFullVideoPage extends StatefulWidget {
   String? pitchID;
   String? userID;
   dynamic arrowCheck;
+  dynamic status;
   VoidCallback? onPressad;
   ShowFullVideoPage(
       {super.key,
@@ -31,6 +32,7 @@ class ShowFullVideoPage extends StatefulWidget {
       this.pitchID,
       this.arrowCheck,
       this.onPressad,
+      this.status,
       this.userID});
 
   @override
@@ -46,6 +48,7 @@ class _ShowFullVideoPageState extends State<ShowFullVideoPage> {
   @override
   void initState() {
     super.initState();
+
     checkGuest();
   }
 
@@ -151,29 +154,34 @@ class _ShowFullVideoPageState extends State<ShowFullVideoPage> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
-                      Container(
-                        decoration: BoxDecoration(
-                            gradient: DynamicColor.gradientColorChange,
-                            borderRadius: BorderRadius.only(
-                                topRight: Radius.circular(10),
-                                bottomLeft: Radius.circular(10))),
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: InkWell(
-                            onTap: () async {
-                              Share.share(
-                                'http://salespitchapp.com/share.php?id=${widget.pitchID}',
-                              );
-                            },
-                            child: Image.asset(
-                              'assets/imagess/share.png',
-                              height: 30,
-                              width: 30,
-                              color: DynamicColor.white,
+                      widget.status == 2
+                          ? Container(
+                              decoration: BoxDecoration(
+                                  gradient: DynamicColor.gradientColorChange,
+                                  borderRadius: BorderRadius.only(
+                                      topRight: Radius.circular(10),
+                                      bottomLeft: Radius.circular(10))),
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: InkWell(
+                                  onTap: () async {
+                                    Share.share(
+                                      'http://salespitchapp.com/share.php?id=${widget.pitchID}',
+                                    );
+                                  },
+                                  child: Image.asset(
+                                    'assets/imagess/share.png',
+                                    height: 30,
+                                    width: 30,
+                                    color: DynamicColor.white,
+                                  ),
+                                ),
+                              ),
+                            )
+                          : SizedBox(
+                              height: 50,
+                              width: 50,
                             ),
-                          ),
-                        ),
-                      ),
                       Align(
                         alignment: Alignment.bottomCenter,
                         child: Column(
@@ -198,49 +206,55 @@ class _ShowFullVideoPageState extends State<ShowFullVideoPage> {
                         ),
                       ),
                       userID == widget.userID! || businesstype == '5'
-                          ? Container(
-                              decoration: BoxDecoration(
-                                  gradient: DynamicColor.gradientColorChange,
-                                  borderRadius: BorderRadius.only(
-                                      topLeft: Radius.circular(10),
-                                      bottomRight: Radius.circular(10))),
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: InkWell(
-                                  onTap: () async {
-                                    openDilog();
-                                    // Timer(const Duration(seconds: 4), () {
-                                    //   Fluttertoast.showToast(
-                                    //   msg: 'Downloading in progress...',
-                                    //   gravity: ToastGravity.TOP,
-                                    // );
-                                    // Fluttertoast.showToast(
-                                    //     msg:
-                                    //         'We will notify you once downloaded.',
-                                    //     gravity: ToastGravity.TOP,
-                                    //     toastLength: Toast.LENGTH_LONG);
-                                    //   Navigator.of(context).pop();
-                                    // });
-                                    await GetApiService()
-                                        .shareVideoApi(widget.url)
-                                        .then((value) {
-                                      downloadFile(value['message']);
-                                    });
-                                    Navigator.of(context).pop();
-                                  },
-                                  child: Image.asset(
-                                    'assets/imagess/download.png',
-                                    height: 30,
-                                    width: 30,
-                                    color: DynamicColor.white,
+                          ? widget.status == 2
+                              ? Container(
+                                  decoration: BoxDecoration(
+                                      gradient:
+                                          DynamicColor.gradientColorChange,
+                                      borderRadius: BorderRadius.only(
+                                          topLeft: Radius.circular(10),
+                                          bottomRight: Radius.circular(10))),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: InkWell(
+                                      onTap: () async {
+                                        openDilog();
+                                        // Timer(const Duration(seconds: 4), () {
+                                        //   Fluttertoast.showToast(
+                                        //   msg: 'Downloading in progress...',
+                                        //   gravity: ToastGravity.TOP,
+                                        // );
+                                        // Fluttertoast.showToast(
+                                        //     msg:
+                                        //         'We will notify you once downloaded.',
+                                        //     gravity: ToastGravity.TOP,
+                                        //     toastLength: Toast.LENGTH_LONG);
+                                        //   Navigator.of(context).pop();
+                                        // });
+                                        await GetApiService()
+                                            .shareVideoApi(widget.url)
+                                            .then((value) {
+                                          downloadFile(value['message']);
+                                        });
+                                        Navigator.of(context).pop();
+                                      },
+                                      child: Image.asset(
+                                        'assets/imagess/download.png',
+                                        height: 30,
+                                        width: 30,
+                                        color: DynamicColor.white,
+                                      ),
+                                    ),
                                   ),
-                                ),
-                              ),
-                            )
+                                )
+                              : SizedBox(
+                                  height: 50,
+                                  width: 50,
+                                )
                           : SizedBox(
                               height: 50,
                               width: 50,
-                            )
+                            ),
                     ],
                   ),
                 )
@@ -260,8 +274,7 @@ class _ShowFullVideoPageState extends State<ShowFullVideoPage> {
   Widget showLoading() {
     return Center(
         child: SizedBox(
-            height: 170,
-            width: 250,
+            height: 250,
             child: AlertDialog(
                 backgroundColor: DynamicColor.lightGrey,
                 shape: RoundedRectangleBorder(
@@ -274,8 +287,9 @@ class _ShowFullVideoPageState extends State<ShowFullVideoPage> {
                     CircularProgressIndicator(color: DynamicColor.gredient2),
                     SizedBox(height: 20),
                     Text(
-                      'Please wait...',
-                      style: gredient115,
+                      'We are increasing quality and adding Watermark. That takes longer than regular downloads. Thank you for your patience',
+                      style: gredient115Bold,
+                      textAlign: TextAlign.center,
                     ),
                   ],
                 ))));

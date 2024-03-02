@@ -272,25 +272,27 @@ class _ProfilePageState extends State<ProfilePage> {
                           ],
                         ),
                       ),
-                      Padding(
-                        padding: EdgeInsets.only(
-                            top: SizeConfig.getSizeHeightBy(
-                                context: context, by: 0.65)),
-                        child: CustomListBox(
-                            title: TextStrings.textKey['delete_account']!,
-                            singleSelectColor: isSelect,
-                            isSingleSelect: 6,
-                            onPressad: () {
-                              setState(() {
-                                isSelect = 6;
-                              });
-                              showDialog(
-                                  barrierDismissible: false,
-                                  context: Get.context!,
-                                  builder: (context) =>
-                                      DeleteUserAccountPopUp());
-                            }),
-                      ),
+                      usertype == '5' || switchUser != null
+                          ? Container()
+                          : Padding(
+                              padding: EdgeInsets.only(
+                                  top: SizeConfig.getSizeHeightBy(
+                                      context: context, by: 0.65)),
+                              child: CustomListBox(
+                                  title: TextStrings.textKey['delete_account']!,
+                                  singleSelectColor: isSelect,
+                                  isSingleSelect: 6,
+                                  onPressad: () {
+                                    setState(() {
+                                      isSelect = 6;
+                                    });
+                                    showDialog(
+                                        barrierDismissible: false,
+                                        context: Get.context!,
+                                        builder: (context) =>
+                                            DeleteUserAccountPopUp());
+                                  }),
+                            ),
                       CustomAppbarWithWhiteBg(
                         title: TextStrings.textKey['profile']!,
                         onPressad: () {

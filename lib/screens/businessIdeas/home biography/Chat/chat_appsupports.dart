@@ -9,12 +9,14 @@ import 'package:pitch_me_app/View/Manu/manu.dart';
 import 'package:pitch_me_app/main.dart';
 import 'package:pitch_me_app/screens/businessIdeas/home%20biography/Chat/Model/chat_room_model.dart';
 import 'package:pitch_me_app/screens/businessIdeas/home%20biography/Chat/normal_user_chat_list.dart';
+import 'package:pitch_me_app/screens/businessIdeas/home%20biography/Chat/show_full_video.dart';
 import 'package:pitch_me_app/screens/businessIdeas/home%20biography/Chat/suport_conroller.dart';
 import 'package:pitch_me_app/utils/colors/colors.dart';
 import 'package:pitch_me_app/utils/sizeConfig/sizeConfig.dart';
 import 'package:pitch_me_app/utils/widgets/Navigation/custom_navigation.dart';
 import 'package:pitch_me_app/utils/widgets/containers/containers.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:video_viewer/video_viewer.dart';
 import 'package:voice_message_package/voice_message_package.dart';
 
 import '../../../../utils/widgets/Alert Box/show_image_popup.dart';
@@ -43,6 +45,7 @@ class _AppSupporterChatPageState extends State<AppSupporterChatPage> {
       StreamController<List<RoomMessage>>();
 
   FocusNode focusNode = FocusNode();
+  VideoViewerController videoViewerController = VideoViewerController();
   ScrollController controller = ScrollController();
   final SuportChatController chatController = Get.put(SuportChatController());
   bool changeColore = false;
@@ -143,7 +146,10 @@ class _AppSupporterChatPageState extends State<AppSupporterChatPage> {
                                     Navigator.of(context).pop();
                                   } else {
                                     PageNavigateScreen().normalpushReplesh(
-                                        context, ChatListPage());
+                                        context,
+                                        ChatListPage(
+                                          notifyID: '',
+                                        ));
                                   }
                                 },
                                 height: SizeConfig.getSize38(context: context),
@@ -490,22 +496,104 @@ class _AppSupporterChatPageState extends State<AppSupporterChatPage> {
   }
 
   Widget showMsg(msg) {
-    return VoiceMessage(
-      // contactCircleColor: Colors.transparent,
-      audioSrc: msg
-          .toString()
-          .replaceAll('ciu.ody.mybluehostin.me', 'curveinfotech.com'),
-      meBgColor: DynamicColor.lightGrey,
-      contactBgColor: DynamicColor.gredient2,
-      contactCircleColor: DynamicColor.gredient2,
-      contactFgColor: DynamicColor.gredient2,
-      contactPlayIconColor: DynamicColor.white,
-      mePlayIconColor: DynamicColor.white,
-      contactPlayIconBgColor: DynamicColor.gredient2,
-      meFgColor: DynamicColor.gredient2,
-      played: false,
-      me: true,
-      onPlay: () {},
+    print('message = ' + msg.toString());
+    return SizedBox(
+      height: SizeConfig.getSizeHeightBy(context: context, by: 0.1),
+      child: VoiceMessage(
+        // contactCircleColor: Colors.transparent,
+        audioSrc: Uri.parse(msg
+                .toString()
+                .replaceAll('ciu.ody.mybluehostin.me', 'curveinfotech.com'))
+            .toString(),
+        meBgColor: DynamicColor.lightGrey,
+        contactBgColor: DynamicColor.gredient2,
+        contactCircleColor: DynamicColor.gredient2,
+        contactFgColor: DynamicColor.gredient2,
+        contactPlayIconColor: DynamicColor.white,
+        mePlayIconColor: DynamicColor.white,
+        contactPlayIconBgColor: DynamicColor.gredient2,
+        meFgColor: DynamicColor.gredient2,
+        noiseCount: 0,
+        waveForm: [0.0, 0.0],
+        played: false,
+        me: true,
+        onPlay: () {},
+      ),
+    );
+  }
+
+  Widget showVideo(String url) {
+    return Stack(
+      children: [
+        ClipRRect(
+          borderRadius: BorderRadius.circular(15),
+          child: Container(
+            width: SizeConfig.getSizeWidthBy(context: context, by: 0.4),
+            height: SizeConfig.getSizeHeightBy(context: context, by: 0.2),
+            color: Color.fromARGB(255, 254, 254, 254),
+            child: VideoViewer(
+              controller: videoViewerController,
+              autoPlay: false,
+              enableHorizontalSwapingGesture: false,
+              enableVerticalSwapingGesture: false,
+              volumeManager: VideoViewerVolumeManager.device,
+              onFullscreenFixLandscape: false,
+              forwardAmount: 5,
+              defaultAspectRatio: 9 / 16,
+              rewindAmount: -5,
+              looping: true,
+              enableChat: true,
+              enableShowReplayIconAtVideoEnd: false,
+              style: VideoViewerStyle(
+                  playAndPauseStyle: PlayAndPauseWidgetStyle(
+                    background: Colors.transparent,
+                    circleRadius: 80.0,
+                    play: Center(
+                      child: Icon(
+                        Icons.play_arrow,
+                        size: 80,
+                        color: DynamicColor.white,
+                      ),
+                    ),
+                    pause: Center(
+                      child: Icon(
+                        Icons.pause,
+                        size: 80,
+                        color: DynamicColor.white,
+                      ),
+                    ),
+                  ),
+                  thumbnail: Image.asset(''),
+                  loading: CircularProgressIndicator(
+                    color: DynamicColor.gredient1,
+                  )),
+              source: {
+                "Source": VideoSource(
+                  video: VideoPlayerController.network(url),
+                )
+              },
+            ),
+          ),
+        ),
+        Container(
+          width: SizeConfig.getSizeWidthBy(context: context, by: 0.4),
+          height: SizeConfig.getSizeHeightBy(context: context, by: 0.2),
+          child: InkWell(
+            onTap: () {
+              showDialog(
+                  context: context,
+                  builder: (context) => ShowFullVideo(videoUrl: url));
+            },
+            child: Center(
+              child: Icon(
+                Icons.play_arrow,
+                size: 80,
+                color: DynamicColor.white,
+              ),
+            ),
+          ),
+        )
+      ],
     );
   }
 
@@ -520,7 +608,7 @@ class _AppSupporterChatPageState extends State<AppSupporterChatPage> {
       itemCount: list.length,
       itemBuilder: (BuildContext context, int index) {
         var message = list[index];
-        // log(message.toString());
+        // log(message.toJson().toString());
         return (message.sendorid == senderID)
             ? Align(
                 alignment: Alignment.centerRight,
@@ -531,6 +619,7 @@ class _AppSupporterChatPageState extends State<AppSupporterChatPage> {
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
                       Card(
+                        color: DynamicColor.white,
                         elevation: 5,
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(30)),
@@ -555,7 +644,9 @@ class _AppSupporterChatPageState extends State<AppSupporterChatPage> {
                                   ? CachedNetworkImage(
                                       // height: 12.h,
                                       // width: 12.w,
-                                      imageUrl: message.image,
+                                      imageUrl: message.image.replaceAll(
+                                          'ciu.ody.mybluehostin.me',
+                                          'curveinfotech.com'),
                                       imageBuilder: (context, imageProvider) =>
                                           InkWell(
                                         onTap: () {
@@ -563,7 +654,10 @@ class _AppSupporterChatPageState extends State<AppSupporterChatPage> {
                                               context: context,
                                               builder: (context) =>
                                                   ShowFullImagePopup(
-                                                    image_url: message.image,
+                                                    image_url: message.image
+                                                        .replaceAll(
+                                                            'ciu.ody.mybluehostin.me',
+                                                            'curveinfotech.com'),
                                                   ));
                                         },
                                         child: Container(
@@ -619,6 +713,7 @@ class _AppSupporterChatPageState extends State<AppSupporterChatPage> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Card(
+                        color: DynamicColor.white,
                         elevation: 5,
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(30)),
@@ -638,11 +733,19 @@ class _AppSupporterChatPageState extends State<AppSupporterChatPage> {
                                       height: 0,
                                       width: 0,
                                     ),
+                              message.video != ''
+                                  ? showVideo(message.video)
+                                  : Container(
+                                      height: 0,
+                                      width: 0,
+                                    ),
                               message.image != ''
                                   ? CachedNetworkImage(
                                       // height: 12.h,
                                       // width: 12.w,
-                                      imageUrl: message.image,
+                                      imageUrl: message.image.replaceAll(
+                                          'ciu.ody.mybluehostin.me',
+                                          'curveinfotech.com'),
                                       imageBuilder: (context, imageProvider) =>
                                           InkWell(
                                         onTap: () {
@@ -650,7 +753,10 @@ class _AppSupporterChatPageState extends State<AppSupporterChatPage> {
                                               context: context,
                                               builder: (context) =>
                                                   ShowFullImagePopup(
-                                                    image_url: message.image,
+                                                    image_url: message.image
+                                                        .replaceAll(
+                                                            'ciu.ody.mybluehostin.me',
+                                                            'curveinfotech.com'),
                                                   ));
                                         },
                                         child: Container(
@@ -706,6 +812,8 @@ class _AppSupporterChatPageState extends State<AppSupporterChatPage> {
     // log('despose');
     chatController.recordSub!.cancel();
     chatController.amplitudeSub!.cancel();
+    videoViewerController.pause();
+    videoViewerController.dispose();
     // streamController.close();
 
     // streamSocket.dispose();

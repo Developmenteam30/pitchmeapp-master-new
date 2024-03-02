@@ -189,6 +189,7 @@ class _WhatNeedPageEditState extends State<WhatNeedPageEdit> {
     return GestureDetector(
       onTap: onPressad,
       child: Card(
+        color: DynamicColor.white,
         elevation: isCheck ? 0 : 10,
         child: Container(
           height: 5.h,

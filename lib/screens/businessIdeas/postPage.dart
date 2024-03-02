@@ -10,7 +10,6 @@ import 'package:pitch_me_app/screens/businessIdeas/feedbackscreen.dart';
 import 'package:pitch_me_app/screens/businessIdeas/interestedSwipe.dart';
 import 'package:pitch_me_app/utils/sizeConfig/sizeConfig.dart';
 import 'package:pitch_me_app/utils/styles/styles.dart';
-import 'package:pitch_me_app/utils/widgets/Arrow%20Button/back_arrow.dart';
 import 'package:pitch_me_app/utils/widgets/Navigation/custom_navigation.dart';
 import 'package:pitch_me_app/utils/widgets/extras/directVideoViewer.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -544,38 +543,64 @@ class _PostPageWidgetState extends State<PostPageWidget>
                       child: AppBarIconContainer(
                         height: SizeConfig.getSize38(context: context),
                         width: SizeConfig.getSize38(context: context),
+                        color: DynamicColor.redColor,
                         borderRadius: BorderRadius.only(
                             topRight: Radius.circular(10),
                             bottomLeft: Radius.circular(10)),
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: RotatedBox(
-                            quarterTurns: 1,
-                            child: Image.asset(
-                              "assets/Phase 2 icons/ic_keyboard_arrow_down_24px.png",
-                              height: 30,
-                              width: 30,
-                              color: DynamicColor.white,
-                            ),
-                          ),
+                        child: Icon(
+                          Icons.close,
+                          color: DynamicColor.white,
+                          size: 30,
                         ),
+                        // Padding(
+                        //   padding: const EdgeInsets.all(8.0),
+                        //   child: RotatedBox(
+                        //     quarterTurns: 1,
+                        //     child: Image.asset(
+                        //       "assets/Phase 2 icons/ic_keyboard_arrow_down_24px.png",
+                        //       height: 30,
+                        //       width: 30,
+                        //       color: DynamicColor.white,
+                        //     ),
+                        //   ),
+                        // ),
                         onTap: () {
                           controller.swipableStackController
                               .next(swipeDirection: SwipeDirection.left);
                         },
                       ),
                     ),
-              BackArrow(
+              Align(
                 alignment: Alignment.bottomRight,
-                borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(10),
-                    bottomRight: Radius.circular(10)),
-                direction: 3,
-                onPressed: () {
-                  controller.swipableStackController
-                      .next(swipeDirection: SwipeDirection.right);
-                },
+                child: AppBarIconContainer(
+                  height: SizeConfig.getSize38(context: context),
+                  width: SizeConfig.getSize38(context: context),
+                  color: DynamicColor.green,
+                  borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(10),
+                      bottomRight: Radius.circular(10)),
+                  child: Icon(
+                    Icons.check,
+                    color: DynamicColor.white,
+                    size: 30,
+                  ),
+                  onTap: () {
+                    controller.swipableStackController
+                        .next(swipeDirection: SwipeDirection.right);
+                  },
+                ),
               ),
+              // BackArrow(
+              //   alignment: Alignment.bottomRight,
+              //   borderRadius: BorderRadius.only(
+              //       topLeft: Radius.circular(10),
+              //       bottomRight: Radius.circular(10)),
+              //   direction: 3,
+              //   onPressed: () {
+              //     controller.swipableStackController
+              //         .next(swipeDirection: SwipeDirection.right);
+              //   },
+              // ),
             ],
           ),
         ),

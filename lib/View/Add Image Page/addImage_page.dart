@@ -117,6 +117,7 @@ class _AddImagePageState extends State<AddImagePage> {
         right: SizeConfig.getSize50(context: context),
       ),
       child: Card(
+        color: DynamicColor.white,
         elevation: 5,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
         child: Container(
@@ -163,6 +164,7 @@ class _AddImagePageState extends State<AddImagePage> {
         right: SizeConfig.getSize50(context: context),
       ),
       child: Card(
+        color: DynamicColor.white,
         elevation: 5,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
         child: Container(

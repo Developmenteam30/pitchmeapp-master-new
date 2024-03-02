@@ -145,6 +145,7 @@ class _UploadAndAddImageState extends State<UploadAndAddImage> {
         right: SizeConfig.getSize50(context: context),
       ),
       child: Card(
+        color: DynamicColor.white,
         elevation: 5,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
         child: Container(
@@ -200,6 +201,7 @@ class _UploadAndAddImageState extends State<UploadAndAddImage> {
         right: SizeConfig.getSize50(context: context),
       ),
       child: Card(
+        color: DynamicColor.white,
         elevation: 5,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
         child: Container(
@@ -273,6 +275,7 @@ class _UploadAndAddImageState extends State<UploadAndAddImage> {
             shrinkWrap: true,
             itemBuilder: (context, index) {
               return Card(
+                color: DynamicColor.white,
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10)),
                 child: ClipRRect(

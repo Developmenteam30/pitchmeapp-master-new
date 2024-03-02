@@ -218,6 +218,7 @@ class _FundsPageState extends State<FundsPage> {
     return InkWell(
       onTap: onPressad,
       child: Card(
+        color: DynamicColor.white,
         elevation: i ? 0 : 10,
         child: Container(
           height: 35.h,

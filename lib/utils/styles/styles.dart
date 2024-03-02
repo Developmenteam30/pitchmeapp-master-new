@@ -60,10 +60,15 @@ TextStyle textColor15 = const TextStyle(
   fontSize: 15,
   fontWeight: FontWeight.w500,
 );
-TextStyle textColor18Normal = TextStyle(
+TextStyle textColor17Normal = TextStyle(
   color: DynamicColor.textColor,
-  fontSize: 18,
+  fontSize: 17,
   fontWeight: FontWeight.normal,
+);
+TextStyle textColor17w500 = TextStyle(
+  color: DynamicColor.textColor,
+  fontSize: 17,
+  fontWeight: FontWeight.w500,
 );
 TextStyle textColor20 = const TextStyle(
   color: DynamicColor.textColor,

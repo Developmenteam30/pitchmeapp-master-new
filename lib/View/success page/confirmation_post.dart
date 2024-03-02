@@ -100,7 +100,7 @@ class _ConfirmationPostState extends State<ConfirmationPost> {
                 textAlign: TextAlign.center,
               ),
               Text(
-                'Sales Pitch for',
+                'Pitch for Approval?',
                 style: TextStyle(
                   fontSize: sizeH * 0.025,
                   fontWeight: FontWeight.bold,
@@ -109,16 +109,16 @@ class _ConfirmationPostState extends State<ConfirmationPost> {
                 ),
                 textAlign: TextAlign.center,
               ),
-              Text(
-                'Approval?',
-                style: TextStyle(
-                  fontSize: sizeH * 0.025,
-                  fontWeight: FontWeight.bold,
-                  letterSpacing: 0.6,
-                  color: DynamicColor.textColor,
-                ),
-                textAlign: TextAlign.center,
-              ),
+              // Text(
+              //   'Approval?',
+              //   style: TextStyle(
+              //     fontSize: sizeH * 0.025,
+              //     fontWeight: FontWeight.bold,
+              //     letterSpacing: 0.6,
+              //     color: DynamicColor.textColor,
+              //   ),
+              //   textAlign: TextAlign.center,
+              // ),
             ])),
             Container(
               height: sizeH * 0.05,
@@ -128,6 +128,7 @@ class _ConfirmationPostState extends State<ConfirmationPost> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Card(
+                  color: DynamicColor.white,
                   elevation: isCheck == 1 ? 0 : 10,
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10)),
@@ -137,7 +138,7 @@ class _ConfirmationPostState extends State<ConfirmationPost> {
                         isCheck = 1;
                       });
                       removePromt();
-                      _controller.postSalesPitch(context);
+                      _controller.postPitchApi(context);
                     },
                     child: Container(
                       height: 5.h,
@@ -162,6 +163,7 @@ class _ConfirmationPostState extends State<ConfirmationPost> {
                   ),
                 ),
                 Card(
+                  color: DynamicColor.white,
                   elevation: isCheck == 2 ? 0 : 10,
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10)),

@@ -9,9 +9,11 @@ import 'package:pitch_me_app/screens/businessIdeas/home%20biography/Chat/Admin%2
 import 'package:pitch_me_app/utils/strings/strings.dart';
 import 'package:pitch_me_app/utils/widgets/Navigation/custom_navigation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:sizer/sizer.dart';
 
 import '../../View/Manu/benefits/benefits.dart';
 import '../../View/Manu/benefits/controller/benefits_controller.dart';
+import '../../devApi Service/get_api.dart';
 import '../../utils/colors/colors.dart';
 import '../../utils/sizeConfig/sizeConfig.dart';
 import '../../utils/strings/images.dart';
@@ -40,6 +42,7 @@ class _HomeManuPageState extends State<HomeManuPage> {
     super.initState();
     controller.checkProUserApi(context);
     checkAuth();
+    GetApiService().checkProOrbasicUserApi();
   }
 
   void checkAuth() async {
@@ -70,7 +73,13 @@ class _HomeManuPageState extends State<HomeManuPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       // backgroundColor: DynamicColor.white,
-      body: _buildBodyView(),
+      body: Obx(() {
+        return controller.isLoading.value
+            ? Center(
+                child: CircularProgressIndicator(color: DynamicColor.gredient1),
+              )
+            : _buildBodyView();
+      }),
     );
   }
 
@@ -119,7 +128,9 @@ class _HomeManuPageState extends State<HomeManuPage> {
                                 pageIndex: widget.pageIndex,
                               ));
                         })
-                    : Container();
+                    : Container(
+                        height: 6.5.h,
+                      );
               }),
               CustomListBox(
                   title: TextStrings.textKey['tutorial']!,
@@ -198,10 +209,18 @@ class _HomeManuPageState extends State<HomeManuPage> {
                               notifyID: '',
                             ));
                       } else {
-                        PageNavigateScreen().push(context, ChatListPage());
+                        PageNavigateScreen().push(
+                            context,
+                            ChatListPage(
+                              notifyID: '',
+                            ));
                       }
                     } else {
-                      PageNavigateScreen().push(context, ChatListPage());
+                      PageNavigateScreen().push(
+                          context,
+                          ChatListPage(
+                            notifyID: '',
+                          ));
                       // PageNavigateScreen()
                       //     .push(context, ProUserLimitationPage(pageIndex: 0));
                     }

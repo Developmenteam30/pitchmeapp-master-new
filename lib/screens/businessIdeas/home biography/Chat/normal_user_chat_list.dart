@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -7,6 +8,7 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:pitch_me_app/View/Custom%20header%20view/appbar_with_white_bg.dart';
 import 'package:pitch_me_app/View/Custom%20header%20view/new_bottom_bar.dart';
+import 'package:pitch_me_app/View/Feedback/controller.dart';
 import 'package:pitch_me_app/View/Manu/manu.dart';
 import 'package:pitch_me_app/main.dart';
 import 'package:pitch_me_app/screens/businessIdeas/home%20biography/Chat/Model/model.dart';
@@ -25,7 +27,11 @@ import 'package:sizer/sizer.dart';
 import '../../../../utils/extras/extras.dart';
 
 class ChatListPage extends StatefulWidget {
-  const ChatListPage({super.key});
+  String notifyID;
+  ChatListPage({
+    super.key,
+    required this.notifyID,
+  });
 
   @override
   State<ChatListPage> createState() => _ChatListPageState();
@@ -33,6 +39,7 @@ class ChatListPage extends StatefulWidget {
 
 class _ChatListPageState extends State<ChatListPage> {
   final ChatController chatController = Get.put(ChatController());
+  FeebackController feebackController = Get.put(FeebackController());
   StreamController<ChatListModel> controller =
       StreamController<ChatListModel>();
 
@@ -47,7 +54,9 @@ class _ChatListPageState extends State<ChatListPage> {
   bool isCheckProUser = false;
   @override
   void initState() {
-    //Colors.white.withOpacity(0.3)
+    if (widget.notifyID.isNotEmpty) {
+      feebackController.readAllNotiApi(widget.notifyID);
+    }
     checkAuth();
     getUserList();
 
@@ -61,6 +70,7 @@ class _ChatListPageState extends State<ChatListPage> {
       adminUser = preferencesData.getString('bot').toString();
       proUser = jsonDecode(preferencesData.getString('pro_user').toString());
     });
+
     checkUser();
   }
 
@@ -73,7 +83,7 @@ class _ChatListPageState extends State<ChatListPage> {
       }
     } else {
       setState(() {
-        isCheckProUser = true;
+        isCheckProUser = false;
       });
     }
   }
@@ -91,9 +101,16 @@ class _ChatListPageState extends State<ChatListPage> {
       }
 
       if (data['messages'].length > 0 && senderID == data['roomid']) {
-        adminChatID = data['messages'][0]['chat']['_id'];
-        adminunread = data['messages'][0]['unread'];
-        adminmessage = data['messages'][0]['message'];
+        log(data['messages'].toString());
+
+        Timer(Duration(milliseconds: 500), () {
+          setState(() {
+            adminChatID = data['messages'][0]['chat']['_id'];
+            adminunread = data['messages'][0]['unread'];
+            log(adminunread.toString());
+            adminmessage = data['messages'][0]['message'];
+          });
+        });
       }
     });
     if (isCheckProUser) {
@@ -395,7 +412,7 @@ class _ChatListPageState extends State<ChatListPage> {
                               ),
                               trailing: SizedBox(
                                 width: SizeConfig.getSizeWidthBy(
-                                    context: context, by: 0.2),
+                                    context: context, by: 0.23),
                                 child: Row(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceAround,
@@ -405,7 +422,6 @@ class _ChatListPageState extends State<ChatListPage> {
                                       children: [
                                         Padding(
                                           padding: EdgeInsets.only(
-                                            right: 5,
                                             bottom: MediaQuery.of(context)
                                                     .size
                                                     .height *
@@ -419,20 +435,16 @@ class _ChatListPageState extends State<ChatListPage> {
                                           ),
                                         ),
                                         data.unread != 0
-                                            ? Padding(
-                                                padding:
-                                                    EdgeInsets.only(right: 5),
-                                                child: CircleAvatar(
-                                                  radius: 12,
-                                                  backgroundColor:
-                                                      DynamicColor.gredient1,
-                                                  child: Text(
-                                                    data.unread.toString(),
-                                                    style: white13TextStyle,
-                                                    maxLines: 1,
-                                                    overflow:
-                                                        TextOverflow.ellipsis,
-                                                  ),
+                                            ? CircleAvatar(
+                                                radius: 12,
+                                                backgroundColor:
+                                                    DynamicColor.gredient1,
+                                                child: Text(
+                                                  data.unread.toString(),
+                                                  style: white13TextStyle,
+                                                  maxLines: 1,
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
                                                 ),
                                               )
                                             : Container(
@@ -464,6 +476,7 @@ class _ChatListPageState extends State<ChatListPage> {
                             ),
                             Divider(
                               height: 0,
+                              color: DynamicColor.butnClr2,
                             )
                           ],
                         );
@@ -483,6 +496,7 @@ class _ChatListPageState extends State<ChatListPage> {
         children: [
           Divider(
             height: 0,
+            color: DynamicColor.butnClr2,
           ),
           ListTile(
             onTap: () {
@@ -523,31 +537,28 @@ class _ChatListPageState extends State<ChatListPage> {
               style: TextStyle(
                   color: DynamicColor.hintclr, fontWeight: FontWeight.w400),
             ),
-            trailing: Column(
-              children: [
-                adminunread != 0
-                    ? Padding(
-                        padding: EdgeInsets.only(right: 5),
-                        child: CircleAvatar(
-                          radius: 12,
-                          backgroundColor: DynamicColor.gredient1,
-                          child: Text(
-                            adminunread.toString(),
-                            style: white13TextStyle,
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ),
-                      )
-                    : Container(
-                        height: 0,
-                        width: 0,
-                      )
-              ],
-            ),
+            trailing: adminunread != 0
+                ? Padding(
+                    padding: EdgeInsets.only(right: 5),
+                    child: CircleAvatar(
+                      radius: 12,
+                      backgroundColor: DynamicColor.gredient1,
+                      child: Text(
+                        adminunread.toString(),
+                        style: white13TextStyle,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                  )
+                : Container(
+                    height: 0,
+                    width: 0,
+                  ),
           ),
           Divider(
             height: 0,
+            color: DynamicColor.butnClr2,
           ),
         ],
       ),

@@ -112,10 +112,13 @@ class _OfferPageState extends State<OfferPage> {
                 controller: _offerPageController.offrerTextController,
                 style: gredient116bold,
                 maxLines: 8,
+                maxLength: 200,
                 textInputAction: TextInputAction.done,
+                cursorColor: DynamicColor.gredient1,
                 decoration: InputDecoration(
                   fillColor: DynamicColor.lightGrey.withOpacity(0.3),
                   filled: true,
+                  counterText: '',
                   hintText:
                       'Ex: Every 10.000 USD = 5% Equity.Build the Website = 5% Equity. Etc',
                   hintMaxLines: checkLine,

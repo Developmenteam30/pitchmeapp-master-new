@@ -126,6 +126,7 @@ class _ConfirmationBioState extends State<ConfirmationBio> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Card(
+                        color: DynamicColor.white,
                         elevation: isCheck == 1 ? 0 : 10,
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10)),
@@ -162,6 +163,7 @@ class _ConfirmationBioState extends State<ConfirmationBio> {
                         ),
                       ),
                       Card(
+                        color: DynamicColor.white,
                         elevation: isCheck == 2 ? 0 : 10,
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10)),

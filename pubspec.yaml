@@ -74,7 +74,7 @@ dependencies:
   intl: ^0.17.0
   chips_choice: ^3.0.0
   permission_handler: ^10.2.0
-  record: ^4.4.4
+  # record: ^4.4.4
   voice_message_package: ^1.0.41
   syncfusion_flutter_signaturepad: ^20.4.54
   socket_io_client: ^2.0.2
@@ -89,6 +89,7 @@ dependencies:
   # flutter_accept:
   #   path: flutter_accept
   helpers: ^1.2.3
+  record: ^5.0.4
 
 dependency_overrides:
   video_player: ^2.3.9

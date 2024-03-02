@@ -7,9 +7,8 @@ import 'package:pitch_me_app/utils/colors/colors.dart';
 import 'package:pitch_me_app/utils/strings/strings.dart';
 import 'package:pitch_me_app/utils/styles/styles.dart';
 import 'package:pitch_me_app/utils/widgets/Navigation/custom_navigation.dart';
+import 'package:pitch_me_app/utils/widgets/extras/directVideoViewer.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
-import '../../../screens/businessIdeas/BottomNavigation.dart';
 
 class ClearFilterPopUp extends StatefulWidget {
   const ClearFilterPopUp({
@@ -43,7 +42,9 @@ class _ClearFilterPopUpState extends State<ClearFilterPopUp> {
   }
 
   navigatePage() {
-    PageNavigateScreen().pushRemovUntil(context, Floatbar(1));
+    videoViewerControllerList.clear();
+    PageNavigateScreen().back(context);
+    // PageNavigateScreen().pushRemovUntil(context, Floatbar(1));
   }
 
   @override

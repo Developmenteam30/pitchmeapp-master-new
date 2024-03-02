@@ -7,12 +7,14 @@ class PitcheShowFullVideoPage extends StatefulWidget {
   String userID;
   String pitchID;
   dynamic data;
+  dynamic status;
   PitcheShowFullVideoPage({
     super.key,
     required this.url,
     required this.data,
     required this.userID,
     required this.pitchID,
+    required this.status,
   });
 
   @override
@@ -37,6 +39,7 @@ class _PitcheShowFullVideoPageState extends State<PitcheShowFullVideoPage> {
           userID: widget.userID,
           pitchID: widget.pitchID,
           arrowCheck: true,
+          status: widget.status,
           onPressad: () {
             if (widget.data.id.contains('6448e9494ff8f4cb69599465') == false) {
               pageController.nextPage(

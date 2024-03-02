@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:pitch_me_app/screens/businessIdeas/home%20biography/Chat/normal_user_chat_list.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../Phase 6/Guest UI/Guest limitation pages/login_limitation.dart';
@@ -233,6 +234,22 @@ class _NotificationManuListState extends State<NotificationManuList>
                                               PageNavigateScreen().push(
                                                   context,
                                                   AdminUserChatListPage(
+                                                    notifyID:
+                                                        notificationController
+                                                            .post
+                                                            .value
+                                                            .result![index]
+                                                            .sId!,
+                                                  ));
+                                            } else if (notificationController
+                                                    .post
+                                                    .value
+                                                    .result![index]
+                                                    .type ==
+                                                12) {
+                                              PageNavigateScreen().push(
+                                                  context,
+                                                  ChatListPage(
                                                     notifyID:
                                                         notificationController
                                                             .post

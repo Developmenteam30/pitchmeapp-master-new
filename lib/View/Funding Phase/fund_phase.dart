@@ -247,7 +247,9 @@ class _FundsPhasePageState extends State<FundsPhasePage> {
 
                     launchUrl(
                         Uri.parse(
-                            'https://www.indeed.com/career-advice/career-development/startup-funding-stages'),
+                            'https://www.thepitchmeapp.com/post/the-8-stages-of-startup-funding'
+                            //'https://www.indeed.com/career-advice/career-development/startup-funding-stages'
+                            ),
                         mode: LaunchMode.externalApplication);
                   }),
                 )
@@ -301,6 +303,7 @@ class _FundsPhasePageState extends State<FundsPhasePage> {
     return InkWell(
       onTap: onPressad,
       child: Card(
+        color: DynamicColor.white,
         elevation:
             isSelected == fundingPhaseController.isChecked.value ? 0 : 10,
         child: Container(

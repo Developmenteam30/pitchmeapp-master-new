@@ -93,7 +93,7 @@ class _ProfileTutorialPageState extends State<ProfileTutorialPage> {
               source: {
                 "Source": VideoSource(
                   video: VideoPlayerController.network(
-                      'https://d2vaqd2kfxjiiz.cloudfront.net/pitchme/pptutorial.mp4'),
+                      'https://soop1.s3.ap-south-1.amazonaws.com/pitchme/pptutorial.mp4'),
                 )
               },
             ),

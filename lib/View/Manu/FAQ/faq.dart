@@ -352,6 +352,7 @@ The limited business and investment opportunities also raised red flags, so we c
           left: SizeConfig.getSize25(context: context),
           right: SizeConfig.getSize25(context: context)),
       child: Card(
+        color: DynamicColor.white,
         elevation: isCheck == isSelect ? 0 : 10,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
         child: ListTile(

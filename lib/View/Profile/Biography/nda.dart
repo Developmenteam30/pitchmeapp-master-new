@@ -295,6 +295,7 @@ class _NDAPageState extends State<NDAPage> {
                         SizedBox(height: 50),
                         biographyController.signature.path.contains('https')
                             ? Card(
+                                color: DynamicColor.white,
                                 elevation: isSelect == 3 ? 0 : 10,
                                 shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(10)),
@@ -333,6 +334,7 @@ class _NDAPageState extends State<NDAPage> {
                                 children: [
                                   Expanded(
                                     child: Card(
+                                      color: DynamicColor.white,
                                       elevation: isSelect == 1 ? 0 : 10,
                                       shape: RoundedRectangleBorder(
                                           borderRadius:
@@ -381,6 +383,7 @@ class _NDAPageState extends State<NDAPage> {
                                   ),
                                   Expanded(
                                     child: Card(
+                                      color: DynamicColor.white,
                                       elevation: isSelect == 2 ? 0 : 10,
                                       shape: RoundedRectangleBorder(
                                           borderRadius:

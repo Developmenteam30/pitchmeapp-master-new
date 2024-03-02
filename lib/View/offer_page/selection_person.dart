@@ -148,6 +148,7 @@ class _SelectionPersonPageState extends State<SelectionPersonPage> {
           left: SizeConfig.getSize40(context: context),
           right: SizeConfig.getSize40(context: context)),
       child: Card(
+        color: DynamicColor.white,
         elevation: isSelected ? 0 : 10,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
         child: InkWell(

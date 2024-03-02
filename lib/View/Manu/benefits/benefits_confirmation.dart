@@ -124,6 +124,7 @@ class _BenefitsConfirmationPageState extends State<BenefitsConfirmationPage> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Card(
+                  color: DynamicColor.white,
                   elevation: isCheck == 1 ? 0 : 10,
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10)),
@@ -170,6 +171,7 @@ class _BenefitsConfirmationPageState extends State<BenefitsConfirmationPage> {
                   ),
                 ),
                 Card(
+                  color: DynamicColor.white,
                   elevation: isCheck == 2 ? 0 : 10,
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10)),

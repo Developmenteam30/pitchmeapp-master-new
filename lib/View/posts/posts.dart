@@ -199,6 +199,7 @@ class _PostPageState extends State<PostPage> {
                                       height: SizeConfig.getSizeHeightBy(
                                           context: context, by: 0.16),
                                       child: Card(
+                                        color: DynamicColor.white,
                                         shape: RoundedRectangleBorder(
                                             borderRadius:
                                                 BorderRadius.circular(15)),
@@ -249,6 +250,7 @@ class _PostPageState extends State<PostPage> {
                                                             data: data,
                                                             userID:
                                                                 data.user.id,
+                                                            status: data.status,
                                                           ));
                                                     },
                                                     child: CircleAvatar(

@@ -15,13 +15,19 @@ class BenefitsController extends GetxController {
     isLoading.value = true;
     try {
       await PostApiServer().generatepaymentApi().then((value) {
-        //  log(value.toString());
+        //  log('https://uae.paymob.com/unifiedcheckout/?publicKey=${value['private_key']}&clientSecret=${value['result']['client_secret']}');
 
         if (value['status'] == 1) {
-          Get.to(() => WebViewPage(
+          //are_pk_test_1T35qVuR8mI3p6d5NjozcanRwGmPwxHE
+          // launchUrl(
+          //     Uri.parse(
+          //         'https://uae.paymob.com/unifiedcheckout/?publicKey=${value['private_key']}&clientSecret=${value['result']['client_secret']}'),
+          //     mode: LaunchMode.externalApplication);
+          Get.off(() => WebViewPage(
                 webUrl:
-                    'https://uae.paymob.com/unifiedcheckout/?publicKey=are_pk_test_1T35qVuR8mI3p6d5NjozcanRwGmPwxHE&clientSecret=${value['result']['client_secret']}',
+                    'https://uae.paymob.com/unifiedcheckout/?publicKey=${value['private_key']}&clientSecret=${value['result']['client_secret']}',
                 clientKey: value['result']['client_secret'].toString(),
+                publickKey: value['private_key'],
               ));
 
           //  startSdk(context, value['result']['token']);

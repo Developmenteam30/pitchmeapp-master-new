@@ -192,6 +192,7 @@ class _IndustryFilterPageState extends State<IndustryFilterPage> {
         child: Column(
           children: [
             Card(
+              color: DynamicColor.white,
               elevation: 10,
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10)),
@@ -202,6 +203,7 @@ class _IndustryFilterPageState extends State<IndustryFilterPage> {
                   cursorHeight: 22,
                   controller: controller.industryTextController,
                   style: gredient116bold,
+                  cursorColor: DynamicColor.gredient1,
                   onTap: () {},
                   onEditingComplete: () {
                     FocusScope.of(context).requestFocus(FocusNode());
@@ -244,6 +246,7 @@ class _IndustryFilterPageState extends State<IndustryFilterPage> {
                       //  padding: EdgeInsets.only(left: 10, right: 10),
                       margin: EdgeInsets.only(right: 5, left: 15),
                       child: Card(
+                        color: DynamicColor.white,
                         elevation: 10,
                         child: Container(
                           padding: EdgeInsets.only(left: 10, right: 10),
@@ -299,6 +302,7 @@ class _IndustryFilterPageState extends State<IndustryFilterPage> {
             padding: EdgeInsets.only(
                 bottom: MediaQuery.of(context).size.width * 0.15),
             child: Card(
+              color: DynamicColor.white,
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10)),
               child: GetBuilder<SalesPitchFilterController>(
@@ -320,6 +324,7 @@ class _IndustryFilterPageState extends State<IndustryFilterPage> {
                           child: Align(
                             alignment: Alignment.topLeft,
                             child: ChoiceChip(
+                              side: BorderSide(color: DynamicColor.white),
                               label: Padding(
                                 padding: EdgeInsets.all(10),
                                 child: Text(
@@ -393,6 +398,7 @@ class FilterTitleComanWidget extends StatelessWidget {
           left: SizeConfig.getSize40(context: context),
           right: SizeConfig.getSize40(context: context)),
       child: Card(
+        color: DynamicColor.white,
         elevation: 0,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
         child: InkWell(

@@ -58,7 +58,7 @@ class _BiographyPageState extends State<BiographyPage> {
         userType = 'Service Provider';
       } else {
         userType = 'Admin';
-        userName = 'Admin';
+        // userName = 'Admin';
       }
     });
   }

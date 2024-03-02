@@ -13,7 +13,9 @@ import 'package:pitch_me_app/utils/sizeConfig/sizeConfig.dart';
 import 'package:pitch_me_app/utils/strings/strings.dart';
 import 'package:pitch_me_app/utils/widgets/Navigation/custom_navigation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:sizer/sizer.dart';
 
+import '../../devApi Service/get_api.dart';
 import '../../screens/businessIdeas/home biography/Chat/Admin User/chat_list.dart';
 import '../../utils/strings/images.dart';
 import '../../utils/widgets/containers/containers.dart';
@@ -45,6 +47,7 @@ class _ManuPageState extends State<ManuPage> {
     super.initState();
     controller.checkProUserApi(context);
     checkAuth();
+    GetApiService().checkProOrbasicUserApi();
   }
 
   void checkAuth() async {
@@ -75,52 +78,58 @@ class _ManuPageState extends State<ManuPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: DynamicColor.white,
-      body: BackGroundWidget(
-        backgroundImage: Assets.backgroundImage,
-        bannerRequired: false,
-        fit: BoxFit.fill,
-        child: Stack(
-          children: [
-            Stack(
-              alignment: Alignment.bottomCenter,
-              children: [
-                ClipPath(
-                  clipper: CurveClipper(),
-                  child: Container(
-                    decoration: BoxDecoration(
-                        gradient: DynamicColor.gradientColorChange),
-                    height: MediaQuery.of(context).size.height * 0.235,
-                  ),
+      body: Obx(() {
+        return controller.isLoading.value
+            ? Center(
+                child: CircularProgressIndicator(color: DynamicColor.gredient1),
+              )
+            : BackGroundWidget(
+                backgroundImage: Assets.backgroundImage,
+                bannerRequired: false,
+                fit: BoxFit.fill,
+                child: Stack(
+                  children: [
+                    Stack(
+                      alignment: Alignment.bottomCenter,
+                      children: [
+                        ClipPath(
+                          clipper: CurveClipper(),
+                          child: Container(
+                            decoration: BoxDecoration(
+                                gradient: DynamicColor.gradientColorChange),
+                            height: MediaQuery.of(context).size.height * 0.235,
+                          ),
+                        ),
+                        whiteBorderContainer(
+                            child: Image.asset(Assets.handshakeImage),
+                            color: Colors.transparent,
+                            height: SizeConfig.getSizeHeightBy(
+                                context: context, by: 0.12),
+                            width: SizeConfig.getSizeHeightBy(
+                                context: context, by: 0.12),
+                            cornerRadius: 25),
+                      ],
+                    ),
+                    _buildBodyView(),
+                    Column(
+                      children: [
+                        CustomAppbarWithWhiteBg(
+                          title: widget.title,
+                          checkNext: 'back',
+                          isManuColor: 'check',
+                          onPressad: () {},
+                        ),
+                      ],
+                    ),
+                    // NewCustomBottomBar(
+                    //   index: widget.pageIndex,
+                    //   isBack: widget.isManu,
+                    //   isManuIcon: 'icon',
+                    // ),
+                  ],
                 ),
-                whiteBorderContainer(
-                    child: Image.asset(Assets.handshakeImage),
-                    color: Colors.transparent,
-                    height:
-                        SizeConfig.getSizeHeightBy(context: context, by: 0.12),
-                    width:
-                        SizeConfig.getSizeHeightBy(context: context, by: 0.12),
-                    cornerRadius: 25),
-              ],
-            ),
-            _buildBodyView(),
-            Column(
-              children: [
-                CustomAppbarWithWhiteBg(
-                  title: widget.title,
-                  checkNext: 'back',
-                  isManuColor: 'check',
-                  onPressad: () {},
-                ),
-              ],
-            ),
-            // NewCustomBottomBar(
-            //   index: widget.pageIndex,
-            //   isBack: widget.isManu,
-            //   isManuIcon: 'icon',
-            // ),
-          ],
-        ),
-      ),
+              );
+      }),
     );
   }
 
@@ -148,7 +157,9 @@ class _ManuPageState extends State<ManuPage> {
                             pageIndex: widget.pageIndex,
                           ));
                     })
-                : Container();
+                : Container(
+                    height: 6.5.h,
+                  );
           }),
           CustomListBox(
               title: TextStrings.textKey['tutorial']!,
@@ -225,10 +236,18 @@ class _ManuPageState extends State<ManuPage> {
                           notifyID: '',
                         ));
                   } else {
-                    PageNavigateScreen().push(context, ChatListPage());
+                    PageNavigateScreen().push(
+                        context,
+                        ChatListPage(
+                          notifyID: '',
+                        ));
                   }
                 } else {
-                  PageNavigateScreen().push(context, ChatListPage());
+                  PageNavigateScreen().push(
+                      context,
+                      ChatListPage(
+                        notifyID: '',
+                      ));
                   // PageNavigateScreen().push(context,
                   //     ProUserLimitationPage(pageIndex: widget.pageIndex));
                 }

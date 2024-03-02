@@ -90,9 +90,12 @@ class DashboardController extends GetxController {
           isLoadingPost2.value = false;
           onSwipe(0, value.result!.docs[0].title, false);
           salespitch.value = value;
+
           // log('message 2');
         } else {
           hasError.value = true;
+          salespitch.value.result = null;
+          isLoadingPost2.value = false;
         }
       });
     } catch (e) {

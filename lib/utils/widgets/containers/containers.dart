@@ -116,6 +116,7 @@ class _buttonContainerState extends State<buttonContainer> {
           });
         },
         child: Card(
+          color: DynamicColor.white,
           elevation: 5,
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
@@ -170,6 +171,7 @@ class _NewButtonContainerState extends State<NewButtonContainer> {
               height: 50,
               width: MediaQuery.of(context).size.width - 40,
               child: Card(
+                color: DynamicColor.white,
                 elevation: 5,
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10)),
@@ -692,6 +694,7 @@ class CustomBioFields extends StatelessWidget {
       child: InkWell(
         onTap: onTap,
         child: Card(
+          color: DynamicColor.white,
           elevation: 5,
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
@@ -764,6 +767,7 @@ class _BioTextFieldsState extends State<BioTextFields> {
           left: SizeConfig.getSize40(context: context),
           right: SizeConfig.getSize40(context: context)),
       child: Card(
+          color: DynamicColor.white,
           elevation: 5,
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
@@ -773,8 +777,8 @@ class _BioTextFieldsState extends State<BioTextFields> {
             initialValue: widget.initialValue,
             textAlign: TextAlign.center,
             onTap: widget.onTap,
-            // maxLength: 25,
-            //maxLengthEnforcement: MaxLengthEnforcement.none,
+            maxLength: 25,
+            // maxLengthEnforcement:true,
             onEditingComplete: widget.onEditingComplete,
             onChanged: widget.onChanged,
             decoration: InputDecoration(

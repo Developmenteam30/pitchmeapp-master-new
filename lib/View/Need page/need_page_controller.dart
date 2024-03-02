@@ -7,7 +7,6 @@ import '../../utils/extras/extras.dart';
 
 class NeedPageController extends GetxController {
   TextEditingController textController = TextEditingController();
-  RxString customText = ''.obs;
   RxString itemType = ''.obs;
 
   RxInt checkColor = 0.obs;
@@ -21,13 +20,33 @@ class NeedPageController extends GetxController {
   RxList selectedNeedType = RxList([].obs);
 
   List data = [
-    {'value': 'Skill', 'isSelected': false},
-    {'value': 'Service', 'isSelected': false},
-    {'value': 'Connection', 'isSelected': false},
+    {
+      'value': 'Skill',
+      'msg': 'E.g. Languages, Coding, Sales, etc',
+      'isSelected': false
+    },
+    {
+      'value': 'Service',
+      'msg': 'E.g. Lawyer, Marketing, Real Estate, etc',
+      'isSelected': false
+    },
+    {
+      'value': 'Connection',
+      'msg': 'E.g. That ¨introduction¨ that makes all the Difference',
+      'isSelected': false
+    },
   ];
   List data2 = [
-    {'value': 'Take Over', 'isSelected': false},
-    {'value': 'Buy Out', 'isSelected': false},
+    {
+      'value': 'Take Over',
+      'msg': 'E.g. Professional to manage on your Behalf',
+      'isSelected': false
+    },
+    {
+      'value': 'Buy Out',
+      'msg': 'E.g. Sell your Idea or Business',
+      'isSelected': false
+    },
   ];
   onselectValue(value) {
     for (var i = 0; i < data.length; i++) {

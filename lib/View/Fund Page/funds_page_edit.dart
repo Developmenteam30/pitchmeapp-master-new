@@ -205,6 +205,7 @@ class _FundsPageEditState extends State<FundsPageEdit> {
     return InkWell(
       onTap: onPressad,
       child: Card(
+        color: DynamicColor.white,
         elevation: i ? 0 : 10,
         child: Container(
           height: 35.h,

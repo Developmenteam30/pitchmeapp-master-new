@@ -23,7 +23,12 @@ import '../../Feedback/controller.dart';
 
 class PitchesListPage extends StatefulWidget {
   String notifyID;
-  PitchesListPage({super.key, required this.notifyID});
+  dynamic isBack;
+  PitchesListPage({
+    super.key,
+    required this.notifyID,
+    this.isBack,
+  });
 
   @override
   State<PitchesListPage> createState() => _PitchesListPageState();
@@ -117,7 +122,7 @@ class _PitchesListPageState extends State<PitchesListPage> {
             ),
             CustomAppbarWithWhiteBg(
               title: 'Pitches',
-              checkNext: 'back',
+              checkNext: widget.isBack == null ? 'back' : null,
               onPressad: () {
                 PageNavigateScreen().push(
                     context,
@@ -207,6 +212,7 @@ class _PitchesListPageState extends State<PitchesListPage> {
                                       height: SizeConfig.getSizeHeightBy(
                                           context: context, by: 0.16),
                                       child: Card(
+                                        color: DynamicColor.white,
                                         shape: RoundedRectangleBorder(
                                             borderRadius:
                                                 BorderRadius.circular(15)),
@@ -256,6 +262,7 @@ class _PitchesListPageState extends State<PitchesListPage> {
                                                             pitchID: data.id,
                                                             data: data,
                                                             userID: data.userid,
+                                                            status: data.status,
                                                           ));
                                                     },
                                                     child: CircleAvatar(

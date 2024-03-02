@@ -181,8 +181,11 @@ class _DealsPageState extends State<DealsPage> {
                                             notifyID: '',
                                           ));
                                     } else {
-                                      PageNavigateScreen()
-                                          .push(context, ChatListPage());
+                                      PageNavigateScreen().push(
+                                          context,
+                                          ChatListPage(
+                                            notifyID: '',
+                                          ));
                                     }
                                   } else {
                                     PageNavigateScreen().push(
@@ -334,6 +337,7 @@ class _CustomListBoxState extends State<CustomListBox> {
             onTap: widget.onPressad,
             child: widget.singleSelectColor != null
                 ? Card(
+                    color: DynamicColor.white,
                     elevation: widget.singleSelectColor == widget.isSingleSelect
                         ? 0
                         : 10,
@@ -366,6 +370,7 @@ class _CustomListBoxState extends State<CustomListBox> {
                     ),
                   )
                 : Card(
+                    color: DynamicColor.white,
                     elevation: widget.titleColor! ? 0 : 10,
                     shape: BeveledRectangleBorder(
                         borderRadius: BorderRadius.circular(10)),

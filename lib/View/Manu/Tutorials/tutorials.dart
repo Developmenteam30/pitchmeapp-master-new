@@ -139,7 +139,7 @@ class _TutorialsPageState extends State<TutorialsPage> {
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 3,
                     childAspectRatio: MediaQuery.of(context).size.width /
-                        (MediaQuery.of(context).size.height * 0.80),
+                        (MediaQuery.of(context).size.height * 0.90),
                   ),
                   shrinkWrap: true,
                   primary: false,
@@ -155,6 +155,7 @@ class _TutorialsPageState extends State<TutorialsPage> {
                           height: SizeConfig.getSizeHeightBy(
                               context: context, by: 0.19),
                           child: Card(
+                            color: DynamicColor.white,
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(15)),
                             child: Container(

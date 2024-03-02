@@ -170,12 +170,13 @@ class GetApiService {
     });
 
     dynamic data = jsonDecode(response.body);
-    // log(data.toString());
+    log('fff = ' + data.toString());
     if (data['result'] != [] && data['result'] != null) {
       if (data['result'][0]['membership_plan'] != null &&
           data['result'][0]['payment_id'] != null &&
           data['result'][0]['subscription_id'] != null &&
-          data['result'][0]['payment_status'] != null) {
+          (data['result'][0]['payment_status'] != null &&
+              data['result'][0]['payment_status'] == 'paid')) {
         var d = {
           "membership_plan": data['result'][0]['membership_plan'],
           "payment_id": data['result'][0]['payment_id'],
@@ -183,7 +184,7 @@ class GetApiService {
           "payment_status": data['result'][0]['payment_status']
         };
         prefs.setString('pro_user', jsonEncode(d.toString()));
-        log(d.toString());
+        // log('fjfjf = ' + d.toString());
       }
     }
     if (data['message'] == 'Auth fail') {
@@ -204,7 +205,7 @@ class GetApiService {
     var userId = prefs.get('user_id').toString();
 
     String url = '${BASE_URL}user/countdata/$userId';
-
+    // log(url);
     final response = await http.get(Uri.parse(url), headers: {
       'Content-Type': 'application/json',
     });
@@ -228,10 +229,10 @@ class GetApiService {
     return data;
   }
 
-  Future getStatusApi(clientSecret) async {
+  Future getStatusApi(publickKey, clientSecret) async {
     String url =
-        'https://uae.paymob.com/v1/intention/element/are_pk_test_1T35qVuR8mI3p6d5NjozcanRwGmPwxHE/$clientSecret';
-
+        'https://uae.paymob.com/v1/intention/element/$publickKey/$clientSecret';
+    log('paymob = ' + url.toString());
     final response = await http.get(
       Uri.parse(url),
     );

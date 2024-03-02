@@ -83,6 +83,7 @@ class _SuccessBioPageState extends State<SuccessBioPage> {
                 ),
                 spaceHeight(SizeConfig.getSize40(context: context)),
                 Card(
+                  color: DynamicColor.white,
                   elevation: 10,
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10)),
