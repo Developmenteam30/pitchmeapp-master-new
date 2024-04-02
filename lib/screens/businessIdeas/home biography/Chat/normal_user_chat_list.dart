@@ -84,7 +84,7 @@ class _ChatListPageState extends State<ChatListPage> {
       }
     } else {
       setState(() {
-        isCheckProUser = false;
+        isCheckProUser = true;
       });
     }
   }
