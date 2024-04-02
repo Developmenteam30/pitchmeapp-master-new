@@ -170,6 +170,7 @@ class _mainHome_TwoState extends State<mainHome_Two> {
           if (isCheckProUser == false) {
             countPost = int.parse('${value['data']['salespitchsaveModel']}') +
                 int.parse('${value['data']['Feedback']}');
+            print('count = ' + countPost.toString());
           }
         });
       });
@@ -225,9 +226,9 @@ class _mainHome_TwoState extends State<mainHome_Two> {
                           title2: 'Service Provider users can',
                           title3: 'access this page.',
                         )
-                      : countPost > 9
+                      : countPost > 19
                           ? AmateurUserLimitationPage(
-                              showBottomBar: true,
+                              showBottomBar: false,
                               pageIndex: 1,
                               onBack: 2,
                             )

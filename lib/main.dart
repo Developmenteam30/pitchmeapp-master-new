@@ -73,10 +73,41 @@ class MyApp extends StatelessWidget {
                         selectionHandleColor: Color.fromARGB(255, 96, 205, 232),
                         selectionColor: Color.fromARGB(255, 193, 239, 250)),
                     useMaterial3: true,
+                    dialogTheme: DialogTheme(surfaceTintColor: Colors.white),
                     inputDecorationTheme: InputDecorationTheme(
-                        fillColor: Colors.white, filled: true),
-                    primaryColor: Color.fromARGB(255, 96, 205, 232),
-                    cardColor: Colors.white,
+                        fillColor: Colors.transparent,
+                        filled: true,
+                        border: OutlineInputBorder(
+                            borderSide:
+                                const BorderSide(color: Colors.transparent),
+                            borderRadius: BorderRadius.circular(10)),
+                        disabledBorder: OutlineInputBorder(
+                          borderSide:
+                              const BorderSide(color: Colors.transparent),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderSide:
+                              const BorderSide(color: Colors.transparent),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide:
+                              const BorderSide(color: Colors.transparent),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        errorBorder: OutlineInputBorder(
+                          borderSide:
+                              const BorderSide(color: Colors.transparent),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        focusedErrorBorder: OutlineInputBorder(
+                          borderSide:
+                              const BorderSide(color: Colors.transparent),
+                          borderRadius: BorderRadius.circular(10),
+                        )),
+                    cardTheme: CardTheme(
+                        color: Colors.white, surfaceTintColor: Colors.white),
                     colorScheme: ColorScheme.light(
                       background: Colors.white,
                       brightness: Brightness.light,

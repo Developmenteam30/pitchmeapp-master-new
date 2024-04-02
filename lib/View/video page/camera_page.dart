@@ -6,7 +6,6 @@ import 'dart:convert';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:pitch_me_app/Phase%206/Guest%20UI/Guest%20limitation%20pages/pro_user_limitation.dart';
 import 'package:pitch_me_app/View/video%20page/video_play_page.dart';
 import 'package:pitch_me_app/utils/sizeConfig/sizeConfig.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -97,7 +96,8 @@ class _CameraPageState extends State<CameraPage> {
 
   // init camera
   Future<void> _initCamera(CameraDescription description) async {
-    _cameraController = CameraController(description, ResolutionPreset.veryHigh,
+    _cameraController = CameraController(
+        description, ResolutionPreset.ultraHigh,
         enableAudio: true);
 
     try {
@@ -159,10 +159,17 @@ class _CameraPageState extends State<CameraPage> {
           print(timer.tick.toString());
         });
       } else {
-        setState(() {
+        setState(() async {
           timer.cancel();
-
+          final file = await _cameraController.stopVideoRecording();
           _cameraController.pausePreview();
+
+          final route = MaterialPageRoute(
+            fullscreenDialog: true,
+            builder: (_) =>
+                VideoPage(key: abcKey, filePath: file.path, title: title),
+          );
+          Navigator.pushReplacement(context, route);
         });
       }
     });
@@ -236,31 +243,32 @@ class _CameraPageState extends State<CameraPage> {
                         right: SizeConfig.getSize15(context: context),
                       ),
                       child: PopupMenuButton(
+                          surfaceTintColor: DynamicColor.white,
                           onSelected: (value) {
-                            if (isCheckProUser) {
-                              if (value == 'Slow') {
-                                setState(() {
-                                  speedFactor = 50;
-                                  _scrollToBottom();
-                                });
-                              } else if (value == 'Medium') {
-                                setState(() {
-                                  speedFactor = 70;
-                                  _scrollToBottom();
-                                });
-                              } else {
-                                setState(() {
-                                  speedFactor = 90;
-                                  _scrollToBottom();
-                                });
-                              }
+                            //  if (isCheckProUser) {
+                            if (value == 'Slow') {
+                              setState(() {
+                                speedFactor = 50;
+                                _scrollToBottom();
+                              });
+                            } else if (value == 'Medium') {
+                              setState(() {
+                                speedFactor = 70;
+                                _scrollToBottom();
+                              });
                             } else {
-                              PageNavigateScreen().push(
-                                  context,
-                                  ProUserLimitationPage(
-                                    pageIndex: 2,
-                                  ));
+                              setState(() {
+                                speedFactor = 90;
+                                _scrollToBottom();
+                              });
                             }
+                            // } else {
+                            //   PageNavigateScreen().push(
+                            //       context,
+                            //       ProUserLimitationPage(
+                            //         pageIndex: 2,
+                            //       ));
+                            // }
                           },
                           itemBuilder: (context) {
                             return [
@@ -364,19 +372,19 @@ class _CameraPageState extends State<CameraPage> {
                                   fontSize: 13, fontWeight: FontWeight.bold),
                             ),
                             onPressed: () {
-                              if (isCheckProUser) {
-                                PageNavigateScreen()
-                                    .push(context, AddPromtText())
-                                    .then((value) {
-                                  getPromt();
-                                });
-                              } else {
-                                PageNavigateScreen().push(
-                                    context,
-                                    ProUserLimitationPage(
-                                      pageIndex: 2,
-                                    ));
-                              }
+                              // if (isCheckProUser) {
+                              PageNavigateScreen()
+                                  .push(context, AddPromtText())
+                                  .then((value) {
+                                getPromt();
+                              });
+                              // } else {
+                              //   PageNavigateScreen().push(
+                              //       context,
+                              //       ProUserLimitationPage(
+                              //         pageIndex: 2,
+                              //       ));
+                              // }
                             },
                           ),
                         ),

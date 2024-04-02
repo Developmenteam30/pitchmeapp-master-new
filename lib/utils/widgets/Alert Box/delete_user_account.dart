@@ -8,6 +8,7 @@ import 'package:pitch_me_app/screens/auth/loginScreen.dart';
 import 'package:pitch_me_app/utils/colors/colors.dart';
 import 'package:pitch_me_app/utils/strings/strings.dart';
 import 'package:pitch_me_app/utils/styles/styles.dart';
+import 'package:pitch_me_app/utils/widgets/Navigation/custom_navigation.dart';
 import 'package:pitch_me_app/utils/widgets/extras/directVideoViewer.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -61,6 +62,7 @@ class _DeleteUserAccountPopUpState extends State<DeleteUserAccountPopUp> {
   }
 
   navigatePage() {
+    PageNavigateScreen().back(context);
     Timer(Duration(milliseconds: 700), () {
       Get.offAll(() => LoginScreen(), binding: LoginBinding());
     });

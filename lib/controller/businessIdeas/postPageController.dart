@@ -201,35 +201,9 @@ class PostPageController extends GetxController {
               top: SizeConfig.getSize100(context: context)),
           child: Center(
               child: SingleChildScrollView(
-                  child:
-                      Center(child: HtmlWidget('<center>${post.title}</center>')
-                          // Text(
-                          //   post.title,
-                          //   style: TextStyle(fontSize: 17),
-                          // ),
-                          )
-                  //HtmlWidget('<center>${post.title}</center>')
-                  )),
+                  child: Center(
+                      child: HtmlWidget('<center>${post.title}</center>')))),
         );
-      // case 2:
-      //   return Container(
-      //     height: MediaQuery.of(context).size.height,
-      //     width: MediaQuery.of(context).size.width,
-      //     color: Colors.white,
-      //     child: CachedNetworkImage(
-      //         imageUrl: post.img1,
-      //         height: MediaQuery.of(context).size.height,
-      //         width: MediaQuery.of(context).size.width,
-      //         fit: BoxFit.fill,
-      //         progressIndicatorBuilder: (context, url, downloadProgress) => Row(
-      //               mainAxisAlignment: MainAxisAlignment.center,
-      //               children: [
-      //                 CircularProgressIndicator(
-      //                   value: downloadProgress.progress,
-      //                 ),
-      //               ],
-      //             )),
-      //   );
       case 2:
         notVideo = false;
 

@@ -57,7 +57,7 @@ class _AdminUserChatListPageState extends State<AdminUserChatListPage> {
     socket.emit('join_admin', onCreate);
 
     socket.on('receive_users_admin', (data) {
-      // log('Admin = ' + data.toString());
+      //print('Admin = ' + data.toString());
       ChatListModel chatListModel = ChatListModel.fromJson(data);
 
       controller.add(chatListModel);

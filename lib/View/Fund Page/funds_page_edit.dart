@@ -60,6 +60,16 @@ class _FundsPageEditState extends State<FundsPageEdit> {
                   ),
                 ),
                 const SizedBox(height: 10),
+                Container(
+                  decoration: BoxDecoration(
+                      border: Border(
+                          bottom: BorderSide(color: DynamicColor.black))),
+                  child: Text(
+                    TextStrings.textKey['all_amount']!,
+                    style: textColor15,
+                  ),
+                ),
+                const SizedBox(height: 10),
                 GridView(
                   padding: EdgeInsets.only(
                       left: SizeConfig.getFontSize25(context: context),
@@ -182,7 +192,8 @@ class _FundsPageEditState extends State<FundsPageEdit> {
                                             color: DynamicColor.gredient1))
                                     : null),
                             child: Text(
-                              '${_fundNacessaryController.getValueList.value[index]['range']}',
+                              'USD ' +
+                                  '${_fundNacessaryController.getValueList.value[index]['range']}',
                               style: _fundNacessaryController
                                           .chengeIndexColor.value ==
                                       index

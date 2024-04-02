@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:pitch_me_app/utils/colors/colors.dart';
 import 'package:pitch_me_app/utils/sizeConfig/sizeConfig.dart';
@@ -125,7 +127,7 @@ class _AmateurUserLimitationPageState extends State<AmateurUserLimitationPage> {
                     ),
                   ),
                   SizedBox(
-                    height: sizeH * 0.1,
+                    height: Platform.isAndroid ? sizeH * 0.1 : sizeH * 0.05,
                   ),
 
                   Card(

@@ -8,7 +8,6 @@ import 'package:pitch_me_app/View/video%20page/video_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:video_viewer/video_viewer.dart';
 
-import '../../Phase 6/Guest UI/Guest limitation pages/pro_user_limitation.dart';
 import '../../utils/colors/colors.dart';
 import '../../utils/sizeConfig/sizeConfig.dart';
 import '../../utils/strings/images.dart';
@@ -213,22 +212,23 @@ class _UploadAndAddImageState extends State<UploadAndAddImage> {
                 controller.videoUrl.value = '';
                 videoType = 'upload';
               });
-              if (isCheckProUser) {
-                controller.selectVideos(context).then((value) {
-                  // PageNavigateScreen().push(
-                  //     context,
-                  //     ShowUploadVideoPage(
-                  //       filePath: controller.videoUrl.value,
-                  //     ));
-                  setState(() {});
-                });
-              } else {
-                PageNavigateScreen().push(
-                    context,
-                    ProUserLimitationPage(
-                      pageIndex: 2,
-                    ));
-              }
+
+              //  if (isCheckProUser) {
+              controller.selectVideos(context).then((value) {
+                // PageNavigateScreen().push(
+                //     context,
+                //     ShowUploadVideoPage(
+                //       filePath: controller.videoUrl.value,
+                //     ));
+                setState(() {});
+              });
+              // } else {
+              //   PageNavigateScreen().push(
+              //       context,
+              //       ProUserLimitationPage(
+              //         pageIndex: 2,
+              //       ));
+              // }
             },
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,

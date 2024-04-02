@@ -207,7 +207,7 @@ class _SelectIndustryPageState extends State<SelectIndustryPage> {
                   : (countPost >= 1 || countPostForProUser >= 5) &&
                           businesstype != '5'
                       ? AmateurUserLimitationPage(
-                          showBottomBar: true,
+                          showBottomBar: false,
                           pageIndex: 2,
                           onBack: 3,
                         )

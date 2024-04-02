@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:pitch_me_app/View/Custom%20header%20view/new_bottom_bar.dart';
 import 'package:pitch_me_app/View/selected_data_view/selected_page.dart';
 import 'package:pitch_me_app/utils/sizeConfig/sizeConfig.dart';
+import 'package:video_compress/video_compress.dart';
 import 'package:video_viewer/video_viewer.dart';
 
 import '../../utils/colors/colors.dart';
@@ -18,7 +19,8 @@ import 'Controller/controller.dart';
 class VideoPage extends StatefulWidget {
   final String filePath;
   final String title;
-  const VideoPage({Key? key, required this.filePath, required this.title})
+  dynamic type;
+  VideoPage({Key? key, required this.filePath, required this.title, this.type})
       : super(key: key);
 
   @override
@@ -39,25 +41,46 @@ class _VideoPageState extends State<VideoPage>
   bool isSelectedScreen = true;
   bool isLoading = false;
 
+  String compressVideoUrl = '';
+
+  late Subscription _subscription;
+
+  double progressData = 0.0;
+  double precent = 0.0;
+
   @override
   void initState() {
+    //  print('type = ' + widget.type.toString());
+    //if (widget.type != null || widget.type != 'upload') {
+    // compressVideo();
+    // _subscription = VideoCompress.compressProgress$.subscribe((progress) {
+    //   setState(() {
+    //     progressData = progress;
+    //     precent = 0 + progress / 100;
+    //   });
+    //   print('progress: $progress');
+    //   print('precent: $precent');
+    // });
+    //  } else {
     setState(() {
       isLoading = true;
       _videoFirstPageController.videoUrl.value = widget.filePath;
+      compressVideoUrl = widget.filePath;
     });
 
     _initVideoPlayer();
-
     Timer(const Duration(seconds: 3), () {
       setState(() {
         isLoading = false;
       });
     });
+    //  }
+
     super.initState();
   }
 
   Future _initVideoPlayer() async {
-    _videoPlayerController = VideoPlayerController.file(File(widget.filePath));
+    _videoPlayerController = VideoPlayerController.file(File(compressVideoUrl));
     await _videoPlayerController.initialize();
     await _videoPlayerController.setLooping(true);
 
@@ -68,15 +91,65 @@ class _VideoPageState extends State<VideoPage>
     await _videoPlayerController.play();
   }
 
+  // Future<void> compressVideo() async {
+  //   setState(() {
+  //     isLoading = true;
+  //   });
+  //   await VideoCompress.setLogLevel(0);
+  //   final info = await VideoCompress.compressVideo(
+  //     widget.filePath,
+  //     quality: VideoQuality.MediumQuality,
+  //     deleteOrigin: false,
+  //     includeAudio: true,
+  //   );
+  //   await VideoCompress.compressProgress$;
+  //   setState(() {
+  //     compressVideoUrl = info!.path!;
+  //     _videoFirstPageController.videoUrl.value = compressVideoUrl;
+  //     _initVideoPlayer();
+  //     print('compressVideoUrl = ' + compressVideoUrl);
+  //     print('compressVideoUrl size = ' + info.filesize.toString());
+  //     isLoading = false;
+  //   });
+  // }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: isLoading == true
           ? Center(
-              child: CircularProgressIndicator(
-              color: DynamicColor.gredient1,
-            ))
+              child: CircularProgressIndicator(color: DynamicColor.gredient1)
+              //   widget.type == 'upload' || widget.type == null
+              //       ? CircularProgressIndicator()
+              //       : CircularPercentIndicator(
+              //           radius: 70.0,
+              //           animation: true,
+              //           animateFromLastPercent: true,
+              //           animationDuration: 1200,
+              //           lineWidth: 10.0,
+              //           percent: precent,
+              //           center: Column(
+              //             mainAxisAlignment: MainAxisAlignment.center,
+              //             crossAxisAlignment: CrossAxisAlignment.center,
+              //             children: [
+              //               Text(
+              //                 '${progressData.toStringAsFixed(1)}%',
+              //                 style: TextStyle(
+              //                     fontWeight: FontWeight.bold, fontSize: 20.0),
+              //               ),
+              //               Text(
+              //                 'Processing...',
+              //                 style: TextStyle(
+              //                     fontWeight: FontWeight.bold, fontSize: 14.0),
+              //               ),
+              //             ],
+              //           ),
+              //           circularStrokeCap: CircularStrokeCap.butt,
+              //           backgroundColor: Colors.grey.shade300,
+              //           progressColor: Colors.green,
+              //         ),
+              )
           : Stack(
               children: [
                 PageView(
@@ -279,7 +352,7 @@ class _VideoPageState extends State<VideoPage>
   void dispose() {
     _videoPlayerController.dispose();
     _videoPlayerController.pause();
-
+    _subscription.unsubscribe();
     super.dispose();
   }
 }

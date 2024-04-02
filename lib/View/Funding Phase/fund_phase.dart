@@ -247,7 +247,7 @@ class _FundsPhasePageState extends State<FundsPhasePage> {
 
                     launchUrl(
                         Uri.parse(
-                            'https://www.thepitchmeapp.com/post/the-8-stages-of-startup-funding'
+                            'https://www.cloudways.com/blog/startup-funding-stages/'
                             //'https://www.indeed.com/career-advice/career-development/startup-funding-stages'
                             ),
                         mode: LaunchMode.externalApplication);

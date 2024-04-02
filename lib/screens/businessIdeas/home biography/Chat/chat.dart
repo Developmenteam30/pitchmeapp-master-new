@@ -581,6 +581,7 @@ class _ChatPageState extends State<ChatPage>
   }
 
   Widget showMsg(msg) {
+    print('url = ' + msg);
     return SizedBox(
       height: SizeConfig.getSizeHeightBy(context: context, by: 0.1),
       child: VoiceMessage(
@@ -616,7 +617,7 @@ class _ChatPageState extends State<ChatPage>
       itemCount: list.length,
       itemBuilder: (BuildContext context, int index) {
         var message = list[index];
-        // log(message.toString());
+        // print(message.toString());
         if (message != null) {
           int ts = message.time;
           DateTime tsdate = DateTime.fromMillisecondsSinceEpoch(ts * 1000);

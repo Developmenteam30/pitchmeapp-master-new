@@ -143,7 +143,11 @@ class SalesDoc {
         img3: json["img3"],
         img4: json["img4"],
         file: json["file"],
-        vid1: json["vid1"],
+        vid1: json["vid1"].isNotEmpty
+            ? json["vid1"].toString().contains('://')
+                ? json["vid1"]
+                : 'http://191.101.229.245:9070/' + json["vid1"]
+            : json["vid1"],
         description: json["description"],
         comment: json["comment"],
         status: json["status"],

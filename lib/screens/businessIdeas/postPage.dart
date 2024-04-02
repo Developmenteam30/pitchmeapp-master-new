@@ -154,7 +154,7 @@ class _PostPageWidgetState extends State<PostPageWidget>
                   countPost++;
                 });
 
-                if (countPost > 9) {
+                if (countPost > 20) {
                   PageNavigateScreen().push(
                       context,
                       AmateurUserLimitationPage(
@@ -170,7 +170,7 @@ class _PostPageWidgetState extends State<PostPageWidget>
                     setState(() {
                       countSaved++;
                     });
-                    if (countSaved > 2) {
+                    if (countSaved > 20) {
                       PageNavigateScreen().push(
                           context,
                           AmateurUserLimitationPage(

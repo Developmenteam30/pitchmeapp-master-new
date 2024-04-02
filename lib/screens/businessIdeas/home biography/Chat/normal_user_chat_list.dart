@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:developer';
+import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -13,7 +14,6 @@ import 'package:pitch_me_app/View/Manu/manu.dart';
 import 'package:pitch_me_app/main.dart';
 import 'package:pitch_me_app/screens/businessIdeas/home%20biography/Chat/Model/model.dart';
 import 'package:pitch_me_app/screens/businessIdeas/home%20biography/Chat/chat.dart';
-import 'package:pitch_me_app/screens/businessIdeas/home%20biography/Chat/chat_appsupports.dart';
 import 'package:pitch_me_app/screens/businessIdeas/home%20biography/Chat/controller.dart';
 import 'package:pitch_me_app/utils/colors/colors.dart';
 import 'package:pitch_me_app/utils/sizeConfig/sizeConfig.dart';
@@ -23,6 +23,7 @@ import 'package:pitch_me_app/utils/widgets/Navigation/custom_navigation.dart';
 import 'package:pitch_me_app/utils/widgets/containers/containers.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sizer/sizer.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../utils/extras/extras.dart';
 
@@ -500,20 +501,21 @@ class _ChatListPageState extends State<ChatListPage> {
           ),
           ListTile(
             onTap: () {
-              if (adminChatID == null) {
-                myToast(context,
-                    msg: 'Something went wrong please try again later.');
-              } else {
-                PageNavigateScreen().push(
-                    context,
-                    AppSupporterChatPage(
-                      img: '',
-                      name: 'Pitch Me App',
-                      id: adminChatID,
-                      recieverid: 'admin',
-                      back: 'back',
-                    ));
-              }
+              whatsappLuncher();
+              // if (adminChatID == null) {
+              //   myToast(context,
+              //       msg: 'Something went wrong please try again later.');
+              // } else {
+              //   PageNavigateScreen().push(
+              //       context,
+              //       AppSupporterChatPage(
+              //         img: '',
+              //         name: 'Pitch Me App',
+              //         id: adminChatID,
+              //         recieverid: 'admin',
+              //         back: 'back',
+              //       ));
+              // }
             },
             contentPadding: EdgeInsets.zero,
             horizontalTitleGap: 5.0,
@@ -563,6 +565,24 @@ class _ChatListPageState extends State<ChatListPage> {
         ],
       ),
     );
+  }
+
+  whatsappLuncher() async {
+    var contact = "+971585084829";
+    var androidUrl =
+        "whatsapp://send?phone=$contact&text=Hello. I would like some assistance please";
+    var iosUrl =
+        "https://wa.me/$contact?text=${Uri.parse('Hello. I would like some assistance please')}";
+
+    try {
+      if (Platform.isIOS) {
+        await launchUrl(Uri.parse(iosUrl));
+      } else {
+        await launchUrl(Uri.parse(androidUrl));
+      }
+    } on Exception {
+      myToast(context, msg: 'WhatsApp is not installed.');
+    }
   }
 
   @override

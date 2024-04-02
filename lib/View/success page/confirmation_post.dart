@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pitch_me_app/View/success%20page/controller.dart';
@@ -136,6 +138,7 @@ class _ConfirmationPostState extends State<ConfirmationPost> {
                     onTap: () {
                       setState(() {
                         isCheck = 1;
+                        openDilog();
                       });
                       removePromt();
                       _controller.postPitchApi(context);
@@ -199,26 +202,62 @@ class _ConfirmationPostState extends State<ConfirmationPost> {
                 ),
               ],
             ),
-            Align(
-              alignment: Alignment.bottomCenter,
-              child: Padding(
-                padding: EdgeInsets.only(top: 25),
-                child: Obx(() {
-                  return _controller.isLoading.value == true
-                      ? Center(
-                          child: CircularProgressIndicator(
-                              color: DynamicColor.gredient1),
-                        )
-                      : Container(
-                          height: 36,
-                        );
-                }),
-              ),
-            ),
+            // Align(
+            //   alignment: Alignment.bottomCenter,
+            //   child: Padding(
+            //     padding: EdgeInsets.only(top: 25),
+            //     child: Obx(() {
+            //       return _controller.isLoading.value == true
+            //           ? Center(
+            //               child: CircularProgressIndicator(
+            //                   color: DynamicColor.gredient1),
+            //             )
+            //           : Container(
+            //               height: 36,
+            //             );
+            //     }),
+            //   ),
+            // ),
           ],
         ),
       ),
     );
+  }
+
+  void openDilog() {
+    showDialog(
+        barrierDismissible: Platform.isAndroid ? false : true,
+        context: context,
+        builder: (context) => showLoading());
+  }
+
+  Widget showLoading() {
+    return Center(
+        child: SizedBox(
+            height: 200,
+            child: AlertDialog(
+                backgroundColor: DynamicColor.lightGrey,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10)),
+                alignment: Alignment.center,
+                content: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    CircularProgressIndicator(color: DynamicColor.gredient1),
+                    SizedBox(height: 20),
+                    Text(
+                      'Processing video',
+                      style: gredient115Bold,
+                      textAlign: TextAlign.center,
+                    ),
+                    Text(
+                      'please wait',
+                      style: gredient115Bold,
+                      textAlign: TextAlign.center,
+                    ),
+                  ],
+                ))));
   }
 }
 //Color.fromARGB(255, 177, 206, 229)

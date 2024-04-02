@@ -190,7 +190,7 @@ class _MainHomeScreenState extends State<MainHomeScreen> {
                     )
                   : countPost > 29
                       ? AmateurUserLimitationPage(
-                          showBottomBar: true,
+                          showBottomBar: false,
                           pageIndex: 0,
                           onBack: 1,
                         )

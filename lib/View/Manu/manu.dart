@@ -45,9 +45,13 @@ class _ManuPageState extends State<ManuPage> {
   @override
   void initState() {
     super.initState();
-    controller.checkProUserApi(context);
+    getData();
+  }
+
+  void getData() async {
     checkAuth();
-    GetApiService().checkProOrbasicUserApi();
+    controller.checkProUserApi(context);
+    await GetApiService().checkProOrbasicUserApi();
   }
 
   void checkAuth() async {
@@ -228,6 +232,7 @@ class _ManuPageState extends State<ManuPage> {
                 setState(() {
                   isSelect = 5;
                 });
+
                 if (isCheckProUser) {
                   if (usertype == '5') {
                     PageNavigateScreen().push(
@@ -255,5 +260,10 @@ class _ManuPageState extends State<ManuPage> {
         ],
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
   }
 }

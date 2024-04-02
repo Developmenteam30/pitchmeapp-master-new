@@ -62,6 +62,7 @@ class _ShowFullVideoPageState extends State<ShowFullVideoPage> {
 
   @override
   Widget build(BuildContext context) {
+    print(widget.url);
     return Scaffold(
       body: Stack(
         children: [

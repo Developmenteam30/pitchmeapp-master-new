@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:pitch_me_app/Phase%206/Guest%20UI/guest_support_page.dart';
 import 'package:pitch_me_app/View/Deals%20Page/deals_page.dart';
 import 'package:pitch_me_app/View/Manu/FAQ/faq.dart';
 import 'package:pitch_me_app/View/Manu/Tutorials/tutorials.dart';
@@ -175,7 +176,11 @@ class _GuestManuPageState extends State<GuestManuPage> {
                 setState(() {
                   isSelect = 7;
                 });
-                PageNavigateScreen().push(context, LoginLimitationPage());
+                PageNavigateScreen().push(
+                    context,
+                    GuestSupportPage(
+                      pageIndex: widget.pageIndex,
+                    ));
               }),
         ],
       ),

@@ -40,6 +40,7 @@ class TextStrings {
     'sub_what_need': 'Investors Provide Funds.',
     'sub_what_need2': 'Service Provider offer Skills, Services, Connections',
     "funds": "Funds Necessary",
+    'all_amount': 'All amounts are in USD',
     'needs': "Needs",
     'offer': 'Your Offer',
     'sub_offer': 'Give clear Instructions to Potential Partners',

@@ -97,9 +97,11 @@ class _DirectVideoViewerState extends State<DirectVideoViewer> {
             )),
         source: {
           "Source": VideoSource(
-            video: VideoPlayerController.network(Uri.encodeFull(widget.url
-                .replaceAll('https://api.salespitchapp.com',
-                    'http://191.101.229.245:9070'))),
+            video: widget.url.contains('https://api.salespitchapp.com')
+                ? VideoPlayerController.network(Uri.encodeFull(widget.url
+                    .replaceAll('https://api.salespitchapp.com',
+                        'http://191.101.229.245:9070')))
+                : VideoPlayerController.network(widget.url),
           )
         },
       ),

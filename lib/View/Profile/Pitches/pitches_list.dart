@@ -196,7 +196,7 @@ class _PitchesListPageState extends State<PitchesListPage> {
                                             0.68)
                                     : MediaQuery.of(context).size.width /
                                         (MediaQuery.of(context).size.height *
-                                            0.90),
+                                            0.95),
                               ),
                               shrinkWrap: true,
                               primary: false,
@@ -205,7 +205,7 @@ class _PitchesListPageState extends State<PitchesListPage> {
                               itemCount: snapshot.data!.result.length,
                               itemBuilder: (context, index) {
                                 SavedResult data = snapshot.data!.result[index];
-
+                                //  print('video = ' + data.vid1);
                                 return Column(
                                   children: [
                                     SizedBox(

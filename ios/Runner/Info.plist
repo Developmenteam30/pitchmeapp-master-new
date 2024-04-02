@@ -82,13 +82,13 @@
 	<key>NSLocationAlwaysUsageDescription</key>
 	<string>This app needs access to location when in the background.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>This app needs access to location in the background.</string>
+	<string>Your location is required to save the pitches live location.</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>We need to access to the microphone to record audio file</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
 	<string>We need to access to the library to save video file</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>This app require permission to access gallery</string>
+	<string>We need to access the library to take the photos from PhotoGallery</string>
 	<key>PHPhotoLibraryPreventAutomaticLimitedAccessAlert</key>
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>

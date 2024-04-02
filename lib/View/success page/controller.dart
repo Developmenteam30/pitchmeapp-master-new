@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:developer';
 
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:pitch_me_app/View/Add%20Image%20Page/controller.dart';
@@ -16,6 +17,7 @@ import 'package:pitch_me_app/View/success%20page/success_page.dart';
 import 'package:pitch_me_app/View/video%20page/Controller/controller.dart';
 import 'package:pitch_me_app/View/what%20need/who_need_page_controller.dart';
 import 'package:pitch_me_app/core/urls.dart';
+import 'package:pitch_me_app/utils/firebase%20storage/firbase_storage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../utils/extras/extras.dart';
@@ -49,6 +51,8 @@ class SuccessPageController extends GetxController {
   String videoUrl = '';
   String pdfUrl = '';
 
+  late UploadTask task;
+
   void postPitchApi(context) async {
     try {
       isLoading.value = true;
@@ -81,9 +85,6 @@ class SuccessPageController extends GetxController {
       }
     }
 
-    // for (var element in _whoNeedController.isSelectedItem.value) {
-    //   typeList.add(element['value']);
-    // }
     for (var element in _offerPageController.selectedPersonType.value) {
       whoCanWatchList.add(element['value']);
     }
@@ -113,16 +114,6 @@ class SuccessPageController extends GetxController {
       log('message 2');
       log(request.fields.toString());
 
-      // if (_videoFirstPageController.videoUrl.isNotEmpty) {
-      //   request.files.add(await http.MultipartFile.fromPath(
-      //       'vid1', _videoFirstPageController.videoUrl.value.toString(),
-      //       filename:
-      //           _videoFirstPageController.videoUrl.value.split('/').last));
-      // } else {
-      //   myToast(context, msg: "Please select Video");
-      //   isLoading.value = false;
-      //   return false;
-      // }
       if (_addImageController.listImagePaths.isNotEmpty) {
         request.files.add(await http.MultipartFile.fromPath(
           'img1',
@@ -131,12 +122,7 @@ class SuccessPageController extends GetxController {
               _addImageController.listImagePaths[0].toString().split('/').last,
         ));
       }
-      // else {
-      //   myToast(context,
-      //       msg: "Please select atleast one image");
-      //   isLoading.value = false;
-      //   return false;
-      //  }
+
       if (_addImageController.listImagePaths.length > 1) {
         request.files.add(await http.MultipartFile.fromPath(
           'img2',
@@ -154,14 +140,6 @@ class SuccessPageController extends GetxController {
         ));
       }
 
-      // if (_addImageController.filePath.isNotEmpty) {
-      //   request.files.add(await http.MultipartFile.fromPath(
-      //     'file',
-      //     _addImageController.fileFullPath.path,
-      //     filename:
-      //         _addImageController.fileFullPath.path.toString().split('/').last,
-      //   ));
-      //  }
       log('message 3');
       var res = await request.send();
       log('message 4');
@@ -169,7 +147,7 @@ class SuccessPageController extends GetxController {
 
       var jsonData = jsonDecode(response);
       log('message 5');
-      // log(jsonData.toString());
+
       if (res.statusCode == 201) {
         userID = '';
         videoUrl = '';
@@ -193,7 +171,7 @@ class SuccessPageController extends GetxController {
     } catch (e) {
       log('error = ' + e.toString());
       isLoading.value = false;
-      myToast(context, msg: e.toString());
+      myToast(context, msg: 'data error = ' + e.toString());
     }
   }
 
@@ -225,41 +203,57 @@ class SuccessPageController extends GetxController {
       log(' pdf error = ' + e.toString());
       isLoading.value = false;
       pdfUrl = '';
-      myToast(context, msg: e.toString());
+      myToast(context, msg: 'PDF error = ' + e.toString());
     }
   }
 
   Future postVideoSalesPitch(context) async {
     try {
-      String url = '${BASE_URL}salespitch/uploadvideo';
-      final request = http.MultipartRequest('POST', Uri.parse(url));
+      // String url = '${BASE_URL}salespitch/uploadvideo';
+      // final request = http.MultipartRequest('POST', Uri.parse(url));
 
-      if (_videoFirstPageController.videoUrl.isNotEmpty) {
-        request.files.add(await http.MultipartFile.fromPath(
-            'vid1', _videoFirstPageController.videoUrl.value.toString(),
-            filename:
-                _videoFirstPageController.videoUrl.value.split('/').last));
-      } else {
-        myToast(context, msg: "Please select Video");
+      // if (_videoFirstPageController.videoUrl.isNotEmpty) {
+      //   request.files.add(await http.MultipartFile.fromPath(
+      //       'vid1', _videoFirstPageController.videoUrl.value.toString(),
+      //       filename:
+      //           _videoFirstPageController.videoUrl.value.split('/').last));
+      // } else {
+      //   myToast(context, msg: "Please select Video");
 
-        return false;
-      }
+      //   return false;
+      // }
 
-      var res = await request.send();
+      // var res = await request.send();
 
-      var response = await res.stream.bytesToString();
+      // var response = await res.stream.bytesToString();
 
-      var jsonData = jsonDecode(response);
+      // var jsonData = jsonDecode(response);
 
-      if (res.statusCode == 201) {
-        videoUrl = jsonData['result']['vid1'];
-      }
-      // log('upload video = ' + videoUrl.toString());
+      // if (res.statusCode == 201) {
+      //   videoUrl = jsonData['result']['vid1'];
+      // }
+      // // log('upload video = ' + videoUrl.toString());
+      await FirebaseApi()
+          .getUrl(_videoFirstPageController.videoUrl.value.toString())
+          .then((value) {
+        videoUrl = value;
+        print('url = ' + videoUrl);
+      });
+      // final destination =
+      //     'file/${_videoFirstPageController.videoUrl.value.toString()}';
+      // task = FirebaseApi.uploadFile(destination,
+      //     File(_videoFirstPageController.videoUrl.value.toString()))!;
+      // if (task == null) return;
+      // final snapshot = await task.whenComplete(() {});
+      // await snapshot.ref.getDownloadURL().then((value) {
+      //   videoUrl = value;
+      //   print('video urls = ' + videoUrl);
+      // });
     } catch (e) {
-      log('video error = ' + e.toString());
+      print('video error = ' + e.toString());
       isLoading.value = false;
       videoUrl = '';
-      myToast(context, msg: e.toString());
+      myToast(context, msg: 'Video error = ' + e.toString());
     }
   }
 }

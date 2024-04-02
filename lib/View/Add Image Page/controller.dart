@@ -81,10 +81,12 @@ class AddImageController extends GetxController {
       fileFullPath = File(path!);
       int sizeInBytes = File(filePath).lengthSync();
       double sizeInMb = sizeInBytes / (1024 * 1024);
+
       if (sizeInMb > 15) {
         filePath = '';
         fileFullPath = File('');
         myToast(context, msg: 'Note: Maximum 15MB file size allowed');
+
         update();
         return;
       }

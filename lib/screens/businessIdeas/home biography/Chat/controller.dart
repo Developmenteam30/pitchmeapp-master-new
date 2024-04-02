@@ -1,14 +1,11 @@
 import 'dart:async';
-import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:pitch_me_app/main.dart';
@@ -16,6 +13,7 @@ import 'package:pitch_me_app/utils/colors/colors.dart';
 import 'package:record/record.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../../../utils/firebase storage/firbase_storage.dart';
 import '../../../../utils/styles/styles.dart';
 
 class ChatController extends GetxController {
@@ -50,8 +48,6 @@ class ChatController extends GetxController {
   StreamSubscription<Amplitude>? amplitudeSub;
   Amplitude? amplitude;
 
-  late UploadTask task;
-
   void userID() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     senderID.value = prefs.get('user_id').toString();
@@ -70,27 +66,32 @@ class ChatController extends GetxController {
   void downloadUrl(File path) async {
     openDilog();
     try {
-      String url = 'https://curveinfotech.com/file/upload.php';
-      final request = http.MultipartRequest('POST', Uri.parse(url));
+      // String url = 'https://curveinfotech.com/file/upload.php';
+      // final request = http.MultipartRequest('POST', Uri.parse(url));
 
-      request.files.add(await http.MultipartFile.fromPath(
-          'fileToUpload', path.path,
-          filename: path.path.split('/').last));
+      // request.files.add(await http.MultipartFile.fromPath(
+      //     'fileToUpload', path.path,
+      //     filename: path.path.split('/').last));
 
-      var res = await request.send();
+      // var res = await request.send();
 
-      var response = await res.stream.bytesToString();
+      // var response = await res.stream.bytesToString();
 
-      var jsonData = jsonDecode(response);
+      // var jsonData = jsonDecode(response);
 
-      if (jsonData['status'] == 1) {
-        print('data = ' + jsonData.toString());
-        downloadFirebaseUrl.value = jsonData['data'];
-        sendMessage();
-        Navigator.of(Get.context!).pop();
-      } else {
-        Navigator.of(Get.context!).pop();
-      }
+      // if (jsonData['status'] == 1) {
+      //   print('data = ' + jsonData.toString());
+      //   downloadFirebaseUrl.value = jsonData['data'];
+
+      await FirebaseApi().getUrl(path.path).then((value) {
+        downloadFirebaseUrl.value = value;
+        print('url = ' + value);
+      });
+      sendMessage();
+      Navigator.of(Get.context!).pop();
+      // } else {
+      //   Navigator.of(Get.context!).pop();
+      // }
     } catch (e) {
       Navigator.of(Get.context!).pop();
       print('data 2 = ' + e.toString());
@@ -100,27 +101,32 @@ class ChatController extends GetxController {
   void downloadAudioUrl(File path) async {
     openDilog();
     try {
-      String url = 'https://curveinfotech.com/file/upload.php';
-      final request = http.MultipartRequest('POST', Uri.parse(url));
+      // String url = 'https://curveinfotech.com/file/upload.php';
+      // final request = http.MultipartRequest('POST', Uri.parse(url));
 
-      request.files.add(await http.MultipartFile.fromPath(
-          'fileToUpload', path.path.replaceAll('file:///', ''),
-          filename: path.path.split('/').last));
+      // request.files.add(await http.MultipartFile.fromPath(
+      //     'fileToUpload', path.path.replaceAll('file:///', ''),
+      //     filename: path.path.split('/').last));
 
-      var res = await request.send();
+      // var res = await request.send();
 
-      var response = await res.stream.bytesToString();
+      // var response = await res.stream.bytesToString();
 
-      var jsonData = jsonDecode(response);
+      // var jsonData = jsonDecode(response);
 
-      if (jsonData['status'] == 1) {
-        print('data = ' + jsonData.toString());
-        audioPath.value = jsonData['data'];
-        sendMessage();
-        Navigator.of(Get.context!).pop();
-      } else {
-        Navigator.of(Get.context!).pop();
-      }
+      // if (jsonData['status'] == 1) {
+      //   print('data = ' + jsonData.toString());
+      //   audioPath.value = jsonData['data'];
+
+      await FirebaseApi().getUrl(path.path).then((value) {
+        audioPath.value = value;
+        // print('url = ' + value);
+      });
+      sendMessage();
+      Navigator.of(Get.context!).pop();
+      // } else {
+      //   Navigator.of(Get.context!).pop();
+      // }
     } catch (e) {
       Navigator.of(Get.context!).pop();
       print('data 2 = ' + e.toString());

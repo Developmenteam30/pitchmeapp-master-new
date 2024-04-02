@@ -113,7 +113,7 @@ class _VideoPageMainState extends State<VideoPageMain> {
                                                 .editingController
                                                 .text
                                                 .isNotEmpty) {
-                                              Get.to(() => const CameraPage(),
+                                              Get.to(() => CameraPage(),
                                                   arguments:
                                                       _videoFirstPageController
                                                           .editingController
@@ -215,6 +215,7 @@ class _VideoPageMainState extends State<VideoPageMain> {
                                   title: _videoFirstPageController
                                       .editingController.text
                                       .toString(),
+                                  type: widget.type,
                                 ));
                           } else {
                             myToast(context, msg: 'Please enter title');
