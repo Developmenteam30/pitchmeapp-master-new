@@ -114,13 +114,13 @@ class _ChatListPageState extends State<ChatListPage> {
         });
       }
     });
-    if (isCheckProUser) {
-      socket.on('receive_users', (data) {
-        ChatListModel chatListModel = ChatListModel.fromJson(data);
-        controller.add(chatListModel);
-        //log(data.toString());
-      });
-    }
+    // if (isCheckProUser) {
+    socket.on('receive_users', (data) {
+      ChatListModel chatListModel = ChatListModel.fromJson(data);
+      controller.add(chatListModel);
+      //log(data.toString());
+    });
+    // }
   }
 
   void deleteChat(chatID) async {
@@ -235,7 +235,8 @@ class _ChatListPageState extends State<ChatListPage> {
                   child: Column(
                     children: [
                       aapSupporter(),
-                      isCheckProUser ? list() : Container(),
+                      list()
+                      // isCheckProUser ? list() : Container(),
                     ],
                   ),
                 ),
