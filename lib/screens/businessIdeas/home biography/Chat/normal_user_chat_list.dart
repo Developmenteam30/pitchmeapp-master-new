@@ -302,7 +302,7 @@ class _ChatListPageState extends State<ChatListPage> {
                       itemCount: snapshot.data!.messages.length,
                       itemBuilder: (context, index) {
                         Message data = snapshot.data!.messages[index];
-                        log('cht = ' + data.toJson().toString());
+                        //log('cht = ' + data.toJson().toString());
                         if (data.message != null) {
                           int ts = data.message!.time;
                           DateTime tsdate =
@@ -317,11 +317,13 @@ class _ChatListPageState extends State<ChatListPage> {
                                 PageNavigateScreen().push(
                                     context,
                                     ChatPage(
-                                      id: data.chat.id,
-                                      recieverid: data.user!.id,
-                                      img: data.user!.profilePic,
-                                      name: data.user!.username,
-                                      userID: data.user!.id,
+                                      id: data?.chat.id,
+                                      recieverid: data?.user!.id,
+                                      img: data?.user!.profilePic,
+                                      name: data?.user!.username,
+                                      userID: data?.user != null
+                                          ? data!.user!.id
+                                          : '',
                                       back: 'back',
                                     ));
                               },
@@ -331,7 +333,9 @@ class _ChatListPageState extends State<ChatListPage> {
                               leading: CachedNetworkImage(
                                 height: 12.h,
                                 width: 12.w,
-                                imageUrl: data.user!.profilePic,
+                                imageUrl: data?.user != null
+                                    ? data!.user!.profilePic
+                                    : '',
                                 imageBuilder: (context, imageProvider) =>
                                     CircleAvatar(
                                         radius: 30,
@@ -353,15 +357,16 @@ class _ChatListPageState extends State<ChatListPage> {
                                 ),
                               ),
                               title: Text(
-                                data.user!.username,
+                                data?.user != null ? data!.user!.username : '',
+                                // data?.user!.username,
                                 style: TextStyle(fontWeight: FontWeight.w500),
                               ),
                               subtitle: Column(
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  (data.message) != null
-                                      ? data.message!.voice != ''
+                                  (data?.message) != null
+                                      ? data?.message!.voice != ''
                                           ? Text(
                                               'Audio',
                                               style: TextStyle(
@@ -376,8 +381,8 @@ class _ChatListPageState extends State<ChatListPage> {
                                           height: 0,
                                           width: 0,
                                         ),
-                                  (data.message) != null
-                                      ? data.message!.image != ''
+                                  (data?.message) != null
+                                      ? data?.message!.image != ''
                                           ? Text(
                                               'Image',
                                               style: TextStyle(
@@ -392,10 +397,12 @@ class _ChatListPageState extends State<ChatListPage> {
                                           height: 0,
                                           width: 0,
                                         ),
-                                  (data.message) != null
-                                      ? data.message!.message != ''
+                                  (data?.message) != null
+                                      ? data?.message!.message != ''
                                           ? Text(
-                                              data.message!.message,
+                                              data?.message != null
+                                                  ? data!.message!.message
+                                                  : '',
                                               maxLines: 2,
                                               overflow: TextOverflow.ellipsis,
                                               style: TextStyle(
@@ -436,13 +443,15 @@ class _ChatListPageState extends State<ChatListPage> {
                                                 color: DynamicColor.hintclr),
                                           ),
                                         ),
-                                        data.unread != 0
+                                        data?.unread != 0
                                             ? CircleAvatar(
                                                 radius: 12,
                                                 backgroundColor:
                                                     DynamicColor.gredient1,
                                                 child: Text(
-                                                  data.unread.toString(),
+                                                  data?.unread != null
+                                                      ? data!.unread.toString()
+                                                      : '',
                                                   style: white13TextStyle,
                                                   maxLines: 1,
                                                   overflow:
@@ -463,7 +472,7 @@ class _ChatListPageState extends State<ChatListPage> {
                                                 DeleteChatPostPopUp(
                                                     type: 'chats',
                                                     onTap: () {
-                                                      deleteChat(data.chat.id);
+                                                      deleteChat(data?.chat.id);
                                                     }));
                                       },
                                       child: Icon(
