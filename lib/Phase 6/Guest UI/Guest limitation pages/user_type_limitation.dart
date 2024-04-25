@@ -5,6 +5,7 @@ import 'package:pitch_me_app/screens/auth/signUpScreen.dart';
 import 'package:pitch_me_app/utils/colors/colors.dart';
 import 'package:pitch_me_app/utils/sizeConfig/sizeConfig.dart';
 import 'package:pitch_me_app/utils/styles/styles.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../../screens/businessIdeas/BottomNavigation.dart';
@@ -169,6 +170,7 @@ class _UserTypeLimitationPageState extends State<UserTypeLimitationPage> {
                     setState(() {
                       isCheck = 2;
                     });
+                    logoutUser();
                     Get.to(() => SignUpScreen(), binding: SignUpBinding());
                   },
                   child: Container(
@@ -196,5 +198,11 @@ class _UserTypeLimitationPageState extends State<UserTypeLimitationPage> {
         ],
       ),
     ));
+  }
+
+  logoutUser() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    prefs.clear();
   }
 }

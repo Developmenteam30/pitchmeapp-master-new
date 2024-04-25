@@ -15,7 +15,7 @@ publish_to: "none" # Remove this line if you wish to publish to pub.dev
 # In iOS, build-name is used as CFBundleShortVersionString while build-number used as CFBundleVersion.
 # Read more about iOS versioning at
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
-version: 1.0.0+1
+version: 1.0.8+9
 
 environment:
   sdk: ">=2.17.6 <3.0.0"
@@ -33,30 +33,30 @@ dependencies:
     sdk: flutter
   flutter_inset_box_shadow: ^1.0.8
   flutter_neumorphic: ^3.2.0
-  flutter_svg: ^1.1.5
+  flutter_svg: ^2.0.9
   get: ^4.6.5
   swipeable_card_stack: ^0.0.5
   swipable_stack: ^2.0.0
   google_fonts: ^4.0.4
   responsive_framework: ^1.0.0
   never_behind_keyboard: ^1.0.1
-  flutter_widget_from_html: ^0.8.5
+  flutter_widget_from_html: ^0.14.11
   #video_viewer: ^1.2.0
   video_viewer:
     path: packages/video_viewer-1.2.7
   cached_network_image: ^3.2.2
   shared_preferences: ^2.0.15
   firebase_core: ^2.4.1
-  google_sign_in: ^5.3.3
+  google_sign_in: ^6.2.1
   firebase_auth: ^4.2.4
   fluttertoast: ^8.0.7
-  flutter_facebook_auth: ^4.3.4+2
-  sign_in_with_apple: ^4.1.0
+  flutter_facebook_auth: ^6.0.4
+  sign_in_with_apple: ^6.1.0
   get_storage: ^2.0.2
-  visibility_detector: ^0.3.3
+  visibility_detector: ^0.4.0+2
   smooth_star_rating_null_safety: ^1.0.4+2
   provider: ^6.0.5
-  shimmer: ^2.0.0
+  shimmer: ^3.0.0
   #dev
   url_launcher: ^6.1.7
   sizer: ^2.0.15
@@ -64,16 +64,16 @@ dependencies:
   percent_indicator: ^4.2.2
   google_places_flutter: ^2.0.5
   google_maps_flutter: ^2.2.3
-  location: ^4.4.0
+  location: ^6.0.1
   image_pickers: ^2.0.1
-  image_picker: ^0.8.7+4
+  image_picker: ^1.0.8
   file_picker: ^5.2.10
   camera: ^0.10.1
   path_provider: ^2.0.11
   media_info: ^0.12.0+1
-  intl: ^0.17.0
+  intl: ^0.19.0
   chips_choice: ^3.0.0
-  permission_handler: ^10.2.0
+  permission_handler: ^11.3.1
   # record: ^4.4.4
   voice_message_package: ^1.0.41
   syncfusion_flutter_signaturepad: ^20.4.54
@@ -81,10 +81,10 @@ dependencies:
   firebase_storage: ^11.2.3
   flutter_beep: ^1.0.0
   share_plus: ^6.3.4
-  flutter_inappwebview: ^5.7.2+3
+  flutter_inappwebview: ^6.0.0
   flutter_downloader: ^1.10.5
   image_gallery_saver: ^2.0.3
-  dio: ^4.0.6
+  dio: ^5.4.2+1
   flutter_document_picker: ^5.2.3
   # flutter_accept:
   #   path: flutter_accept
@@ -96,12 +96,12 @@ dependency_overrides:
   video_player: ^2.3.9
 
 dev_dependencies:
-  flutter_lints: ^2.0.0
-  flutter_launcher_icons: "^0.10.0"
+  flutter_lints: ^3.0.2
+  flutter_launcher_icons: ^0.13.1
 flutter_icons:
   android: "launcher_icon"
   ios: true
-  image_path: "assets/image/logo.png"
+  image_path: "assets/imagess/avatar.png"
   flutter_test:
     sdk: flutter
   get_cli: ^1.8.1

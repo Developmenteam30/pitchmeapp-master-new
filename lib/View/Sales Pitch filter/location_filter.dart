@@ -423,7 +423,7 @@ class _LocationFilterPageState extends State<LocationFilterPage> {
                           log(controller.searchController.text);
                           displayPrediction(prediction);
                         },
-                        itmClick: (Prediction prediction) {
+                        itemClick: (Prediction prediction) {
                           setState(() {
                             isKeyboardOpen = false;
                           });

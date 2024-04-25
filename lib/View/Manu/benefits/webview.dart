@@ -36,7 +36,7 @@ class _WebViewPageState extends State<WebViewPage> {
     //'https://salespitchapp.com/paymentsuccess.html'
     return InAppWebView(
       key: webViewKey,
-      initialUrlRequest: URLRequest(url: Uri.parse(widget.webUrl)),
+      initialUrlRequest: URLRequest(url: WebUri(widget.webUrl)),
       onLoadStart: (InAppWebViewController controller, url) {
         print('retrn = ' + url!.path.toString());
         // print('message 1 ' + url.origin);

@@ -287,12 +287,12 @@ class _ChatListPageState extends State<ChatListPage> {
                   // log(snapshot.error.toString());
                   return Padding(
                       padding: EdgeInsets.only(
-                          bottom: SizeConfig.getSize60(context: context)),
+                          top: SizeConfig.getSize80(context: context)),
                       child: const Center(child: Text('No chats available')));
                 } else if (snapshot.data!.messages.isEmpty) {
                   return Padding(
                       padding: EdgeInsets.only(
-                          bottom: SizeConfig.getSize60(context: context)),
+                          top: SizeConfig.getSize80(context: context)),
                       child: const Center(child: Text('No chats available')));
                 } else {
                   return ListView.builder(
@@ -302,7 +302,7 @@ class _ChatListPageState extends State<ChatListPage> {
                       itemCount: snapshot.data!.messages.length,
                       itemBuilder: (context, index) {
                         Message data = snapshot.data!.messages[index];
-                        //log('cht = ' + data.toJson().toString());
+                        log('cht = ' + data.toJson().toString());
                         if (data.message != null) {
                           int ts = data.message!.time;
                           DateTime tsdate =

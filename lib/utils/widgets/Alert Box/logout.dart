@@ -28,6 +28,7 @@ class _LogoutPopUpState extends State<LogoutPopUp> {
       isLoading = true;
     });
     SharedPreferences prefs = await SharedPreferences.getInstance();
+
     Timer(const Duration(seconds: 1), () {
       prefs.clear();
       //pref.erase();

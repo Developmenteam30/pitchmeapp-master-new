@@ -409,7 +409,7 @@ class _LocationPageState extends State<LocationPage> {
                                 prediction.description!;
                             displayPrediction(prediction);
                           },
-                          itmClick: (Prediction prediction) {
+                          itemClick: (Prediction prediction) {
                             setState(() {
                               isKeyboardOpen = false;
                             });

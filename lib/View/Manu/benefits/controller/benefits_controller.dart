@@ -47,14 +47,12 @@ class BenefitsController extends GetxController {
     isLoading.value = true;
     try {
       await GetApiService().checkProUserApi().then((value) {
+        isLoading.value = false;
         if (value['data'] != null) {
           log(value.toString());
           isCheckProUser.value = value['data'];
         }
-
-        isLoading.value = false;
       });
-      isLoading.value = false;
     } catch (e) {
       log(e.toString());
       isCheckProUser.value = 0;
