@@ -387,10 +387,6 @@ class _LocationPageState extends State<LocationPage> {
                                   color:
                                       DynamicColor.lightGrey.withOpacity(0.5)),
                               border: InputBorder.none,
-                              // outlineInputBorderBlue,
-                              // enabledBorder: outlineInputBorderBlue,
-                              // disabledBorder: outlineInputBorderBlue,
-                              // focusedBorder: outlineInputBorderBlue,
                               suffixIcon: Icon(
                                 Icons.location_on,
                                 size: 18,
