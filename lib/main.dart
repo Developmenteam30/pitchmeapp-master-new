@@ -51,17 +51,7 @@ class MyApp extends StatelessWidget {
           ]);
           return OrientationBuilder(
             builder: (context, orientation) {
-              return
-                  // OKToast(
-                  //   // 2-A: wrap your app with OKToast
-                  //   textStyle: const TextStyle(fontSize: 15.0, color: Colors.white),
-                  //   backgroundColor: Colors.grey,
-                  //   animationCurve: Curves.easeIn,
-
-                  //   animationDuration: const Duration(milliseconds: 200),
-                  //   duration: const Duration(seconds: 3),
-                  //   child:
-                  GetMaterialApp(
+              return GetMaterialApp(
                 debugShowCheckedModeBanner: false,
                 useInheritedMediaQuery: true,
                 initialBinding: PostBindng(),
